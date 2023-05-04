@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: trailblazers-api
+        working-directory: trailblazers-api/trailblazers-api
     steps:
     - uses: actions/checkout@v3
     - name: Setup .NET
@@ -25,6 +25,6 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore
     - name: Build
-      run: dotnet build /p:NetCoreBuild=true --no-restore 
+      run: dotnet build --no-restore 
     - name: Test
       run: dotnet test --no-build --verbosity normal
