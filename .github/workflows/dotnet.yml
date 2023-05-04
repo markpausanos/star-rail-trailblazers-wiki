@@ -12,7 +12,7 @@ on:
 jobs:
   build:
     
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     defaults:
       run:
         working-directory: trailblazers-api
@@ -25,6 +25,7 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore
     - name: Install SSDT
+      shell: powershell
       run: |
         $client = New-Object System.Net.WebClient
         $client.DownloadFile("https://download.microsoft.com/download/5/2/D/52DBE697-2D2C-45A3-A1D7-E79F30C9ECE7/ENU/SSDT-Setup-ENU.exe", "SSDT-Setup-ENU.exe")
