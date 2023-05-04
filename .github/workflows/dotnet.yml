@@ -24,8 +24,11 @@ jobs:
         dotnet-version: 6.0.x
     - name: Restore dependencies
       run: dotnet restore
-    - name: Setup SSDT
-      uses: warrenbuckley/Setup-SSDT@v1
+    - name: Install SSDT
+      run: |
+        $client = New-Object System.Net.WebClient
+        $client.DownloadFile("https://download.microsoft.com/download/5/2/D/52DBE697-2D2C-45A3-A1D7-E79F30C9ECE7/ENU/SSDT-Setup-ENU.exe", "SSDT-Setup-ENU.exe")
+        Start-Process -FilePath "SSDT-Setup-ENU.exe" -ArgumentList "/install", "/quiet", "/norestart" -Wait
     - name: Build
       run: dotnet build --no-restore 
     - name: Test
