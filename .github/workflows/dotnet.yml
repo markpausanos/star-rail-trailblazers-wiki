@@ -1,3 +1,6 @@
+# This workflow will build a .NET project
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
+
 name: .NET
 
 on:
@@ -8,10 +11,11 @@ on:
 
 jobs:
   build:
-    runs-on: windows-latest
+    
+    runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: trailblazers-api
+        working-directory: trailblazers-api/trailblazers-api
     steps:
     - uses: actions/checkout@v3
     - name: Setup .NET
@@ -20,12 +24,6 @@ jobs:
         dotnet-version: 6.0.x
     - name: Restore dependencies
       run: dotnet restore
-    - name: Install SSDT
-      shell: powershell
-      run: |
-        $client = New-Object System.Net.WebClient
-        $client.DownloadFile("https://aka.ms/vs/16/release/DataStorage2019.exe", "DataStorage2019.exe")
-        Start-Process -FilePath "DataStorage2019.exe" -ArgumentList "/install", "/quiet", "/norestart" -Wait
     - name: Build
       run: dotnet build --no-restore 
     - name: Test
