@@ -24,7 +24,9 @@ jobs:
         dotnet-version: 6.0.x
     - name: Restore dependencies
       run: dotnet restore
+    - name: Setup SSDT
+      uses: warrenbuckley/Setup-SSDT@v1
     - name: Build
-      run: dotnet build /p:NetCoreBuild=true --no-restore 
+      run: dotnet build --no-restore 
     - name: Test
       run: dotnet test --no-build --verbosity normal
