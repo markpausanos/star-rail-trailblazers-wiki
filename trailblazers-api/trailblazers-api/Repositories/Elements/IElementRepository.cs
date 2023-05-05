@@ -22,10 +22,10 @@ namespace trailblazers_api.Repositories.Elements
         /// <returns>A nullable Element</returns>
         Task<Element?> GetElementById(int id);
         /// <summary>
-        /// Gets a Role in the databse by Name.
+        /// Gets a Element in the databse by Name.
         /// </summary>
-        /// <param name="name">Name of the Role to get.</param>
-        /// <returns>A nullable Role</returns>
+        /// <param name="name">Name of the Element to get.</param>
+        /// <returns>A nullable Element</returns>
         Task<Element?> GetElementByName(string name);
         /// <summary>
         /// Updates a Element in the database.
