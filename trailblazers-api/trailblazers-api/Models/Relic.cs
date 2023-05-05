@@ -6,7 +6,7 @@
         public string? Name { get; set; }
         public string? Description { get; set; }
         public string? Image { get; set; }
-        public string? BonusEffectTwoDescription { get; set; }
-        public string? BonusEffectFourDescription { get; set; }
+        public BonusEffect? BonusEffectOne { get; set; }
+        public BonusEffect? BonusEffectTwo { get; set; }
     }
 }
