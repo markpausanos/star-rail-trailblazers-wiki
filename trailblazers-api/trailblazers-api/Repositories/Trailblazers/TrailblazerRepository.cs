@@ -4,7 +4,7 @@ using trailblazers_api.Models;
 
 namespace trailblazers_api.Repositories.Trailblazers
 {
-    public class TrailblazerRepository
+    public class TrailblazerRepository : ITrailblazersRepository
     {
         private readonly DapperContext _context;
 

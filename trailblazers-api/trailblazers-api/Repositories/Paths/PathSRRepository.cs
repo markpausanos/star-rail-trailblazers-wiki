@@ -22,7 +22,7 @@ namespace trailblazers_api.Repositories.Paths
                 return await con.ExecuteScalarAsync<int>(sql, new { path.Name, path.Description, path.Image });
             }
         }
-        public async Task<IEnumerable<PathSR>> GetAllPaths()
+        public async Task<IEnumerable<PathSR>> GetAllPathSRs()
         {
             var sql = "SELECT * FROM Paths;";
 
