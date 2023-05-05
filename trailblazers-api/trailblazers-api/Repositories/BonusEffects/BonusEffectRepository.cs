@@ -12,14 +12,14 @@ namespace trailblazers_api.Repositories.BonusEffects
         {
             _context = context;
         }
-        public async Task<int> CreateBonusEffect(BonusEffect element)
+        public async Task<int> CreateBonusEffect(BonusEffect bonusEffect)
         {
-            var sql = "INSERT INTO BonusEffects (Name, Description, Image) VALUES (@Name, @Description, @Image); " +
+            var sql = "INSERT INTO BonusEffects (Name, Description) VALUES (@Name, @Description); " +
                       "SELECT SCOPE_IDENTITY();";
 
             using (var con = _context.CreateConnection())
             {
-                return await con.ExecuteScalarAsync<int>(sql, new { element.Name, element.Description, element.Image });
+                return await con.ExecuteScalarAsync<int>(sql, new { bonusEffect.Name, bonusEffect.Description });
             }
         }
         public async Task<IEnumerable<BonusEffect>> GetAllBonusEffects()
@@ -49,14 +49,14 @@ namespace trailblazers_api.Repositories.BonusEffects
                 return await con.QuerySingleOrDefaultAsync<BonusEffect>(sql, new { name });
             }
         }
-        public async Task<bool> UpdateBonusEffect(BonusEffect element)
+        public async Task<bool> UpdateBonusEffect(BonusEffect bonusEffect)
         {
             var sql = "UPDATE BonusEffects SET Description = @Description WHERE Id = @Id;";
 
 
             using (var con = _context.CreateConnection())
             {
-                return await con.ExecuteAsync(sql, new { element.Description, element.Id }) > 0;
+                return await con.ExecuteAsync(sql, new { bonusEffect.Description, bonusEffect.Id }) > 0;
             }
         }
         public Task<bool> DeleteBonusEffect(int id)
