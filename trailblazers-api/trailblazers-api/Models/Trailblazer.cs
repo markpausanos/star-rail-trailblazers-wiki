@@ -6,8 +6,8 @@
         public string? Name { get; set; }
         public string? Description { get; set; }
         public string? Image { get; set; }
-        public int ElementTypeId { get; set; }
-        public int PathTypeId { get; set; }
+        public Element? Element { get; set; }
+        public PathSR? Path{ get; set; }
         public int Rarity { get; set; }
         public int BaseHp { get; set; }
         public int BaseAtk { get; set; }
