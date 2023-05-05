@@ -4,10 +4,7 @@
     {
         public int Id { get; set; }
         public int UserId { get; set; }
-        public int BuildOneId { get; set; }
-        public int BuildTwoId { get; set; }
-        public int BuildThreeId { get; set; }
-        public int BuildFourId { get; set; }
-
+        public string? Name { get; set; }
+        public List<Build> Builds { get; set; } = new List<Build>();
     }
 }
