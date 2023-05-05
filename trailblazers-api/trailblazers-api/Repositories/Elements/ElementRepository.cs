@@ -51,7 +51,7 @@ namespace trailblazers_api.Repositories.Elements
         }
         public async Task<bool> UpdateElement(Element element)
         {
-            var sql = "UPDATE Roles SET Description = @Description WHERE Id = @Id;";
+            var sql = "UPDATE Elements SET Description = @Description WHERE Id = @Id;";
 
 
             using (var con = _context.CreateConnection())
