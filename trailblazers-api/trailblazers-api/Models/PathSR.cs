@@ -1,6 +1,6 @@
 ﻿namespace trailblazers_api.Models
 {
-    public class Path
+    public class PathSR
     {
         public int Id { get; set; }
         public string? Name { get; set; }
