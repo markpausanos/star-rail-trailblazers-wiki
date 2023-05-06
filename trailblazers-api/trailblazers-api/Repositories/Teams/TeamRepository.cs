@@ -14,12 +14,12 @@ namespace trailblazers_api.Repositories.Teams
         }
         public async Task<int> CreateTeam(Team team)
         {
-            var sql = "INSERT INTO Teams (Name, Description, Image) VALUES (@Name, @Description, @Image); " +
+            var sql = "INSERT INTO Teams (Name, UserId) VALUES (@Name, @UserId); " +
                       "SELECT SCOPE_IDENTITY();";
 
             using (var con = _context.CreateConnection())
             {
-                return await con.ExecuteScalarAsync<int>(sql, new { team.Name, team.Description, team.Image });
+                return await con.ExecuteScalarAsync<int>(sql, new { team.Name, team.User!.Id});
             }
         }
         public async Task<IEnumerable<Team>> GetAllTeams()
@@ -51,12 +51,12 @@ namespace trailblazers_api.Repositories.Teams
         }
         public async Task<bool> UpdateTeam(Team team)
         {
-            var sql = "UPDATE Teams SET Description = @Description WHERE Id = @Id;";
+            var sql = "UPDATE Teams SET Name = @Name WHERE Id = @Id;";
 
 
             using (var con = _context.CreateConnection())
             {
-                return await con.ExecuteAsync(sql, new { team.Description, team.Id }) > 0;
+                return await con.ExecuteAsync(sql, new { team.Name, team.Id }) > 0;
             }
         }
         public Task<bool> DeleteTeam(int id)
