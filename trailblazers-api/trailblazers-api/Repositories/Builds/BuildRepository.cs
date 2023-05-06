@@ -14,12 +14,12 @@ namespace trailblazers_api.Repositories.Builds
         }
         public async Task<int> CreateBuild(Build build)
         {
-            var sql = "INSERT INTO Builds (Name, Description, Image) VALUES (@Name, @Description, @Image); " +
+            var sql = "INSERT INTO Builds (UserId, TrailblazerId) VALUES (@UserId, @TrailblazerId); " +
                       "SELECT SCOPE_IDENTITY();";
 
             using (var con = _context.CreateConnection())
             {
-                return await con.ExecuteScalarAsync<int>(sql, new { build.Name, build.Description, build.Image });
+                return await con.ExecuteScalarAsync<int>(sql, new { UserId = build.User!.Id, TrailblazerId = build.Trailblazer!.Id });
             }
         }
         public async Task<IEnumerable<Build>> GetAllBuilds()
@@ -51,13 +51,7 @@ namespace trailblazers_api.Repositories.Builds
         }
         public async Task<bool> UpdateBuild(Build build)
         {
-            var sql = "UPDATE Builds SET Description = @Description WHERE Id = @Id;";
-
-
-            using (var con = _context.CreateConnection())
-            {
-                return await con.ExecuteAsync(sql, new { build.Description, build.Id }) > 0;
-            }
+            throw new NotImplementedException();
         }
         public Task<bool> DeleteBuild(int id)
         {
