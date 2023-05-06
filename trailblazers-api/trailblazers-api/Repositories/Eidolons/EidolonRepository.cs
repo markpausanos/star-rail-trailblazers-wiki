@@ -59,9 +59,15 @@ namespace trailblazers_api.Repositories.Eidolons
                 return await con.ExecuteAsync(sql, new { eidolon.Description, eidolon.Id }) > 0;
             }
         }
-        public Task<bool> DeleteEidolon(int id)
+        public async Task<bool> DeleteEidolon(int id)
         {
-            throw new NotImplementedException();
+            var sql = "UPDATE Eidolons SET IsDeleted = 1 WHERE Id = @Id;";
+
+            using (var con = _context.CreateConnection())
+            {
+                return await con.ExecuteAsync(sql, new { id }) > 0;
+            }
         }
+
     }
 }
