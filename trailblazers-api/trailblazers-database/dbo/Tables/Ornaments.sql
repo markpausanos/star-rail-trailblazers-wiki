@@ -1,8 +1,8 @@
-﻿CREATE TABLE [dbo].[Ornaments]
+﻿CREATE TABLE [dbo].[Ornament]
 (
-	[id] INT NOT NULL PRIMARY KEY IDENTITY (1,1), 
-    [name] NVARCHAR(50) NOT NULL, 
-    [description] NVARCHAR(50) NOT NULL, 
-    [image_file_path] NVARCHAR(50) NOT NULL, 
-    [bonus_effect_description] NVARCHAR(50) NOT NULL
+    [Id] INT NOT NULL PRIMARY KEY IDENTITY(1,1),
+    [Name] NVARCHAR(MAX) NULL,
+    [Description] NVARCHAR(MAX) NULL,
+    [Image] NVARCHAR(MAX) NULL,
+    [IsDeleted] BIT NOT NULL DEFAULT 0
 )
