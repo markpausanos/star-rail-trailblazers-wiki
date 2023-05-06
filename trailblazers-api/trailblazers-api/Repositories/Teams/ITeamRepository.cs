@@ -5,45 +5,38 @@ namespace trailblazers_api.Repositories.Teams
     public interface ITeamRepository
     {
         /// <summary>
-        /// Create a new Team in the Database.
+        /// Creates a new Team in the database.
         /// </summary>
-        /// <param name="team">New Team to be created.</param>
-        /// <returns>A int Data type which is the Id of the newly created Team</returns>
+        /// <param name="team">The Team object to be created.</param>
+        /// <returns>The Id of the newly created Team.</returns>
         Task<int> CreateTeam(Team team);
+
         /// <summary>
-        /// Gets all Team in the databse.
+        /// Retrieves all Teams in the database.
         /// </summary>
-        /// <returns><IEnumerable<Team>></returns>
+        /// <returns>An IEnumerable of all Teams.</returns>
         Task<IEnumerable<Team>> GetAllTeams();
+
         /// <summary>
-        /// Gets Team in the database by the Id.
+        /// Retrieves a Team from the database by its Id.
         /// </summary>
-        /// <param name="id">Id of the Team to get in the database.</param>
-        /// <returns>A nullable Team</returns>
-        Task<Team?> GetTeamById(int id);
-        /// <summary>
-        /// Gets a Team in the databse by Name.
-        /// </summary>
-        /// <param name="name">Name of the Team to get.</param>
-        /// <returns>A nullable Team</returns>
-        Task<Team?> GetTeamByName(string name);
+        /// <param name="id">The Id of the Team to retrieve.</param>
+        /// <returns>A nullable Team object.</returns>
+
+        Task<IEnumerable<Team>> GetAllTeamsByUserId(int id);
         /// <summary>
         /// Updates a Team in the database.
         /// </summary>
-        /// <param name="team">Updated Team</param>
-        /// <returns>
-        ///     true : If succesfully.
-        ///     false : If unsuccessful.
-        /// </returns>
+        /// <param name="team">The updated Team object.</param>
+        /// <returns>True if the update was successful, false otherwise.</returns>
+
         Task<bool> UpdateTeam(Team team);
+
         /// <summary>
-        /// Deletes a Team in the database.
+        /// Deletes a Team from the database.
         /// </summary>
-        /// <param name="id">Id of the Team to be Deleted.</param>
-        /// <returns>
-        ///     true : If succesfully.
-        ///     false : If unsuccessful.
-        /// </returns>
+        /// <param name="id">The Id of the Team to delete.</param>
+        /// <returns>True if the deletion was successful, false otherwise.</returns>
         Task<bool> DeleteTeam(int id);
     }
 }

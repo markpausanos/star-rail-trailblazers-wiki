@@ -5,44 +5,49 @@ namespace trailblazers_api.Repositories.Traces
     public interface ITraceRepository
     {
         /// <summary>
-        /// Create a new Trace in the Database.
+        /// Creates a new Trace in the database.
         /// </summary>
-        /// <param name="ascension">New Trace to be created.</param>
-        /// <returns>A int Data type which is the Id of the newly created Trace</returns>
-        Task<int> CreateTrace(Trace ascension);
+        /// <param name="trace">The Trace to be created.</param>
+        /// <returns>The ID of the newly created Trace.</returns>
+        Task<int> CreateTrace(Trace trace);
+
         /// <summary>
-        /// Gets all Trace in the databse.
+        /// Gets all Traces in the database.
         /// </summary>
-        /// <returns><IEnumerable<Trace>></returns>
+        /// <returns>An IEnumerable of Trace objects.</returns>
         Task<IEnumerable<Trace>> GetAllTrace();
+
         /// <summary>
-        /// Gets Trace in the database by the Id.
+        /// Gets a Trace from the database by ID.
         /// </summary>
-        /// <param name="id">Id of the Trace to get in the database.</param>
-        /// <returns>A nullable Trace</returns>
+        /// <param name="id">The ID of the Trace to retrieve.</param>
+        /// <returns>The Trace object with the specified ID, or null if not found.</returns>
         Task<Trace?> GetTraceById(int id);
+
         /// <summary>
-        /// Gets a Trace in the databse by Name.
+        /// Gets a Trace from the database by name.
         /// </summary>
-        /// <param name="name">Name of the Trace to get.</param>
-        /// <returns>A nullable Trace</returns>
+        /// <param name="name">The name of the Trace to retrieve.</param>
+        /// <returns>The Trace object with the specified name, or null if not found.</returns>
         Task<Trace?> GetTraceByName(string name);
+
         /// <summary>
         /// Updates a Trace in the database.
         /// </summary>
-        /// <param name="ascension">Updated Trace</param>
+        /// <param name="trace">The updated Trace object.</param>
         /// <returns>
-        ///     true : If succesfully.
-        ///     false : If unsuccessful.
+        ///     true: if the update was successful.
+        ///     false: if the update was unsuccessful.
         /// </returns>
-        Task<bool> UpdateTrace(Trace ascension);
+        Task<bool> UpdateTrace(Trace trace);
+
         /// <summary>
-        /// Deletes a Trace in the database.
+        /// Deletes a Trace from the database.
         /// </summary>
-        /// <param name="id">Id of the Trace to be Deleted.</param>
+        /// <param name="id">The ID of the Trace to delete.</param>
         /// <returns>
-        ///     true : If succesfully.
-        ///     false : If unsuccessful.
+        ///     true: if the delete was successful.
+        ///     false: if the delete was unsuccessful.
         /// </returns>
         Task<bool> DeleteTrace(int id);
     }

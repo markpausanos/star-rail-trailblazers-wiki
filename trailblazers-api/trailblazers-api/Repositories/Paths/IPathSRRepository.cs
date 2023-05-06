@@ -5,44 +5,47 @@ namespace trailblazers_api.Repositories.Paths
     public interface IPathSRRepository
     {
         /// <summary>
-        /// Create a new PathSR in the Database.
+        /// Creates a new PathSR in the database.
         /// </summary>
-        /// <param name="path">New PathSR to be created.</param>
-        /// <returns>A int Data type which is the Id of the newly created PathSR</returns>
+        /// <param name="path">The new PathSR to create.</param>
+        /// <returns>The ID of the newly created PathSR.</returns>
         Task<int> CreatePathSR(PathSR path);
+
         /// <summary>
-        /// Gets all PathSR in the databse.
+        /// Gets all PathSRs in the database.
         /// </summary>
-        /// <returns><IEnumerable<PathSR>></returns>
+        /// <returns>An enumerable collection of PathSRs.</returns>
         Task<IEnumerable<PathSR>> GetAllPathSRs();
+
         /// <summary>
-        /// Gets PathSR in the database by the Id.
+        /// Gets a PathSR in the database by its ID.
         /// </summary>
-        /// <param name="id">Id of the PathSR to get in the database.</param>
-        /// <returns>A nullable PathSR</returns>
+        /// <param name="id">The ID of the PathSR to retrieve.</param>
+        /// <returns>A nullable PathSR object.</returns>
         Task<PathSR?> GetPathSRById(int id);
+
         /// <summary>
-        /// Gets a PathSR in the databse by Name.
+        /// Gets a PathSR in the database by its name.
         /// </summary>
-        /// <param name="name">Name of the PathSR to get.</param>
-        /// <returns>A nullable PathSR</returns>
+        /// <param name="name">The name of the PathSR to retrieve.</param>
+        /// <returns>A nullable PathSR object.</returns>
         Task<PathSR?> GetPathSRByName(string name);
+
         /// <summary>
         /// Updates a PathSR in the database.
         /// </summary>
-        /// <param name="path">Updated PathSR</param>
+        /// <param name="path">The updated PathSR object.</param>
         /// <returns>
-        ///     true : If succesfully.
-        ///     false : If unsuccessful.
+        /// true if the update was successful; otherwise, false.
         /// </returns>
         Task<bool> UpdatePathSR(PathSR path);
+
         /// <summary>
-        /// Deletes a PathSR in the database.
+        /// Deletes a PathSR from the database.
         /// </summary>
-        /// <param name="id">Id of the PathSR to be Deleted.</param>
+        /// <param name="id">The ID of the PathSR to delete.</param>
         /// <returns>
-        ///     true : If succesfully.
-        ///     false : If unsuccessful.
+        /// true if the delete was successful; otherwise, false.
         /// </returns>
         Task<bool> DeletePathSR(int id);
     }

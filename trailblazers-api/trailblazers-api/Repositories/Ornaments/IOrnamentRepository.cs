@@ -5,45 +5,44 @@ namespace trailblazers_api.Repositories.Ornaments
     public interface IOrnamentRepository
     {
         /// <summary>
-        /// Create a new Ornament in the Database.
+        /// Creates a new Ornament in the database.
         /// </summary>
-        /// <param name="ornament">New Ornament to be created.</param>
-        /// <returns>A int Data type which is the Id of the newly created Ornament</returns>
+        /// <param name="ornament">The Ornament object to be created.</param>
+        /// <returns>An integer that represents the Id of the newly created Ornament.</returns>
         Task<int> CreateOrnament(Ornament ornament);
+
         /// <summary>
-        /// Gets all Ornament in the databse.
+        /// Retrieves all Ornament objects from the database.
         /// </summary>
-        /// <returns><IEnumerable<Ornament>></returns>
+        /// <returns>An IEnumerable collection of Ornament objects.</returns>
         Task<IEnumerable<Ornament>> GetAllOrnaments();
+
         /// <summary>
-        /// Gets Ornament in the database by the Id.
+        /// Retrieves an Ornament object from the database by its Id.
         /// </summary>
-        /// <param name="id">Id of the Ornament to get in the database.</param>
-        /// <returns>A nullable Ornament</returns>
+        /// <param name="id">The Id of the Ornament to be retrieved.</param>
+        /// <returns>A nullable Ornament object.</returns>
         Task<Ornament?> GetOrnamentById(int id);
+
         /// <summary>
-        /// Gets a Ornament in the databse by Name.
+        /// Retrieves an Ornament object from the database by its Name.
         /// </summary>
-        /// <param name="name">Name of the Ornament to get.</param>
-        /// <returns>A nullable Ornament</returns>
+        /// <param name="name">The Name of the Ornament to be retrieved.</param>
+        /// <returns>A nullable Ornament object.</returns>
         Task<Ornament?> GetOrnamentByName(string name);
+
         /// <summary>
-        /// Updates a Ornament in the database.
+        /// Updates an Ornament object in the database.
         /// </summary>
-        /// <param name="ornament">Updated Ornament</param>
-        /// <returns>
-        ///     true : If succesfully.
-        ///     false : If unsuccessful.
-        /// </returns>
+        /// <param name="ornament">The updated Ornament object.</param>
+        /// <returns>A boolean value indicating whether the operation was successful.</returns>
         Task<bool> UpdateOrnament(Ornament ornament);
+
         /// <summary>
-        /// Deletes a Ornament in the database.
+        /// Deletes an Ornament object from the database.
         /// </summary>
-        /// <param name="id">Id of the Ornament to be Deleted.</param>
-        /// <returns>
-        ///     true : If succesfully.
-        ///     false : If unsuccessful.
-        /// </returns>
+        /// <param name="id">The Id of the Ornament to be deleted.</param>
+        /// <returns>A boolean value indicating whether the operation was successful.</returns>
         Task<bool> DeleteOrnament(int id);
     }
 }
