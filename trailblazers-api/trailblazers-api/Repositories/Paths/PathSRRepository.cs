@@ -1,4 +1,5 @@
 ﻿using Dapper;
+using System.Data;
 using trailblazers_api.Context;
 using trailblazers_api.Models;
 
@@ -66,12 +67,15 @@ namespace trailblazers_api.Repositories.Paths
 
         public async Task<bool> DeletePathSR(int id)
         {
-            var sql = "UPDATE PathSR SET IsDeleted = 1 WHERE Id = @Id;";
+            var spName = "[spPathSR_DeletePathSR]";
 
-            using (var con = _context.CreateConnection())
+            using (var connection = _context.CreateConnection())
             {
-                return await con.ExecuteAsync(sql, new { id }) > 0;
+                return await connection.ExecuteAsync(spName,
+                    new { PathSRId = id },
+                    commandType: CommandType.StoredProcedure) > 0;
             }
         }
+
     }
 }
