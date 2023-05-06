@@ -12,56 +12,66 @@ namespace trailblazers_api.Repositories.Paths
         {
             _context = context;
         }
+
         public async Task<int> CreatePathSR(PathSR path)
         {
-            var sql = "INSERT INTO Paths (Name, Description, Image) VALUES (@Name, @Description, @Image); " +
+            var sql = "INSERT INTO PathSR (Name, Image) VALUES (@Name, @Image);" +
                       "SELECT SCOPE_IDENTITY();";
 
             using (var con = _context.CreateConnection())
             {
-                return await con.ExecuteScalarAsync<int>(sql, new { path.Name, path.Description, path.Image });
+                return await con.ExecuteScalarAsync<int>(sql, new { path.Name, path.Image });
             }
         }
+
         public async Task<IEnumerable<PathSR>> GetAllPathSRs()
         {
-            var sql = "SELECT * FROM Paths;";
+            var sql = "SELECT * FROM PathSR WHERE IsDeleted = 0;";
 
             using (var con = _context.CreateConnection())
             {
                 return await con.QueryAsync<PathSR>(sql);
             }
         }
+
         public async Task<PathSR?> GetPathSRById(int id)
         {
-            var sql = "SELECT * FROM Paths WHERE Id = @Id;";
+            var sql = "SELECT * FROM PathSR WHERE Id = @Id AND IsDeleted = 0;";
 
             using (var con = _context.CreateConnection())
             {
                 return await con.QuerySingleOrDefaultAsync<PathSR>(sql, new { id });
             }
         }
+
         public async Task<PathSR?> GetPathSRByName(string name)
         {
-            var sql = "SELECT * FROM Paths WHERE Name = @Name;";
+            var sql = "SELECT * FROM PathSR WHERE Name = @Name AND IsDeleted = 0;";
 
             using (var con = _context.CreateConnection())
             {
                 return await con.QuerySingleOrDefaultAsync<PathSR>(sql, new { name });
             }
         }
+
         public async Task<bool> UpdatePathSR(PathSR path)
         {
-            var sql = "UPDATE Paths SET Description = @Description WHERE Id = @Id;";
-
+            var sql = "UPDATE PathSR SET Name = @Name, Image = @Image WHERE Id = @Id;";
 
             using (var con = _context.CreateConnection())
             {
-                return await con.ExecuteAsync(sql, new { path.Description, path.Id }) > 0;
+                return await con.ExecuteAsync(sql, new { path.Name, path.Image, path.Id }) > 0;
             }
         }
-        public Task<bool> DeletePathSR(int id)
+
+        public async Task<bool> DeletePathSR(int id)
         {
-            throw new NotImplementedException();
+            var sql = "UPDATE PathSR SET IsDeleted = 1 WHERE Id = @Id;";
+
+            using (var con = _context.CreateConnection())
+            {
+                return await con.ExecuteAsync(sql, new { id }) > 0;
+            }
         }
     }
 }
