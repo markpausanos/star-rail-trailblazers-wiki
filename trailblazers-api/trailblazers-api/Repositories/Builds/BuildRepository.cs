@@ -49,7 +49,7 @@ namespace trailblazers_api.Repositories.Builds
                 return await con.QuerySingleOrDefaultAsync<Build>(sql, new { name });
             }
         }
-        public async Task<bool> UpdateBuild(Build build)
+        public Task<bool> UpdateBuild(Build build)
         {
             throw new NotImplementedException();
         }
