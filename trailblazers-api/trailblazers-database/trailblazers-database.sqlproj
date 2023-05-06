@@ -61,21 +61,25 @@
     <Folder Include="dbo\Stored Procedures" />
   </ItemGroup>
   <ItemGroup>
-    <Build Include="dbo\Tables\User.sql" />
+    <Build Include="dbo\Tables\Users.sql" />
     <Build Include="dbo\Tables\Ornaments.sql" />
     <Build Include="dbo\Tables\Relics.sql" />
     <Build Include="dbo\Tables\Elements.sql" />
-    <Build Include="dbo\Tables\Paths.sql" />
-    <Build Include="dbo\Tables\Lightcone.sql" />
+    <Build Include="dbo\Tables\PathSRs.sql" />
+    <Build Include="dbo\Tables\Lightcones.sql" />
     <Build Include="dbo\Tables\Trailblazer.sql" />
     <Build Include="dbo\Tables\Skills.sql" />
-    <Build Include="dbo\Tables\Eidolon.sql" />
-    <Build Include="dbo\Tables\Ascension.sql" />
-    <Build Include="dbo\Tables\Build.sql" />
-    <Build Include="dbo\Tables\Team.sql" />
+    <Build Include="dbo\Tables\Eidolons.sql" />
+    <Build Include="dbo\Tables\Traces.sql" />
+    <Build Include="dbo\Tables\Builds.sql" />
+    <Build Include="dbo\Tables\Teams.sql" />
+    <Build Include="dbo\Tables\BuildRelics.sql" />
+    <Build Include="dbo\Tables\BuildOrnaments.sql" />
+    <Build Include="dbo\Tables\TeamBuilds.sql" />
+    <Build Include="dbo\Tables\Posts.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="trailblazers-database.refactorlog" />
-	<None Include="trailblazers-database.publish.xml" />
+    <None Include="trailblazers-database.publish.xml" />
   </ItemGroup>
 </Project>
