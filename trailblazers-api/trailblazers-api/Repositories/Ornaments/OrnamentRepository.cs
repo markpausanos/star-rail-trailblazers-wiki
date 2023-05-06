@@ -1,4 +1,5 @@
 ﻿using Dapper;
+using System.Data;
 using trailblazers_api.Context;
 using trailblazers_api.Models;
 
@@ -59,9 +60,16 @@ namespace trailblazers_api.Repositories.Ornaments
                 return await con.ExecuteAsync(sql, new { ornament.Description, ornament.Id }) > 0;
             }
         }
-        public Task<bool> DeleteOrnament(int id)
+        public async Task<bool> DeleteOrnament(int id)
         {
-            throw new NotImplementedException();
+            var spName = "[dbo].[spOrnament_DeleteOrnament]";
+
+            using (var connection = _context.CreateConnection())
+            {
+                return await connection.ExecuteAsync(spName,
+                    new { OrnamentId = id },
+                    commandType: CommandType.StoredProcedure) > 0;
+            }
         }
     }
 }
