@@ -62,7 +62,7 @@ namespace trailblazers_api.Repositories.Ornaments
         }
         public async Task<bool> DeleteOrnament(int id)
         {
-            var spName = "[dbo].[spOrnament_DeleteOrnament]";
+            var spName = "[spOrnament_DeleteOrnament]";
 
             using (var connection = _context.CreateConnection())
             {
