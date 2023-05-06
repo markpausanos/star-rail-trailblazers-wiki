@@ -84,5 +84,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="dbo\Stored Procedures\spElement_DeleteElement.sql" />
+    <None Include="dbo\Stored Procedures\spPathSR_DeletePathSR.sql" />
   </ItemGroup>
 </Project>
