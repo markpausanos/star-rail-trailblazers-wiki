@@ -12,5 +12,8 @@
         public int BaseSpeed { get; set; }
         public Element? Element { get; set; }
         public PathSR? Path{ get; set; }
+        public List<Eidolon> Eidolons { get; set; } = new List<Eidolon>();
+        public List<Trace> Traces { get; set; } = new List<Trace>();
+        public List<Skill> Skills { get; set; } = new List<Skill>();
     }
 }
