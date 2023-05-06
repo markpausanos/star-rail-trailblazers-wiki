@@ -82,6 +82,7 @@
     <Build Include="dbo\Stored Procedures\spLightcone_DeleteLightcone.sql" />
     <Build Include="dbo\Tables\TeamLikes.sql" />
     <Build Include="dbo\Stored Procedures\spTeam_DeleteTeam.sql" />
+    <Build Include="dbo\Stored Procedures\spUser_DeleteUser.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="trailblazers-database.refactorlog" />
