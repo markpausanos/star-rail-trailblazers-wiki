@@ -1,4 +1,5 @@
 ﻿using Dapper;
+using System.Data;
 using trailblazers_api.Context;
 using trailblazers_api.Models;
 
@@ -65,12 +66,15 @@ namespace trailblazers_api.Repositories.Elements
 
         public async Task<bool> DeleteElement(int id)
         {
-            var sql = "UPDATE Elements SET IsDeleted = 1 WHERE Id = @Id AND IsDeleted = 0;";
+            var spName = "[spElement_DeleteElement]";
 
-            using (var con = _context.CreateConnection())
+            using (var connection = _context.CreateConnection())
             {
-                return await con.ExecuteAsync(sql, new { id }) > 0;
+                return await connection.ExecuteAsync(spName,
+                    new { ElementId = id },
+                    commandType: CommandType.StoredProcedure) > 0;
             }
         }
+
     }
 }
