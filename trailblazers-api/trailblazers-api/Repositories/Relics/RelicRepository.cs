@@ -1,4 +1,5 @@
 ﻿using Dapper;
+using System.Data;
 using trailblazers_api.Context;
 using trailblazers_api.Models;
 
@@ -14,17 +15,18 @@ namespace trailblazers_api.Repositories.Relics
         }
         public async Task<int> CreateRelic(Relic relic)
         {
-            var sql = "INSERT INTO Relics (Name, Description, Image) VALUES (@Name, @Description, @Image); " +
+            var sql = "INSERT INTO Relics (Name, DescriptionOne, DescriptionTwo, Image) " +
+                      "VALUES (@Name, @DescriptionOne, @DescriptionTwo, @Image); " +
                       "SELECT SCOPE_IDENTITY();";
 
             using (var con = _context.CreateConnection())
             {
-                return await con.ExecuteScalarAsync<int>(sql, new { relic.Name, relic.Description, relic.Image });
+                return await con.ExecuteScalarAsync<int>(sql, relic);
             }
         }
         public async Task<IEnumerable<Relic>> GetAllRelics()
         {
-            var sql = "SELECT * FROM Relics;";
+            var sql = "SELECT * FROM Relics WHERE IsDeleted = 0;";
 
             using (var con = _context.CreateConnection())
             {
@@ -33,7 +35,7 @@ namespace trailblazers_api.Repositories.Relics
         }
         public async Task<Relic?> GetRelicById(int id)
         {
-            var sql = "SELECT * FROM Relics WHERE Id = @Id;";
+            var sql = "SELECT * FROM Relics WHERE Id = @Id AND IsDeleted = 0;";
 
             using (var con = _context.CreateConnection())
             {
@@ -42,7 +44,7 @@ namespace trailblazers_api.Repositories.Relics
         }
         public async Task<Relic?> GetRelicByName(string name)
         {
-            var sql = "SELECT * FROM Relics WHERE Name = @Name;";
+            var sql = "SELECT * FROM Relics WHERE Name = @Name AND IsDeleted = 0;";
 
             using (var con = _context.CreateConnection())
             {
@@ -51,17 +53,24 @@ namespace trailblazers_api.Repositories.Relics
         }
         public async Task<bool> UpdateRelic(Relic relic)
         {
-            var sql = "UPDATE Relics SET Description = @Description WHERE Id = @Id;";
-
+            var sql = "UPDATE Relics SET DescriptionOne = @DescriptionOne, " +
+                      "DescriptionTwo = @DescriptionTwo, Image = @Image WHERE Id = @Id AND IsDeleted = 0;";
 
             using (var con = _context.CreateConnection())
             {
-                return await con.ExecuteAsync(sql, new { relic.Description, relic.Id }) > 0;
+                return await con.ExecuteAsync(sql, relic) > 0;
             }
         }
-        public Task<bool> DeleteRelic(int id)
+        public async Task<bool> DeleteRelic(int id)
         {
-            throw new NotImplementedException();
+            var spName = "[spRelic_DeleteRelic]";
+
+            using (var connection = _context.CreateConnection())
+            {
+                return await connection.ExecuteAsync(spName,
+                    new { RelicId = id },
+                    commandType: CommandType.StoredProcedure) > 0;
+            }
         }
     }
 }

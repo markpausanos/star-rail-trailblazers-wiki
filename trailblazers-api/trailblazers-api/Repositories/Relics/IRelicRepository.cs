@@ -5,44 +5,49 @@ namespace trailblazers_api.Repositories.Relics
     public interface IRelicRepository
     {
         /// <summary>
-        /// Create a new Relic in the Database.
+        /// Creates a new Relic in the database.
         /// </summary>
-        /// <param name="relic">New Relic to be created.</param>
-        /// <returns>A int Data type which is the Id of the newly created Relic</returns>
+        /// <param name="relic">The new Relic to be created.</param>
+        /// <returns>The ID of the newly created Relic as an integer.</returns>
         Task<int> CreateRelic(Relic relic);
+
         /// <summary>
-        /// Gets all Relic in the databse.
+        /// Gets all Relics in the database.
         /// </summary>
-        /// <returns><IEnumerable<Relic>></returns>
+        /// <returns>An IEnumerable of Relic objects.</returns>
         Task<IEnumerable<Relic>> GetAllRelics();
+
         /// <summary>
-        /// Gets Relic in the database by the Id.
+        /// Gets a Relic from the database by ID.
         /// </summary>
-        /// <param name="id">Id of the Relic to get in the database.</param>
-        /// <returns>A nullable Relic</returns>
+        /// <param name="id">The ID of the Relic to get.</param>
+        /// <returns>A nullable Relic object.</returns>
         Task<Relic?> GetRelicById(int id);
+
         /// <summary>
-        /// Gets a Relic in the databse by Name.
+        /// Gets a Relic from the database by name.
         /// </summary>
-        /// <param name="name">Name of the Relic to get.</param>
-        /// <returns>A nullable Relic</returns>
+        /// <param name="name">The name of the Relic to get.</param>
+        /// <returns>A nullable Relic object.</returns>
         Task<Relic?> GetRelicByName(string name);
+
         /// <summary>
         /// Updates a Relic in the database.
         /// </summary>
-        /// <param name="relic">Updated Relic</param>
+        /// <param name="relic">The updated Relic object.</param>
         /// <returns>
-        ///     true : If succesfully.
-        ///     false : If unsuccessful.
+        ///     true: If the update was successful.
+        ///     false: If the update was unsuccessful.
         /// </returns>
         Task<bool> UpdateRelic(Relic relic);
+
         /// <summary>
-        /// Deletes a Relic in the database.
+        /// Soft deletes a Relic in the database.
         /// </summary>
-        /// <param name="id">Id of the Relic to be Deleted.</param>
+        /// <param name="id">The ID of the Relic to be deleted.</param>
         /// <returns>
-        ///     true : If succesfully.
-        ///     false : If unsuccessful.
+        ///     true: If the soft delete was successful.
+        ///     false: If the soft delete was unsuccessful.
         /// </returns>
         Task<bool> DeleteRelic(int id);
     }
