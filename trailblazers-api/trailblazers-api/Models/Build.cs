@@ -4,8 +4,8 @@
     {
         public int Id { get; set; }
         public int UserId { get; set; }
-        public int RelicOneId { get; set; }
-        public int RelicTwoId { get; set; }
-        public int OrnamentId { get; set; }
+        public int TrailblazerId { get; set; }
+        public List<Relic> Relics { get; set; } = new List<Relic>();
+        public List<Ornament> Ornaments { get; set; } = new List<Ornament>();
     }
 }

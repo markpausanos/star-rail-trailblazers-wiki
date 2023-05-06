@@ -11,7 +11,6 @@
         public int BaseHp { get; set; }
         public int BaseAtk { get; set; }
         public int BaseDef { get; set; }
-        public string? BonusEffectName { get; set; }
-        public string? BonusEffectDescription { get; set; }
+        public BonusEffect? BonusEffect { get; set; }
     }
 }
