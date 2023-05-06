@@ -5,45 +5,44 @@ namespace trailblazers_api.Repositories.Users
     public interface IUserRepository
     {
         /// <summary>
-        /// Create a new User in the Database.
+        /// Creates a new user in the database.
         /// </summary>
-        /// <param name="user">New User to be created.</param>
-        /// <returns>A int Data type which is the Id of the newly created User</returns>
+        /// <param name="user">The user object to be created.</param>
+        /// <returns>The ID of the newly created user.</returns>
         Task<int> CreateUser(User user);
+
         /// <summary>
-        /// Gets all User in the databse.
+        /// Gets all users in the database.
         /// </summary>
-        /// <returns><IEnumerable<User>></returns>
+        /// <returns>An IEnumerable of all users in the database.</returns>
         Task<IEnumerable<User>> GetAllUsers();
+
         /// <summary>
-        /// Gets User in the database by the Id.
+        /// Gets a user from the database by ID.
         /// </summary>
-        /// <param name="id">Id of the User to get in the database.</param>
-        /// <returns>A nullable User</returns>
+        /// <param name="id">The ID of the user to retrieve.</param>
+        /// <returns>The user object with the specified ID, or null if not found.</returns>
         Task<User?> GetUserById(int id);
+
         /// <summary>
-        /// Gets a User in the databse by Name.
+        /// Gets a user from the database by name.
         /// </summary>
-        /// <param name="name">Name of the User to get.</param>
-        /// <returns>A nullable User</returns>
+        /// <param name="name">The name of the user to retrieve.</param>
+        /// <returns>The user object with the specified name, or null if not found.</returns>
         Task<User?> GetUserByName(string name);
+
         /// <summary>
-        /// Updates a User in the database.
+        /// Updates a user in the database.
         /// </summary>
-        /// <param name="user">Updated User</param>
-        /// <returns>
-        ///     true : If succesfully.
-        ///     false : If unsuccessful.
-        /// </returns>
+        /// <param name="user">The user object with updated values.</param>
+        /// <returns>True if the update was successful, false otherwise.</returns>
         Task<bool> UpdateUser(User user);
+
         /// <summary>
-        /// Deletes a User in the database.
+        /// Deletes a user from the database by ID.
         /// </summary>
-        /// <param name="id">Id of the User to be Deleted.</param>
-        /// <returns>
-        ///     true : If succesfully.
-        ///     false : If unsuccessful.
-        /// </returns>
+        /// <param name="id">The ID of the user to delete.</param>
+        /// <returns>True if the deletion was successful, false otherwise.</returns>
         Task<bool> DeleteUser(int id);
     }
 }
