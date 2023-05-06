@@ -59,9 +59,13 @@ namespace trailblazers_api.Repositories.Traces
                 return await con.ExecuteAsync(sql, new { ascension.Description, ascension.Id }) > 0;
             }
         }
-        public Task<bool> DeleteTrace(int id)
+        public async Task<bool> DeleteTrace(int id)
         {
-            throw new NotImplementedException();
+            var sql = "UPDATE Trace SET IsDeleted = 1 WHERE Id = @Id;";
+            using (var con = _context.CreateConnection())
+            {
+                return await con.ExecuteAsync(sql, new { id }) > 0;
+            }
         }
     }
 }
