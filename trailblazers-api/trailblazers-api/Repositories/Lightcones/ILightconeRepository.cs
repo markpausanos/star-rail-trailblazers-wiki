@@ -5,45 +5,44 @@ namespace trailblazers_api.Repositories.Lightcones
     public interface ILightconeRepository
     {
         /// <summary>
-        /// Create a new Lightcone in the Database.
+        /// Creates a new Lightcone in the database.
         /// </summary>
-        /// <param name="lightcone">New Lightcone to be created.</param>
-        /// <returns>A int Data type which is the Id of the newly created Lightcone</returns>
+        /// <param name="lightcone">The Lightcone to be created.</param>
+        /// <returns>The ID of the newly created Lightcone.</returns>
         Task<int> CreateLightcone(Lightcone lightcone);
+
         /// <summary>
-        /// Gets all Lightcone in the databse.
+        /// Gets all Lightcones in the database.
         /// </summary>
-        /// <returns><IEnumerable<Lightcone>></returns>
+        /// <returns>An IEnumerable of Lightcones.</returns>
         Task<IEnumerable<Lightcone>> GetAllLightcones();
+
         /// <summary>
-        /// Gets Lightcone in the database by the Id.
+        /// Gets a Lightcone from the database by its ID.
         /// </summary>
-        /// <param name="id">Id of the Lightcone to get in the database.</param>
-        /// <returns>A nullable Lightcone</returns>
+        /// <param name="id">The ID of the Lightcone to retrieve.</param>
+        /// <returns>The Lightcone with the specified ID, or null if it does not exist.</returns>
         Task<Lightcone?> GetLightconeById(int id);
+
         /// <summary>
-        /// Gets a Lightcone in the databse by Name.
+        /// Gets a Lightcone from the database by its name.
         /// </summary>
-        /// <param name="name">Name of the Lightcone to get.</param>
-        /// <returns>A nullable Lightcone</returns>
+        /// <param name="name">The name of the Lightcone to retrieve.</param>
+        /// <returns>The Lightcone with the specified name, or null if it does not exist.</returns>
         Task<Lightcone?> GetLightconeByName(string name);
+
         /// <summary>
-        /// Updates a Lightcone in the database.
+        /// Updates an existing Lightcone in the database.
         /// </summary>
-        /// <param name="lightcone">Updated Lightcone</param>
-        /// <returns>
-        ///     true : If succesfully.
-        ///     false : If unsuccessful.
-        /// </returns>
+        /// <param name="lightcone">The Lightcone to be updated.</param>
+        /// <returns>True if the update was successful, false otherwise.</returns>
         Task<bool> UpdateLightcone(Lightcone lightcone);
+
         /// <summary>
-        /// Deletes a Lightcone in the database.
+        /// Deletes a Lightcone from the database.
         /// </summary>
-        /// <param name="id">Id of the Lightcone to be Deleted.</param>
-        /// <returns>
-        ///     true : If succesfully.
-        ///     false : If unsuccessful.
-        /// </returns>
+        /// <param name="id">The ID of the Lightcone to be deleted.</param>
+        /// <returns>True if the deletion was successful, false otherwise.</returns>
         Task<bool> DeleteLightcone(int id);
     }
 }

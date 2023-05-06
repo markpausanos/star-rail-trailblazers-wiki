@@ -1,4 +1,5 @@
 ﻿using Dapper;
+using System.Data;
 using trailblazers_api.Context;
 using trailblazers_api.Models;
 
@@ -59,9 +60,17 @@ namespace trailblazers_api.Repositories.Lightcones
                 return await con.ExecuteAsync(sql, new { lightcone.Description, lightcone.Id }) > 0;
             }
         }
-        public Task<bool> DeleteLightcone(int id)
+        public async Task<bool> DeleteLightcone(int id)
         {
-            throw new NotImplementedException();
+            var spName = "[spLightcone_DeleteLightcone]";
+
+            using (var connection = _context.CreateConnection())
+            {
+                return await connection.ExecuteAsync(spName,
+                    new { LightconeId = id },
+                    commandType: CommandType.StoredProcedure) > 0;
+            }
         }
+
     }
 }
