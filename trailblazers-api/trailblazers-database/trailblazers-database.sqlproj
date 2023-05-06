@@ -82,4 +82,7 @@
     <RefactorLog Include="trailblazers-database.refactorlog" />
     <None Include="trailblazers-database.publish.xml" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="dbo\Stored Procedures\spElement_DeleteElement.sql" />
+  </ItemGroup>
 </Project>
