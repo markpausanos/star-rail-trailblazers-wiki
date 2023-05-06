@@ -14,12 +14,12 @@ namespace trailblazers_api.Repositories.Users
         }
         public async Task<int> CreateUser(User user)
         {
-            var sql = "INSERT INTO Users (Name, Description, Image) VALUES (@Name, @Description, @Image); " +
+            var sql = "INSERT INTO Users (Name, Password) VALUES (@Name, @Password); " +
                       "SELECT SCOPE_IDENTITY();";
 
             using (var con = _context.CreateConnection())
             {
-                return await con.ExecuteScalarAsync<int>(sql, new { user.Name, user.Description, user.Image });
+                return await con.ExecuteScalarAsync<int>(sql, new { user.Name, user.Password });
             }
         }
         public async Task<IEnumerable<User>> GetAllUsers()
@@ -51,12 +51,12 @@ namespace trailblazers_api.Repositories.Users
         }
         public async Task<bool> UpdateUser(User user)
         {
-            var sql = "UPDATE Users SET Description = @Description WHERE Id = @Id;";
+            var sql = "UPDATE Users SET Password = @Password WHERE Id = @Id;";
 
 
             using (var con = _context.CreateConnection())
             {
-                return await con.ExecuteAsync(sql, new { user.Description, user.Id }) > 0;
+                return await con.ExecuteAsync(sql, new { user.Password, user.Id }) > 0;
             }
         }
         public Task<bool> DeleteUser(int id)
