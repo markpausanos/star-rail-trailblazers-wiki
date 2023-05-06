@@ -1,9 +1,9 @@
-﻿CREATE TABLE [dbo].[Relics]
+﻿CREATE TABLE [dbo].[Relic]
 (
-	[id] INT NOT NULL PRIMARY KEY IDENTITY (1,1), 
-	[name] NVARCHAR(50) NOT NULL, 
-    [description] NVARCHAR(50) NOT NULL, 
-    [image_file_path] NVARCHAR(50) NOT NULL, 
-    [bonus_effect_two_description] NVARCHAR(50) NOT NULL, 
-    [bonus_effect_four_description] NVARCHAR(50) NOT NULL
-)
+    [Id] INT NOT NULL PRIMARY KEY IDENTITY(1,1),
+    [Name] NVARCHAR(MAX) NULL,
+    [DescriptionOne] NVARCHAR(MAX) NULL,
+    [DescriptionTwo] NVARCHAR(MAX) NULL,
+    [Image] NVARCHAR(MAX) NULL,
+    [IsDeleted] BIT NOT NULL DEFAULT 0
+);
