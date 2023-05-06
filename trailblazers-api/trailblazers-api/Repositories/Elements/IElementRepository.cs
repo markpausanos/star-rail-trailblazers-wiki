@@ -5,45 +5,44 @@ namespace trailblazers_api.Repositories.Elements
     public interface IElementRepository
     {
         /// <summary>
-        /// Create a new Element in the Database.
+        /// Creates a new element in the database.
         /// </summary>
-        /// <param name="element">New Element to be created.</param>
-        /// <returns>A int Data type which is the Id of the newly created Element</returns>
+        /// <param name="element">The new element to create.</param>
+        /// <returns>The ID of the newly created element.</returns>
         Task<int> CreateElement(Element element);
+
         /// <summary>
-        /// Gets all Element in the databse.
+        /// Retrieves all elements in the database.
         /// </summary>
-        /// <returns><IEnumerable<Element>></returns>
+        /// <returns>An enumerable collection of elements.</returns>
         Task<IEnumerable<Element>> GetAllElements();
+
         /// <summary>
-        /// Gets Element in the database by the Id.
+        /// Retrieves an element from the database by ID.
         /// </summary>
-        /// <param name="id">Id of the Element to get in the database.</param>
-        /// <returns>A nullable Element</returns>
+        /// <param name="id">The ID of the element to retrieve.</param>
+        /// <returns>The element with the specified ID, or null if not found.</returns>
         Task<Element?> GetElementById(int id);
+
         /// <summary>
-        /// Gets a Element in the databse by Name.
+        /// Retrieves an element from the database by name.
         /// </summary>
-        /// <param name="name">Name of the Element to get.</param>
-        /// <returns>A nullable Element</returns>
+        /// <param name="name">The name of the element to retrieve.</param>
+        /// <returns>The element with the specified name, or null if not found.</returns>
         Task<Element?> GetElementByName(string name);
+
         /// <summary>
-        /// Updates a Element in the database.
+        /// Updates an existing element in the database.
         /// </summary>
-        /// <param name="element">Updated Element</param>
-        /// <returns>
-        ///     true : If succesfully.
-        ///     false : If unsuccessful.
-        /// </returns>
+        /// <param name="element">The updated element.</param>
+        /// <returns>True if the update was successful, false otherwise.</returns>
         Task<bool> UpdateElement(Element element);
+
         /// <summary>
-        /// Deletes a Element in the database.
+        /// Deletes an element from the database.
         /// </summary>
-        /// <param name="id">Id of the Element to be Deleted.</param>
-        /// <returns>
-        ///     true : If succesfully.
-        ///     false : If unsuccessful.
-        /// </returns>
+        /// <param name="id">The ID of the element to delete.</param>
+        /// <returns>True if the deletion was successful, false otherwise.</returns>
         Task<bool> DeleteElement(int id);
     }
 }
