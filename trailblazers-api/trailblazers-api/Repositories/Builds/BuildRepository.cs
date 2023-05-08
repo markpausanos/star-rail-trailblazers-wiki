@@ -25,15 +25,16 @@ namespace trailblazers_api.Repositories.Builds
         public async Task<Build?> GetBuildById(int id)
         {
             var sql = "SELECT b.*, u.*, t.*, l.*, r.*, o.* " +
-                        "FROM Builds b " +
-                        "LEFT JOIN [User] u ON b.UserId = u.Id " +
-                        "LEFT JOIN Trailblazer t ON b.TrailblazerId = t.Id " +
-                        "LEFT JOIN Lightcone l ON b.LightconeId = l.Id " +
-                        "LEFT JOIN BuildRelics br ON b.Id = br.BuildId " +
-                        "LEFT JOIN Relics r ON br.RelicId = r.Id " +
-                        "LEFT JOIN BuildOrnaments bo ON b.Id = bo.BuildId " +
-                        "LEFT JOIN Ornaments o ON bo.OrnamentId = o.Id " +
-                        "WHERE b.Id = @Id AND b.IsDeleted = 0;";
+                      "FROM Builds b " +
+                      "LEFT JOIN User u ON b.UserId = u.Id " +
+                      "LEFT JOIN Trailblazer t ON b.TrailblazerId = t.Id " +
+                      "LEFT JOIN Lightcone l ON b.LightconeId = l.Id " +
+                      "LEFT JOIN BuildRelics br ON b.Id = br.BuildId " +
+                      "LEFT JOIN Relics r ON br.RelicId = r.Id " +
+                      "LEFT JOIN BuildOrnaments bo ON b.Id = bo.BuildId " +
+                      "LEFT JOIN Ornaments o ON bo.OrnamentId = o.Id " +
+                      "WHERE b.Id = @Id AND b.IsDeleted = 0;";
+
 
             using (var con = _context.CreateConnection())
             {
