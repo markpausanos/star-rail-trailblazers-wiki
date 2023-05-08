@@ -15,24 +15,11 @@ namespace trailblazers_api.Repositories.Eidolons
         Task<int> CreateEidolon(Eidolon eidolon);
 
         /// <summary>
-        /// Gets all Eidolons in the database.
+        /// Gets all Eidolons in the database associated with a specific trailblazer ID.
         /// </summary>
-        /// <returns>An IEnumerable of Eidolon objects.</returns>
-        Task<IEnumerable<Eidolon>> GetAllEidolons();
-
-        /// <summary>
-        /// Gets an Eidolon from the database by its Id.
-        /// </summary>
-        /// <param name="id">The Id of the Eidolon to retrieve.</param>
-        /// <returns>A nullable Eidolon object.</returns>
-        Task<Eidolon?> GetEidolonById(int id);
-
-        /// <summary>
-        /// Gets an Eidolon from the database by its name.
-        /// </summary>
-        /// <param name="name">The name of the Eidolon to retrieve.</param>
-        /// <returns>A nullable Eidolon object.</returns>
-        Task<Eidolon?> GetEidolonByName(string name);
+        /// <param name="trailblazerId">The ID of the trailblazer to filter Eidolons by.</param>
+        /// <returns>An asynchronous operation that yields an IEnumerable of Eidolon objects.</returns>
+        Task<IEnumerable<Eidolon>> GetAllEidolonsByTrailblazerId(int trailblazerId);
 
         /// <summary>
         /// Updates an Eidolon in the database.
