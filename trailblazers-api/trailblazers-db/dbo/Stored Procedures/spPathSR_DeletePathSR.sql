@@ -9,4 +9,8 @@ BEGIN
     UPDATE [dbo].[Trailblazer]
     SET [PathSRId] = NULL
     WHERE [PathSRId] = @PathSRId;
+
+    UPDATE [dbo].[Lightcone]
+    SET [PathSRId] = NULL
+    WHERE [PathSRId] = @PathSRId;
 END
