@@ -33,23 +33,71 @@ namespace trailblazers_api.Repositories.Posts
 
         public async Task<IEnumerable<Post>> GetAllPosts()
         {
-            var sql = "SELECT * FROM Post WHERE IsDeleted = 0;";
+            var sql = @"SELECT p.*, u.*, t.*, b.*
+                FROM Post p
+                LEFT JOIN User u ON p.UserId = u.Id
+                LEFT JOIN Team t ON p.TeamId = t.Id
+                LEFT JOIN TeamBuild tb ON t.Id = tb.TeamId
+                LEFT JOIN Build b ON tb.BuildId = b.Id
+                WHERE p.IsDeleted = 0 AND u.IsDeleted = 0 AND t.IsDeleted = 0 AND b.IsDeleted = 0;";
 
             using (var con = _context.CreateConnection())
             {
-                return await con.QueryAsync<Post>(sql);
+                var posts = new Dictionary<int, Post>();
+
+                await con.QueryAsync<Post, User, Team, Build, Post>(sql, (post, user, team, build) =>
+                {
+                    if (!posts.TryGetValue(post.Id, out var postEntry))
+                    {
+                        postEntry = post;
+                        postEntry.User = user;
+                        postEntry.Team = team != null ? new Team { Id = team.Id, Name = team.Name, User = team.User, Builds = new List<Build>() } : null;
+                        posts.Add(postEntry.Id, postEntry);
+                    }
+
+                    if (build != null && postEntry.Team != null)
+                    {
+                        postEntry.Team.Builds.Add(build);
+                    }
+
+                    return postEntry;
+                });
+
+                return posts.Values;
             }
         }
 
         public async Task<Post?> GetPostById(int id)
         {
-            var sql = "SELECT * FROM Post WHERE Id = @Id AND IsDeleted = 0;";
+            var sql = @"SELECT p.*, u.*, t.*, b.*
+                FROM Post p
+                LEFT JOIN User u ON p.UserId = u.Id
+                LEFT JOIN Team t ON p.TeamId = t.Id
+                LEFT JOIN TeamBuild tb ON t.Id = tb.TeamId
+                LEFT JOIN Build b ON tb.BuildId = b.Id
+                WHERE p.Id = @Id AND p.IsDeleted = 0 AND u.IsDeleted = 0 AND t.IsDeleted = 0 AND b.IsDeleted = 0;";
 
             using (var con = _context.CreateConnection())
             {
-                return await con.QuerySingleOrDefaultAsync<Post>(sql, new { id });
+                var posts = await con.QueryAsync<Post, User, Team, Build, Post>(
+                    sql,
+                    (post, user, team, build) =>
+                    {
+                        post.User = user;
+                        post.Team = team != null ? new Team { Id = team.Id, Name = team.Name, User = team.User, Builds = new List<Build>() } : null;
+                        if (build != null && post.Team != null)
+                        {
+                            post.Team.Builds.Add(build);
+                        }
+                        return post;
+                    },
+                    new { Id = id }
+                );
+
+                return posts.FirstOrDefault();
             }
         }
+
 
         public async Task<bool> UpdatePost(Post post)
         {
