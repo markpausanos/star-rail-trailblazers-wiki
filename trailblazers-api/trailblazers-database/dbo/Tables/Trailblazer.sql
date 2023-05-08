@@ -1,16 +1,16 @@
 ﻿CREATE TABLE [dbo].[Trailblazer]
 (
-	[id] INT NOT NULL PRIMARY KEY IDENTITY (1,1), 
-	[name] NVARCHAR(50) NOT NULL, 
-    [description] NVARCHAR(50) NOT NULL, 
-    [image_file_path] NVARCHAR(50) NOT NULL, 
-    [element_type_id] INT NOT NULL,
-    [path_type_id] INT NOT NULL,
-    [rarity] INT NOT NULL, 
-    [base_hp] INT NOT NULL, 
-    [base_atk] INT NOT NULL, 
-    [base_def] INT NOT NULL, 
-    [base_speed] INT NOT NULL, 
-    Constraint [FK_Trailblazer_Element] FOREIGN KEY ([element_type_id]) REFERENCES [dbo].[Elements]([id]) ON DELETE CASCADE,
-    Constraint [FK_Trailblazer_Path] FOREIGN KEY ([path_type_id]) REFERENCES [dbo].[Paths]([id]) ON DELETE CASCADE
+    [Id] INT NOT NULL PRIMARY KEY IDENTITY(1,1),
+    [Name] NVARCHAR(MAX) NULL,
+    [Image] NVARCHAR(MAX) NULL,
+    [Rarity] INT NOT NULL,
+    [BaseHp] INT NOT NULL,
+    [BaseAtk] INT NOT NULL,
+    [BaseDef] INT NOT NULL,
+    [BaseSpeed] INT NOT NULL,
+    [ElementId] INT NULL,
+    [PathSRId] INT NULL,
+    [IsDeleted] BIT NOT NULL DEFAULT 0,
+    CONSTRAINT [FK_Trailblazer_Element] FOREIGN KEY ([ElementId]) REFERENCES [dbo].[Element]([Id]) ON DELETE SET NULL,
+    CONSTRAINT [FK_Trailblazer_PathSR] FOREIGN KEY ([PathSRId]) REFERENCES [dbo].[PathSR]([Id]) ON DELETE SET NULL
 )
