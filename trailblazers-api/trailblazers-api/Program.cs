@@ -1,5 +1,8 @@
-using System.ComponentModel.Design;
 using trailblazers_api.Context;
+using trailblazers_api.Repositories.Builds;
+using trailblazers_api.Repositories.Eidolons;
+using trailblazers_api.Repositories.Elements;
+using trailblazers_api.Services.Elements;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -32,4 +35,10 @@ app.Run();
 void ConfigureServices(IServiceCollection services)
 {
     services.AddTransient<DapperContext>();
+
+    services.AddScoped<IElementService, ElementService>();
+
+    services.AddScoped<IBuildRepository, BuildRepository>();
+    services.AddScoped<IEidolonRepository, EidolonRepository>();
+    services.AddScoped<IElementRepository, ElementRepository>();
 }
