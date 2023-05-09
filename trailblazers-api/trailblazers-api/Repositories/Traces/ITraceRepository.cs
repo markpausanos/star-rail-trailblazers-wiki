@@ -18,18 +18,11 @@ namespace trailblazers_api.Repositories.Traces
         Task<IEnumerable<Trace>> GetAllTrace();
 
         /// <summary>
-        /// Gets a Trace from the database by ID.
+        /// Gets all traces from the database for a given Trailblazer ID.
         /// </summary>
-        /// <param name="id">The ID of the Trace to retrieve.</param>
-        /// <returns>The Trace object with the specified ID, or null if not found.</returns>
-        Task<Trace?> GetTraceById(int id);
-
-        /// <summary>
-        /// Gets a Trace from the database by name.
-        /// </summary>
-        /// <param name="name">The name of the Trace to retrieve.</param>
-        /// <returns>The Trace object with the specified name, or null if not found.</returns>
-        Task<Trace?> GetTraceByName(string name);
+        /// <param name="trailblazerId">The ID of the Trailblazer to retrieve traces for.</param>
+        /// <returns>An enumerable collection of Trace objects for the specified Trailblazer ID.</returns>
+        Task<IEnumerable<Trace>> GetTraceByTrailblazerId(int trailblazerId);
 
         /// <summary>
         /// Updates a Trace in the database.

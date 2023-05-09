@@ -24,31 +24,59 @@ namespace trailblazers_api.Repositories.Traces
         }
         public async Task<IEnumerable<Trace>> GetAllTrace()
         {
-            var sql = "SELECT * FROM Trace;";
+            var sql = @"SELECT tr.*, t.*
+                FROM Trace tr
+                LEFT JOIN Trailblazer t ON tr.TrailblazerId = t.Id
+                WHERE tr.IsDeleted = 0;";
 
             using (var con = _context.CreateConnection())
             {
-                return await con.QueryAsync<Trace>(sql);
+                var traceDict = new Dictionary<int, Trace>();
+                return await con.QueryAsync<Trace, Trailblazer, Trace>(sql, (tr, t) =>
+                {
+                    if (!traceDict.TryGetValue(tr.Id, out var trace))
+                    {
+                        trace = tr;
+                        trace.Trailblazer = t;
+                        traceDict.Add(tr.Id, trace);
+                    }
+                    else if (trace.Trailblazer == null)
+                    {
+                        trace.Trailblazer = t;
+                    }
+
+                    return trace;
+                }, splitOn: "Id");
             }
         }
-        public async Task<Trace?> GetTraceById(int id)
+        public async Task<IEnumerable<Trace>> GetTraceByTrailblazerId(int trailblazerId)
         {
-            var sql = "SELECT * FROM Trace WHERE Id = @Id;";
+            var sql = @"SELECT tr.*, t.*
+                FROM Trace tr
+                LEFT JOIN Trailblazer t ON tr.TrailblazerId = t.Id
+                WHERE tr.IsDeleted = 0 AND tr.TrailblazerId = @TrailblazerId;";
 
             using (var con = _context.CreateConnection())
             {
-                return await con.QuerySingleOrDefaultAsync<Trace>(sql, new { id });
-            }
-        }
-        public async Task<Trace?> GetTraceByName(string name)
-        {
-            var sql = "SELECT * FROM Trace WHERE Name = @Name;";
+                var traceDict = new Dictionary<int, Trace>();
+                return await con.QueryAsync<Trace, Trailblazer, Trace>(sql, (tr, t) =>
+                {
+                    if (!traceDict.TryGetValue(tr.Id, out var trace))
+                    {
+                        trace = tr;
+                        trace.Trailblazer = t;
+                        traceDict.Add(tr.Id, trace);
+                    }
+                    else if (trace.Trailblazer == null)
+                    {
+                        trace.Trailblazer = t;
+                    }
 
-            using (var con = _context.CreateConnection())
-            {
-                return await con.QuerySingleOrDefaultAsync<Trace>(sql, new { name });
+                    return trace;
+                }, new { TrailblazerId = trailblazerId }, splitOn: "Id");
             }
         }
+
         public async Task<bool> UpdateTrace(Trace ascension)
         {
             var sql = "UPDATE Trace SET Description = @Description WHERE Id = @Id;";
@@ -67,5 +95,6 @@ namespace trailblazers_api.Repositories.Traces
                 return await con.ExecuteAsync(sql, new { id }) > 0;
             }
         }
+
     }
 }
