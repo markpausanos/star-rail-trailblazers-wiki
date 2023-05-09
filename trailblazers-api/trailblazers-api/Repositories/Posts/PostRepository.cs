@@ -1,5 +1,5 @@
 ﻿using Dapper;
-using System.Data;
+using System.Collections.Generic;
 using trailblazers_api.Context;
 using trailblazers_api.Models;
 
@@ -67,7 +67,7 @@ namespace trailblazers_api.Repositories.Posts
             }
         }
 
-        public async Task<Post?> GetPostById(int id)
+        public async Task<IEnumerable<Post>> GetPostByUserId(int userId)
         {
             var sql = @"SELECT p.*, u.*, t.*, b.*
                 FROM Post p
@@ -75,26 +75,31 @@ namespace trailblazers_api.Repositories.Posts
                 LEFT JOIN Team t ON p.TeamId = t.Id
                 LEFT JOIN TeamBuild tb ON t.Id = tb.TeamId
                 LEFT JOIN Build b ON tb.BuildId = b.Id
-                WHERE p.Id = @Id AND p.IsDeleted = 0 AND u.IsDeleted = 0 AND t.IsDeleted = 0 AND b.IsDeleted = 0;";
+                WHERE p.UserId = @UserId AND p.IsDeleted = 0 AND u.IsDeleted = 0 AND t.IsDeleted = 0 AND b.IsDeleted = 0;";
 
             using (var con = _context.CreateConnection())
             {
-                var posts = await con.QueryAsync<Post, User, Team, Build, Post>(
-                    sql,
-                    (post, user, team, build) =>
-                    {
-                        post.User = user;
-                        post.Team = team != null ? new Team { Id = team.Id, Name = team.Name, User = team.User, Builds = new List<Build>() } : null;
-                        if (build != null && post.Team != null)
-                        {
-                            post.Team.Builds.Add(build);
-                        }
-                        return post;
-                    },
-                    new { Id = id }
-                );
+                var posts = new Dictionary<int, Post>();
 
-                return posts.FirstOrDefault();
+                await con.QueryAsync<Post, User, Team, Build, Post>(sql, (post, user, team, build) =>
+                {
+                    if (!posts.TryGetValue(post.Id, out var postEntry))
+                    {
+                        postEntry = post;
+                        postEntry.User = user;
+                        postEntry.Team = team != null ? new Team { Id = team.Id, Name = team.Name, User = team.User, Builds = new List<Build>() } : null;
+                        posts.Add(postEntry.Id, postEntry);
+                    }
+
+                    if (build != null && postEntry.Team != null)
+                    {
+                        postEntry.Team.Builds.Add(build);
+                    }
+
+                    return postEntry;
+                });
+
+                return posts.Values;
             }
         }
 
