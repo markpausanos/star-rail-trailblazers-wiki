@@ -35,23 +35,60 @@ namespace trailblazers_api.Repositories.Skills
 
         public async Task<IEnumerable<Skill>> GetAllSkills()
         {
-            var sql = "SELECT * FROM Skill WHERE IsDeleted = 0;";
+            var sql = @"SELECT s.*, t.*
+                FROM Skill s
+                LEFT JOIN Trailblazer t ON s.TrailblazerId = t.Id
+                WHERE s.IsDeleted = 0;";
 
             using (var con = _context.CreateConnection())
             {
-                return await con.QueryAsync<Skill>(sql);
+                var skillDict = new Dictionary<int, Skill>();
+                return await con.QueryAsync<Skill, Trailblazer, Skill>(sql, (s, t) =>
+                {
+                    if (!skillDict.TryGetValue(s.Id, out var skill))
+                    {
+                        skill = s;
+                        skill.Trailblazer = t;
+                        skillDict.Add(s.Id, skill);
+                    }
+                    else if (skill.Trailblazer == null)
+                    {
+                        skill.Trailblazer = t;
+                    }
+
+                    return skill;
+                }, splitOn: "Id");
             }
         }
 
-        public async Task<Skill?> GetSkillById(int id)
+        public async Task<IEnumerable<Skill>> GetSkillByTrailblazerId(int trailblazerId)
         {
-            var sql = "SELECT * FROM Skill WHERE Id = @Id AND IsDeleted = 0;";
+            var sql = @"SELECT s.*, t.*
+                FROM Skill s
+                LEFT JOIN Trailblazer t ON s.TrailblazerId = t.Id
+                WHERE s.IsDeleted = 0 AND s.TrailblazerId = @TrailblazerId;";
 
             using (var con = _context.CreateConnection())
             {
-                return await con.QuerySingleOrDefaultAsync<Skill>(sql, new { id });
+                var skillDict = new Dictionary<int, Skill>();
+                return await con.QueryAsync<Skill, Trailblazer, Skill>(sql, (s, t) =>
+                {
+                    if (!skillDict.TryGetValue(s.Id, out var skill))
+                    {
+                        skill = s;
+                        skill.Trailblazer = t;
+                        skillDict.Add(s.Id, skill);
+                    }
+                    else if (skill.Trailblazer == null)
+                    {
+                        skill.Trailblazer = t;
+                    }
+
+                    return skill;
+                }, new { TrailblazerId = trailblazerId }, splitOn: "Id");
             }
         }
+
 
         public async Task<Skill?> GetSkillByName(string name)
         {

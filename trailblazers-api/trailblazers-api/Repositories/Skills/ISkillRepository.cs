@@ -18,18 +18,11 @@ namespace trailblazers_api.Repositories.Skills
         Task<IEnumerable<Skill>> GetAllSkills();
 
         /// <summary>
-        /// Gets a Skill in the database by its ID.
+        /// Gets all Skills in the database associated with a Trailblazer.
         /// </summary>
-        /// <param name="id">The ID of the Skill to retrieve.</param>
-        /// <returns>A nullable Skill object.</returns>
-        Task<Skill?> GetSkillById(int id);
-
-        /// <summary>
-        /// Gets a Skill in the database by its name.
-        /// </summary>
-        /// <param name="name">The name of the Skill to retrieve.</param>
-        /// <returns>A nullable Skill object.</returns>
-        Task<Skill?> GetSkillByName(string name);
+        /// <param name="trailblazerId">The ID of the Trailblazer whose Skills to retrieve.</param>
+        /// <returns>An IEnumerable of Skill objects or an empty collection if no Skills are found.</returns>
+        Task<IEnumerable<Skill>> GetSkillsByTrailblazerId(int trailblazerId);
 
         /// <summary>
         /// Updates a Skill in the database.
