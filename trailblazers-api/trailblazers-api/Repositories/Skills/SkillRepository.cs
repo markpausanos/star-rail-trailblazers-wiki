@@ -61,7 +61,7 @@ namespace trailblazers_api.Repositories.Skills
             }
         }
 
-        public async Task<IEnumerable<Skill>> GetSkillByTrailblazerId(int trailblazerId)
+        public async Task<IEnumerable<Skill>> GetSkillsByTrailblazerId(int trailblazerId)
         {
             var sql = @"SELECT s.*, t.*
                 FROM Skill s
