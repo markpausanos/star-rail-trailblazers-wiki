@@ -1,11 +1,10 @@
 ﻿using Dapper;
-using System.Collections.Generic;
 using trailblazers_api.Context;
 using trailblazers_api.Models;
 
 namespace trailblazers_api.Repositories.Posts
 {
-    public class PostRepository
+    public class PostRepository : IPostRepository
     {
         private readonly DapperContext _context;
 
@@ -67,7 +66,7 @@ namespace trailblazers_api.Repositories.Posts
             }
         }
 
-        public async Task<IEnumerable<Post>> GetPostByUserId(int userId)
+        public async Task<IEnumerable<Post>> GetPostsByUserId(int userId)
         {
             var sql = @"SELECT p.*, u.*, t.*, b.*
                 FROM Post p
