@@ -36,7 +36,7 @@ namespace trailblazers_api.Controllers
         /// </remarks>
         /// <response code="201">The Element was successfully created.</response>
         /// <response code="204">No content.</response>
-        /// <response code="400">The Element details are invalid.</response>
+        /// <response code="400">Invalid request.</response>
         /// <response code="500">An internal server error occurred.</response>
         [HttpPost(Name = "CreateElement")]
         [Consumes("application/json")]
@@ -60,6 +60,14 @@ namespace trailblazers_api.Controllers
             }
         }
 
+        /// <summary>
+        /// Gets all Elements in the database.
+        /// </summary>
+        /// <returns>IEnumerable with all Elements.</returns>
+        /// <response code="200">The Elements were successfully retrieved.</response>
+        /// <response code="204">No content.</response>
+        /// <response code="400">Invalid request.</response>
+        /// <response code="500">An internal server error occurred.</response>
         [HttpGet(Name = "GetAllElements")]
         [Produces("application/json")]
         [ProducesResponseType(typeof(IEnumerable<ElementDto>), StatusCodes.Status200OK)]
@@ -85,6 +93,15 @@ namespace trailblazers_api.Controllers
             }
         }
 
+        /// <summary>
+        /// Gets Element with the given Id from the database.
+        /// </summary>
+        /// <param name="id">Id of Element to be retrieved.</param>
+        /// <returns>Element with Id.</returns>
+        /// <response code="200">The Element was successfully retrieved.</response>
+        /// <response code="204">No content.</response>
+        /// <response code="400">The Element details are invalid.</response>
+        /// <response code="500">An internal server error occurred.</response>
         [HttpGet("{id}", Name = "GetElementById")]
         [Produces("application/json")]
         [ProducesResponseType(typeof(ElementDto), StatusCodes.Status200OK)]
@@ -110,7 +127,25 @@ namespace trailblazers_api.Controllers
             }
         }
 
-        [HttpPut("{id}", Name = "UpdateElement")]
+        /// <summary>
+        /// Updates Element with given data.
+        /// </summary>
+        /// <param name="updateElement">Data to update to the Element.</param>
+        /// <returns>True if the updating was successful, false otherwise.</returns>
+        /// <remarks>
+        /// Sample request:
+        ///
+        /// PUT /api/Elements
+        /// {
+        /// "id": 3
+        /// "name": "Fire",
+        /// "image": "https://example.com/fire.png"
+        /// }
+        /// </remarks>
+        /// <response code="200">The Element was successfully updated.</response>
+        /// <response code="404">The Element was not found.</response>
+        /// <response code="500">An internal server error occurred.</response>
+        [HttpPut(Name = "UpdateElement")]
         [Consumes("application/json")]
         [Produces("application/json")]
         [ProducesResponseType(typeof(bool), StatusCodes.Status200OK)]
@@ -137,6 +172,15 @@ namespace trailblazers_api.Controllers
             }
         }
 
+        /// <summary>
+        /// Deletes an Element with the given Id
+        /// </summary>
+        /// <param name="id">Id of Element to be deleted</param>
+        /// <returns>True if the deletion was successful, false otherwise.</returns>
+        /// <response code="200">The Element was successfully deleted.</response>
+        /// <response code="400">Invalid request.</response>
+        /// <response code="404">The Element was not found.</response>
+        /// <response code="500">An internal server error occurred.</response>
         [HttpDelete("{id}", Name = "DeleteElement")]
         [Produces("application/json")]
         [ProducesResponseType(typeof(bool), StatusCodes.Status200OK)]
