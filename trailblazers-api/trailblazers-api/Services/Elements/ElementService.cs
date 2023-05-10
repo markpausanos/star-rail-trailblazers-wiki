@@ -22,5 +22,15 @@ namespace trailblazers_api.Services.Elements
         {
             return await _repository.GetAllElements();
         }
+
+        public async Task<bool> UpdateElement(Element element)
+        {
+            return await _repository.UpdateElement(element);
+        }
+
+        public async Task<bool> DeleteElement(int id)
+        {
+            return await _repository.DeleteElement(id);
+        }
     }
 }
