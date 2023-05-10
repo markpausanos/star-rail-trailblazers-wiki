@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 using trailblazers_api.Models;
+using trailblazers_api.DTOs.Elements;
 using trailblazers_api.Services.Elements;
 
 namespace trailblazers_api.Controllers
@@ -39,11 +41,11 @@ namespace trailblazers_api.Controllers
         [HttpPost(Name = "CreateElement")]
         [Consumes("application/json")]
         [Produces("application/json")]
-        [ProducesResponseType(typeof(Element), StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(ElementDto), StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> CreateElement(Element element)
+        public async Task<IActionResult> CreateElement([FromForm] ElementCreationDto element)
         {
             try
             {
@@ -55,6 +57,113 @@ namespace trailblazers_api.Controllers
             {
                 _logger.LogError(e.Message);
                 return StatusCode(500, "An error occurred while creating the Element.");
+            }
+        }
+
+        [HttpGet(Name = "GetAllElements")]
+        [Produces("application/json")]
+        [ProducesResponseType(typeof(IEnumerable<ElementDto>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> GetAllElements()
+        {
+            try
+            {
+                var allElements = await _service.GetAllElements();
+
+                if (allElements.IsNullOrEmpty())
+                {
+                    return NoContent();
+                }
+                return Ok(allElements);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message);
+                return StatusCode(500, "An error occurred while retrieving the Elements.");
+            }
+        }
+
+        [HttpGet("{id}", Name = "GetElementById")]
+        [Produces("application/json")]
+        [ProducesResponseType(typeof(ElementDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> GetElementById(int id)
+        {
+            try
+            {
+                var element = await _service.GetElementById(id);
+
+                if (element == null)
+                {
+                    return NoContent();
+                }
+                return Ok(element);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message);
+                return StatusCode(500, "An error occurred while retrieving the Element.");
+            }
+        }
+
+        [HttpPut("{id}", Name = "UpdateElement")]
+        [Consumes("application/json")]
+        [Produces("application/json")]
+        [ProducesResponseType(typeof(bool), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> UpdateElement([FromForm] ElementUpdateDto updateElement)
+        {
+            try
+            {
+                int id = updateElement.Id;
+                var element = await _service.GetElementById(id);
+                if (element == null)
+                {
+                    return NotFound($"Element with ID = {id} does not exist.");
+                }
+
+                var updatedElement = await _service.UpdateElement(updateElement);
+                return Ok(updatedElement);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message);
+                return StatusCode(500, "An error occurred while updating the Element.");
+            }
+        }
+
+        [HttpDelete("{id}", Name = "DeleteElement")]
+        [Produces("application/json")]
+        [ProducesResponseType(typeof(bool), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> DeleteElement(int id)
+        {
+            try
+            {
+                var element = await _service.GetElementById(id);
+                if (element == null)
+                {
+                    return NotFound($"Element with ID = {id} not found.");
+                }
+
+                var isDeleted = await _service.DeleteElement(id);
+                if (isDeleted)
+                {
+                    return Ok("Successfully deleted.");
+                }
+                return BadRequest($"Element with ID = {id} could not be deleted.");
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message);
+                return StatusCode(500, "An error occurred while deleting the Element.");
             }
         }
     }
