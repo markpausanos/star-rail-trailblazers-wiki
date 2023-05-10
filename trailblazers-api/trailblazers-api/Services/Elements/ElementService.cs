@@ -42,6 +42,21 @@ namespace trailblazers_api.Services.Elements
             });
         }
 
+        public async Task<ElementDto> GetElementById(int id)
+        {
+            var elements = await _repository.GetAllElements();
+            if (elements == null) return null;
+            var element = elements.FirstOrDefault(x => x.Id == id);
+            if (element == null) return null;
+
+            return new ElementDto
+            {
+                Id = element.Id,
+                Name = element.Name,
+                Image = element.Image
+            };
+        }
+
         public async Task<bool> UpdateElement(ElementUpdateDto element)
         {
             var elementModel = new Element

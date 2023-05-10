@@ -18,6 +18,13 @@ namespace trailblazers_api.Services.Elements
         Task<IEnumerable<ElementDto>> GetAllElements();
 
         /// <summary>
+        /// Gets the first Element with the given id
+        /// </summary>
+        /// <param name="id">Id of Element to be retrieved</param>
+        /// <returns>Element with given id</returns>
+        Task<ElementDto> GetElementById(int id);
+
+        /// <summary>
         /// Updates an existing element in the database.
         /// </summary>
         /// <param name="element">The updated element.</param>
