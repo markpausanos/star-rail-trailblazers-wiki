@@ -25,6 +25,26 @@ namespace trailblazers_api.Repositories.Teams
             }
         }
 
+        public async Task<int> InsertBuildsToTeam(Team team, List<Build> builds)
+        { 
+            var sql = "INSERT INTO TeamBuilds (TeamId, BuildId) VALUES" +
+                "(@TeamId, @BuildId1)," +
+                "(@TeamId, @BuildId2)," +
+                "(@TeamId, @BuildId3)," +
+                "(@TeamId, @BuildId4)";
+
+            using (var con = _context.CreateConnection())
+            {
+                return await con.ExecuteScalarAsync<int>(sql, 
+                    new { TeamId = team.Id, 
+                        BuildId1 = builds[0].Id,
+                        BuildId2 = builds[1].Id,
+                        BuildId3 = builds[2].Id,
+                        BuildId4 = builds[3].Id
+                    });
+            }
+        }
+
         public async Task<IEnumerable<Team>> GetAllTeams()
         {
             var sql = @"
