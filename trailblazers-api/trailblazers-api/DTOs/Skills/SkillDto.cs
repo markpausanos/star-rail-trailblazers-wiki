@@ -36,7 +36,7 @@
         public string? Type { get; set; }
 
         /// <summary>
-        /// Id of the Skill Trailblazer
+        /// Id of Trailblazer of the Skill
         /// </summary>
         public int TrailblazerId { get; set; }
     }

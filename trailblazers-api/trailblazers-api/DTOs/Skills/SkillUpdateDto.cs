@@ -42,5 +42,11 @@ namespace trailblazers_api.DTOs.Skills
         /// </summary>
         [Required(ErrorMessage = "Type is a required field")]
         public string? Type { get; set; }
+
+        /// <summary>
+        /// Id of Trailblazer of the Skill
+        /// </summary>
+        [Required(ErrorMessage = "TrailblazerId is a required field")]
+        public int TrailblazerId { get; set; }
     }
 }
