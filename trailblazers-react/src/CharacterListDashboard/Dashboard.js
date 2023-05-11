@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './Dashboard.css';
-import NavigationTab from './NavigationTab';
+import CategoryTab from './CategoryTab';
 import CharacterPageList from './CharacterPageList';
 import LightConePage from './LightConePage';
 import Relics from './Relics';
@@ -19,7 +19,7 @@ function Dashboard() {
 
   return (
     <div>
-        <NavigationTab OnClickHandle={handleClick} activeItem={activeItem}/>
+        <CategoryTab OnClickHandle={handleClick} activeItem={activeItem}/>
         <div className='content'>
           {activeItem === 'characters' && <CharacterPageList />}
           {activeItem === 'light cones' && <LightConePage />}
