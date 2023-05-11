@@ -3,7 +3,7 @@
     /// <summary>
     /// Lightcone DTO class
     /// </summary>
-    public class Lightcones
+    public class LightconeDto
     {
         /// <summary>
         /// Id of the Lightcone
