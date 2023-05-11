@@ -1,0 +1,15 @@
+
+.headerbar{
+    position: absolute;
+    top: 0%;
+    left: 0%;
+}
+
+.searchbar{
+    margin-top: -10px;
+    padding-left: 0px;
+}
+
+li{
+    display: inline-block;
+}
