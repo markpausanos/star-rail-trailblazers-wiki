@@ -54,7 +54,21 @@ form input:focus {
     border-bottom-color: rgba(0,0,0,0.87);
 }
 
-button {
+.button-signin {
+    width: 100%;
+    background-color: #1a73e8;
+    color: #fff;
+    font-size: 16px;
+    font-weight: 500;
+    border: none;
+    border-radius: 4px;
+    padding: 12px 24px;
+    margin-top: 24px;
+    cursor: pointer;
+    transition: background-color 0.25s ease-in-out;
+}
+
+.button-login {
     width: 100%;
     background-color: #1a73e8;
     color: #fff;
