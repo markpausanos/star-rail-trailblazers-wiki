@@ -1,0 +1,18 @@
+.content{
+    position: relative;
+    width: 100%;
+    min-height: 500px;
+    border-radius: 5px;
+    background-color: rgba(59, 58, 58, 0.75);
+    position: absolute;
+    top: 25%;
+    left: 10%;
+    width: 80%;
+}
+
+body{
+    background-image: url(../../public/CharacterListDashboardImg/background.png);
+    background-repeat: no-repeat;
+    background-size: cover; /* makes the image cover the entire background */
+
+}
