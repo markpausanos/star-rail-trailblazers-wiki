@@ -1,7 +1,4 @@
-﻿using System.IO;
-using trailblazers_api.DTOs.Elements;
-using trailblazers_api.DTOs.Paths;
-using trailblazers_api.DTOs.Relics;
+﻿using trailblazers_api.DTOs.Relics;
 using trailblazers_api.Models;
 using trailblazers_api.Repositories.Relics;
 
