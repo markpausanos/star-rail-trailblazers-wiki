@@ -1,13 +1,17 @@
 .content{
-    position: relative;
-    width: 100%;
-    min-height: 500px;
     border-radius: 5px;
     background-color: rgba(59, 58, 58, 0.75);
     position: absolute;
     top: 25%;
     left: 10%;
     width: 80%;
+    padding: 10px;
+    min-height: 500px;
+    margin-bottom: 200px;
+}
+
+.spacer{
+    height: 50px;
 }
 
 body{

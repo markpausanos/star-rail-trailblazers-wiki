@@ -7,8 +7,8 @@ function LightConePage() {
   return (
     <div>
         <ul className='headerbar'>
-          <li className='searchbar'> <Search text={'Search light cone'}/> </li>
-          <li> <FilterBox category={'Light Cone'}/> </li>
+          <li data-id = 'header' className='searchbar'> <Search text={'Search light cone'}/> </li>
+          <li data-id = 'header' > <FilterBox category={'Light Cone'}/> </li>
         </ul>
     </div>
   );
