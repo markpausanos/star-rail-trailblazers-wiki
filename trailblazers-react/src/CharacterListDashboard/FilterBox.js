@@ -1,18 +1,26 @@
-import React from 'react'
+import React, { useState } from 'react'
 import './FilterBox.css';
 import Filters from './Filters';
 
 function FilterBox(props) {
 
+    const [selectedFilter, setSelectedFilter] = useState('');
+
+    const handleFilterChange = (alt) => {
+        setSelectedFilter(selectedFilter => (selectedFilter === alt ? '' : alt));
+        props.onFilterChange(alt);
+    };
+
+
     const rarity = [
         {
             img: "CharacterListDashboardImg/rarity_4.png",
-            alt: "rare1",
+            alt: "4",
             filterId: 0
         },
         {
             img: "CharacterListDashboardImg/rarity_5.png",
-            alt: "rare2",
+            alt: "5",
             filterId: 1
         }
     ];
@@ -102,12 +110,11 @@ function FilterBox(props) {
         );
     }
 
-
   return (
     <div className='filterbox'>
         <ul data-id = 'filter' className='table'>
         
-            <Filters filter={rarity} />
+            <Filters filter={rarity} onFilterChange={handleFilterChange} selectedFilter={selectedFilter}/>
 
             {props.category === 'Character Page List' && addFilter()}
 

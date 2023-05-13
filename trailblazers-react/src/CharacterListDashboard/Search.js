@@ -7,7 +7,7 @@ import './Search.css';
 function Search(props) {
   return (
     <div>
-        <input type= "text" className='inpbox' placeholder={props.text}/>
+        <input type= "text" className='inpbox' placeholder={props.text} onChange={props.onSearchTermChange}/>
 
     </div>
   );

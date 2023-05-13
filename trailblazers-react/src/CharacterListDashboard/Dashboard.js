@@ -25,7 +25,9 @@ function Dashboard() {
           {activeItem === 'light cones' && <LightConePage />}
           {activeItem === 'relics' && <Relics />}
           {activeItem === 'ornaments' && <Ornaments />}
+          <div className='spacer' />
         </div>
+        
     </div>
   );
 }
