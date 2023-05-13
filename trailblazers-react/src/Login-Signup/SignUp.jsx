@@ -1,10 +1,13 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router";
+import "./Login.css";
 
 export const SignUp = (props) => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
-    
+    const navigate = useNavigate();
+
     const handleSubmit = (e) => {
         e.preventDefault();
         console.log(username, password, confirmPassword);
@@ -26,7 +29,10 @@ export const SignUp = (props) => {
                     <br />
                     <button className= "button-signin" type="submit">Sign In</button>
                 </form>
-                <p>Already have an account? <a href="/" onClick={() => props.onFormSwitch('login')}>Sign in</a>.</p>
+
+                <p>Already have an account? 
+                    <button className="link-button" onClick={() => navigate('/')}>Login</button>.
+                </p>
             </div>
         </div>
     )
