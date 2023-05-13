@@ -24,7 +24,7 @@ export const SignUp = (props) => {
                     <label htmlFor="confirmPassword">Confirm Password</label>
                     <input value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} type="password" placeholder="Confirm password" id="confirmPasswordid" name="confirmPassword" />
                     <br />
-                    <button type="submit">Sign In</button>
+                    <button className= "button-signin" type="submit">Sign In</button>
                 </form>
                 <p>Already have an account? <a href="/" onClick={() => props.onFormSwitch('login')}>Sign in</a>.</p>
             </div>
