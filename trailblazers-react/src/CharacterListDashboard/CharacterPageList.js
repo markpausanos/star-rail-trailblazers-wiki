@@ -1,26 +1,26 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 import './CharacterPageList.css';
 import Search from './Search';
 import FilterBox from './FilterBox';
+import CharacterDetailsPopup from './CharacterDetailsPopup';
 
-
-/**
- * Displays the content box for Character Page List
- * @returns renders the search bar, list of characters and filter
- */
 function CharacterPageList() {
-
   const [searchTerm, setSearchTerm] = useState('');
   const [rarity, setRarity] = useState('');
+  const [selectedCharacter, setSelectedCharacter] = useState(null);
+
+  const handleCharacterClick = (character) => {
+    setSelectedCharacter(character);
+  };
 
   const searchOnChangeHandler = (event) => {
     setSearchTerm(event.target.value);
   };
 
   const handleRarityChange = (alt) => {
-    if(rarity === alt){
+    if (rarity === alt) {
       setRarity('');
-    }else{
+    } else {
       setRarity(alt);
     }
   };
@@ -70,44 +70,60 @@ function CharacterPageList() {
     }
   ]
 
+  let filterRareChar = characters.filter((item) =>
+    item.rare.toString().includes(rarity.toString())
+  );
 
-  let filterRareChar = characters.filter(item =>
-    item.rare.toString()
-    .includes(rarity.toString()));
-
-  let searchedChar = filterRareChar.filter(item => 
-    item.name
-    .toLocaleLowerCase()
-    .includes(searchTerm.toLocaleLowerCase()));
-
+  let searchedChar = filterRareChar.filter((item) =>
+    item.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   return (
-    <div>
-      <ul className='headerbar'>
-          <li data-id = 'header' className='searchbar'> <Search text={'Search character'} onSearchTermChange={searchOnChangeHandler}/> </li>
-          <li data-id = 'header'> <FilterBox category={'Character Page List'} onFilterChange={handleRarityChange}/></li>
+    <div className="character-page-list">
+      <ul className="headerbar">
+        <li className="searchbar">
+          <Search
+            text="Search character"
+            onSearchTermChange={searchOnChangeHandler}
+          />
+        </li>
+        <li>
+          <FilterBox
+            category="Character Page List"
+            onFilterChange={handleRarityChange}
+          />
+        </li>
       </ul>
 
-      <div className='contents'>
-
-          {
-            searchedChar.map(char => {
-                return (
-                  <div key= {char.charId} className='character-portrait'>
-                      { char.rare === 4 ? 
-                          ( 
-                            <img className='character-portrait-rare4' src = {char.img} alt={char.name} ></img>
-                          ) : 
-                          (
-                            <img className='character-portrait-rare5' src = {char.img} alt={char.name} ></img>
-                          )
-                      }
-                      <p> {char.name} </p>
-                  </div>
-                );
-            })
-          }
+      <div className="contents">
+        {searchedChar.map((char) => (
+          <div
+            key={char.charId}
+            className="character-portrait"
+            onClick={() => handleCharacterClick(char)}
+          >
+            <img
+              className={
+                char.rare === 4
+                  ? 'character-portrait-rare4'
+                  : 'character-portrait-rare5'
+              }
+              src={char.img}
+              alt={char.name}
+            />
+            <p>{char.name}</p>
+          </div>
+        ))}
       </div>
+
+      {selectedCharacter && (
+        <div className="popup-container">
+          <CharacterDetailsPopup
+            character={selectedCharacter}
+            onClose={() => setSelectedCharacter(null)}
+          />
+        </div>
+      )}
     </div>
   );
 }
