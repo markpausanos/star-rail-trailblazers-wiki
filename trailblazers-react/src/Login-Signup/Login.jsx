@@ -21,7 +21,7 @@ export const Login = (props) => {
                     <label htmlFor="password">Password</label>
                     <input value ={password} onChange={(e) => setPassword(e.target.value)}type="password" placeholder="Enter password" id="passwordid" name="password" />
                     <br />
-                    <button type="submit">Login</button>
+                    <button className= "button-login" type="submit">Login</button>
                     <br />
                 </form>
                 <p>New to Trailblazers? <button className="link-button" onClick={() => props.onFormSwitch('signup')}>Create an account.</button></p>
