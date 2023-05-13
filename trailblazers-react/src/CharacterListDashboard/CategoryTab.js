@@ -7,7 +7,7 @@ import './CategoryTab.css';
  * the " data-id="nav" " is only used to give unique identification that it is a different <span> 
  * @returns renders the navigation tab
  */
-function NavigationTab(props) {
+function CategoryTab(props) {
 
   const activeNameLine = (item) => {
     return props.activeItem === item.toLowerCase() ? 'active' : null;
@@ -26,4 +26,4 @@ function NavigationTab(props) {
   );
 }
 
-export default NavigationTab;
+export default CategoryTab;
