@@ -3,5 +3,6 @@
     [Id] INT NOT NULL PRIMARY KEY IDENTITY(1,1),
     [Name] NVARCHAR(MAX) NULL,
     [Password] NVARCHAR(MAX) NULL,
+    [UserType] CHAR(1) NOT NULL DEFAULT 'U',
     [IsDeleted] BIT NOT NULL DEFAULT 0
-)
+);
