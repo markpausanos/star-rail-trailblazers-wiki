@@ -31,6 +31,8 @@ namespace trailblazers_api.Repositories.Users
         /// <returns>The user object with the specified name, or null if not found.</returns>
         Task<User?> GetUserByName(string name);
 
+        Task<bool> GetUserIsAdmin(string name);
+
         /// <summary>
         /// Updates a user in the database.
         /// </summary>

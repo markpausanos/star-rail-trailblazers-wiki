@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using trailblazers_api.Context;
@@ -21,14 +22,14 @@ using trailblazers_api.Utils;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
 builder.Services.AddControllers();
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-ConfigureServices(builder.Services);
+ConfigureServices(builder.Services, builder.Configuration);
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -38,14 +39,17 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 app.UseHttpsRedirection();
-app.UseAuthorization();
-app.MapControllers();
+
 app.UseAuthentication();
+app.UseAuthorization();
+
+app.MapControllers();
 app.Run();
 
-void ConfigureServices(IServiceCollection services)
+void ConfigureServices(IServiceCollection services, IConfiguration configuration)
 {
-    var configuration = builder.Configuration;
+    services.Configure<JwtSettings>(configuration.GetSection("JwtSettings"));
+    services.AddSingleton(cfg => cfg.GetRequiredService<IOptions<JwtSettings>>().Value);
     var jwtSettings = configuration.GetSection("JwtSettings").Get<JwtSettings>();
     services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         .AddJwtBearer(options =>
