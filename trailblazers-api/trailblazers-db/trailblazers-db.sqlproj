@@ -59,9 +59,12 @@
     <Folder Include="dbo" />
     <Folder Include="dbo\Stored Procedures" />
     <Folder Include="dbo\Tables" />
+    <Folder Include="dbo\Populator" />
   </ItemGroup>
   <ItemGroup>
     <None Include="dbo\Stored Procedures\spElement_DeleteElement.sql" />
+    <None Include="dbo\Populator\DbPopulator.sql" />
+    <None Include="dbo\Populator\Tester.sql" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="dbo\Stored Procedures\spLightcone_DeleteLightcone.sql" />
