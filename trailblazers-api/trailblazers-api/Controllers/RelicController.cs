@@ -140,7 +140,7 @@ namespace trailblazers_api.Controllers
         /// <response code="204">No content.</response>
         /// <response code="400">The Relic details are invalid.</response>
         /// <response code="500">An internal server error occurred.</response>
-        [HttpGet("{id}", Name = "GetRelicByName")]
+        [HttpGet("{name}", Name = "GetRelicByName")]
         [Produces("application/json")]
         [ProducesResponseType(typeof(RelicDto), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]

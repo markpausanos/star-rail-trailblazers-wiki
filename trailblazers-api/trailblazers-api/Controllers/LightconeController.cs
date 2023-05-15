@@ -8,6 +8,8 @@ using trailblazers_api.Services.Lightcones;
 
 namespace trailblazers_api.Controllers
 {
+    [Route("api/[controller]")]
+    [ApiController]
     public class LightconeController : ControllerBase
     {
         private readonly ILogger<LightconeController> _logger;

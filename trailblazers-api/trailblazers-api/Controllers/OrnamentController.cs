@@ -137,7 +137,7 @@ namespace trailblazers_api.Controllers
         /// <response code="204">No content.</response>
         /// <response code="400">The Ornament details are invalid.</response>
         /// <response code="500">An internal server error occurred.</response>
-        [HttpGet("{id}", Name = "GetOrnamentByName")]
+        [HttpGet("{name}", Name = "GetOrnamentByName")]
         [Produces("application/json")]
         [ProducesResponseType(typeof(OrnamentDto), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]

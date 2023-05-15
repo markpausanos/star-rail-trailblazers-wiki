@@ -4,7 +4,7 @@ using trailblazers_api.Repositories.Builds;
 
 namespace trailblazers_api.Services.Builds
 {
-    public class BuildService
+    public class BuildService : IBuildService
     {
         private readonly IBuildRepository _repository;
 

@@ -108,7 +108,7 @@ namespace trailblazers_api.Controllers
         /// <response code="204">No content.</response>
         /// <response code="400">Invalid request.</response>
         /// <response code="500">An internal server error occurred.</response>
-        [HttpGet(Name = "GetAllSkillsByTrailblazerId")]
+        [HttpGet("{trailblazerid}", Name = "GetAllSkillsByTrailblazerId")]
         [Produces("application/json")]
         [ProducesResponseType(typeof(IEnumerable<SkillDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]

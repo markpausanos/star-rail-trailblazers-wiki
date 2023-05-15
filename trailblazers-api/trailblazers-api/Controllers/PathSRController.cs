@@ -136,7 +136,7 @@ namespace trailblazers_api.Controllers
         /// <response code="204">No content.</response>
         /// <response code="400">The Path details are invalid.</response>
         /// <response code="500">An internal server error occurred.</response>
-        [HttpGet("{id}", Name = "GetPathByName")]
+        [HttpGet("{name}", Name = "GetPathByName")]
         [Produces("application/json")]
         [ProducesResponseType(typeof(PathSRDto), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
