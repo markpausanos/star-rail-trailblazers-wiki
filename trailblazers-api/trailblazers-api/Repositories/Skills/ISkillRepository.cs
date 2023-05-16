@@ -24,6 +24,8 @@ namespace trailblazers_api.Repositories.Skills
         /// <returns>An IEnumerable of Skill objects or an empty collection if no Skills are found.</returns>
         Task<IEnumerable<Skill>> GetSkillsByTrailblazerId(int trailblazerId);
 
+        Task<Skill?> GetSkillById(int id);
+
         /// <summary>
         /// Updates a Skill in the database.
         /// </summary>

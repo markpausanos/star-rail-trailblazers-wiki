@@ -89,6 +89,40 @@ namespace trailblazers_api.Repositories.Skills
             }
         }
 
+        public async Task<Skill?> GetSkillById(int id)
+        {
+            var sql = @"SELECT s.*, t.*
+                FROM Skill s
+                LEFT JOIN Trailblazer t ON s.TrailblazerId = t.Id
+                WHERE s.IsDeleted = 0 AND s.Id = @Id;";
+
+            using (var con = _context.CreateConnection())
+            {
+                var skillDict = new Dictionary<int, Skill>();
+                var skills = await con.QueryAsync<Skill, Trailblazer, Skill>(
+                    sql,
+                    (s, t) =>
+                    {
+                        if (!skillDict.TryGetValue(s.Id, out var skill))
+                        {
+                            skill = s;
+                            skill.Trailblazer = t;
+                            skillDict.Add(s.Id, skill);
+                        }
+                        else if (skill.Trailblazer == null)
+                        {
+                            skill.Trailblazer = t;
+                        }
+
+                        return skill;
+                    },
+                    new { id },
+                    splitOn: "Id");
+
+                return skills.FirstOrDefault();
+            }
+        }
+
 
         public async Task<Skill?> GetSkillByName(string name)
         {
