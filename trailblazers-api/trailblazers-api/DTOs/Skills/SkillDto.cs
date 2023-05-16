@@ -1,4 +1,6 @@
-﻿namespace trailblazers_api.DTOs.Skills
+﻿using trailblazers_api.Dtos.Trailblazers;
+
+namespace trailblazers_api.DTOs.Skills
 {
     /// <summary>
     /// Skill DTO class
@@ -38,6 +40,6 @@
         /// <summary>
         /// Id of Trailblazer of the Skill
         /// </summary>
-        public int TrailblazerId { get; set; }
+        public TrailblazerShowDto? Trailblazer{ get; set; }
     }
 }
