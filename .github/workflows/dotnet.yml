@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: trailblazers-react
+        working-directory: trailblazers-api/trailblazers-api
     steps:
     - uses: actions/checkout@v3
     - name: Setup .NET
