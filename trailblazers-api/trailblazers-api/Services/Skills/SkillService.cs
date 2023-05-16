@@ -34,66 +34,30 @@ namespace trailblazers_api.Services.Skills
         public async Task<IEnumerable<SkillDto>> GetAllSkills()
         {
             var skills = await _skillRepository.GetAllSkills();
-            if (skills == null) return null;
 
-            return skills.Select(skill => new SkillDto
-            {
-                Id = skill.Id,
-                Title = skill.Title,
-                Name = skill.Name,
-                Description = skill.Description,
-                Image = skill.Image,
-                Type = skill.Type,
-            });
+            return skills.Select(skill => _mapper.Map<SkillDto>(skill));
         }
 
         public async Task<IEnumerable<SkillDto>> GetSkillsByTrailblazerId(int trailblazerId)
         {
             var skills = await _skillRepository.GetSkillsByTrailblazerId(trailblazerId);
-            if (skills == null) return null;
 
-            return skills.Select(skill => new SkillDto
-            {
-                Id = skill.Id,
-                Title = skill.Title,
-                Name = skill.Name,
-                Description = skill.Description,
-                Image = skill.Image,
-                Type = skill.Type,
-            });
+            return skills.Select(skill => _mapper.Map<SkillDto>(skill));
         }
 
-        public async Task<SkillDto> GetSkillById(int id)
+        public async Task<SkillDto?> GetSkillById(int id)
         {
-            var skills = await _skillRepository.GetAllSkills();
-            if (skills == null) return null;
-            var skill = skills.FirstOrDefault(x => x.Id == id);
-            if (skill == null) return null;
+            var skill = await _skillRepository.GetSkillById(id);
 
-            return new SkillDto
-            {
-                Id = skill.Id,
-                Title = skill.Title,
-                Name = skill.Name,
-                Description = skill.Description,
-                Image = skill.Image,
-                Type = skill.Type,
-            };
+            return skill == null ? null : _mapper.Map<SkillDto>(skill);
         }
 
-        public async Task<bool> UpdateSkill(SkillUpdateDto skill)
+        public async Task<bool> UpdateSkill(int id, SkillUpdateDto updatedskill)
         {
-            var skillModel = new Skill
-            {
-                Id = skill.Id,
-                Title = skill.Title,
-                Name = skill.Name,
-                Description = skill.Description,
-                Image = skill.Image,
-                Type = skill.Type,
-                // Trailblazer = skill.TrailblazerId // Mapping needed probably
-            };
-            return await _skillRepository.UpdateSkill(skillModel);
+            var skillToUpdate = _mapper.Map<Skill>(updatedskill);
+            skillToUpdate.Id = id;
+
+            return await _skillRepository.UpdateSkill(id, skillToUpdate);
         }
 
         public async Task<bool> DeleteSkill(int id)
