@@ -113,31 +113,19 @@ namespace trailblazers_api.Repositories.Skills
                         {
                             skill.Trailblazer = t;
                         }
-
                         return skill;
                     },
-                    new { id },
-                    splitOn: "Id");
+                new { id },
+                splitOn: "Id");
 
                 return skills.FirstOrDefault();
             }
         }
 
-
-        public async Task<Skill?> GetSkillByName(string name)
-        {
-            var sql = "SELECT * FROM Skill WHERE Name = @Name AND IsDeleted = 0;";
-
-            using (var con = _context.CreateConnection())
-            {
-                return await con.QuerySingleOrDefaultAsync<Skill>(sql, new { name });
-            }
-        }
-
-        public async Task<bool> UpdateSkill(Skill skill)
+        public async Task<bool> UpdateSkill(int id, Skill skill)
         {
             var sql = "UPDATE Skill SET Title = @Title, Name = @Name, Description = @Description, " +
-                      "Image = @Image, Type = @Type, TrailblazerId = @TrailblazerId WHERE Id = @Id;";
+                      "Image = @Image WHERE Id = @Id;";
 
             using (var con = _context.CreateConnection())
             {
@@ -147,9 +135,7 @@ namespace trailblazers_api.Repositories.Skills
                     skill.Name,
                     skill.Description,
                     skill.Image,
-                    skill.Type,
-                    TrailblazerId = skill.Trailblazer?.Id,
-                    skill.Id
+                    id
                 }) > 0;
             }
         }

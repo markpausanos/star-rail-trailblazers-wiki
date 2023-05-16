@@ -5,43 +5,45 @@ namespace trailblazers_api.Repositories.Skills
     public interface ISkillRepository
     {
         /// <summary>
-        /// Creates a new Skill in the database.
+        /// Creates a new skill in the database.
         /// </summary>
-        /// <param name="skill">The new Skill to create.</param>
-        /// <returns>The ID of the newly created Skill.</returns>
+        /// <param name="skill">The new skill to create.</param>
+        /// <returns>The ID of the newly created skill.</returns>
         Task<int> CreateSkill(Skill skill);
 
         /// <summary>
-        /// Gets all Skills in the database.
+        /// Gets all skills in the database.
         /// </summary>
-        /// <returns>An enumerable collection of Skills.</returns>
+        /// <returns>An enumerable collection of skills.</returns>
         Task<IEnumerable<Skill>> GetAllSkills();
 
         /// <summary>
-        /// Gets all Skills in the database associated with a Trailblazer.
+        /// Gets all skills in the database associated with a trailblazer.
         /// </summary>
-        /// <param name="trailblazerId">The ID of the Trailblazer whose Skills to retrieve.</param>
-        /// <returns>An IEnumerable of Skill objects or an empty collection if no Skills are found.</returns>
+        /// <param name="trailblazerId">The ID of the trailblazer whose skills to retrieve.</param>
+        /// <returns>An enumerable collection of skill objects or an empty collection if no skills are found.</returns>
         Task<IEnumerable<Skill>> GetSkillsByTrailblazerId(int trailblazerId);
 
+        /// <summary>
+        /// Gets a skill in the database with the provided ID.
+        /// </summary>
+        /// <param name="id">The ID of the skill.</param>
+        /// <returns>The retrieved skill.</returns>
         Task<Skill?> GetSkillById(int id);
 
         /// <summary>
-        /// Updates a Skill in the database.
+        /// Updates a skill in the database.
         /// </summary>
-        /// <param name="skill">The updated Skill object.</param>
-        /// <returns>
-        /// true if the update was successful; otherwise, false.
-        /// </returns>
-        Task<bool> UpdateSkill(Skill skill);
+        /// <param name="id">The ID of the skill to update.</param>
+        /// <param name="skill">The updated skill object.</param>
+        /// <returns>true if the update was successful; otherwise, false.</returns>
+        Task<bool> UpdateSkill(int id, Skill skill);
 
         /// <summary>
-        /// Deletes a Skill from the database.
+        /// Deletes a skill from the database.
         /// </summary>
-        /// <param name="id">The ID of the Skill to delete.</param>
-        /// <returns>
-        /// true if the delete was successful; otherwise, false.
-        /// </returns>
+        /// <param name="id">The ID of the skill to delete.</param>
+        /// <returns>true if the delete was successful; otherwise, false.</returns>
         Task<bool> DeleteSkill(int id);
     }
 }
