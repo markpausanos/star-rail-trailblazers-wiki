@@ -17,6 +17,7 @@ namespace trailblazers_api.Mapper
                     Id = src.Trailblazer!.Id,
                     Name = src.Trailblazer.Name
                 }));
+            CreateMap<SkillUpdateDto, Skill>();
         }
     }
 }
