@@ -3,6 +3,7 @@ using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using trailblazers_api.Context;
+using trailblazers_api.Models;
 using trailblazers_api.Repositories.Builds;
 using trailblazers_api.Repositories.Eidolons;
 using trailblazers_api.Repositories.Elements;
@@ -16,7 +17,15 @@ using trailblazers_api.Repositories.Teams;
 using trailblazers_api.Repositories.Traces;
 using trailblazers_api.Repositories.Trailblazers;
 using trailblazers_api.Repositories.Users;
+using trailblazers_api.Services.Builds;
+using trailblazers_api.Services.Eidolons;
 using trailblazers_api.Services.Elements;
+using trailblazers_api.Services.Lightcones;
+using trailblazers_api.Services.Ornaments;
+using trailblazers_api.Services.Paths;
+using trailblazers_api.Services.Relics;
+using trailblazers_api.Services.Skills;
+using trailblazers_api.Services.Users;
 using trailblazers_api.Utils;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -69,6 +78,14 @@ void ConfigureServices(IServiceCollection services, IConfiguration configuration
     services.AddTransient<DapperContext>();
 
     services.AddScoped<IElementService, ElementService>();
+    services.AddScoped<IBuildService, BuildService>();
+    services.AddScoped<IEidolonService, EidolonService>();
+    services.AddScoped<ILightconeService, LightconeService>();
+    services.AddScoped<IOrnamentService, OrnamentService>();
+    services.AddScoped<IPathSRService, PathSRService>();
+    services.AddScoped<IRelicService, RelicService>();
+    services.AddScoped<ISkillService, SkillService>();
+    services.AddScoped<IUserService, UserService>();
 
     services.AddScoped<IBuildRepository, BuildRepository>();
     services.AddScoped<IEidolonRepository, EidolonRepository>();
