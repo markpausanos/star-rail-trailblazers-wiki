@@ -39,7 +39,7 @@ namespace trailblazers_api.Controllers
 
                 if (newSkill == null)
                 {
-                    return BadRequest("Trailblazer does not exist.");
+                    return BadRequest("Trailblazer does not exist or Skill Type already exists.");
                 }
 
                 return CreatedAtRoute("GetSkillById", new { id = newSkill.Id }, newSkill);
