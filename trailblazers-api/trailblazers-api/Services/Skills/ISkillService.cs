@@ -9,7 +9,7 @@ namespace trailblazers_api.Services.Skills
         /// </summary>
         /// <param name="skill">The new Skill to create.</param>
         /// <returns>The ID of the newly created Skill.</returns>
-        Task<int> CreateSkill(SkillCreationDto skill);
+        Task<SkillDto?> CreateSkill(SkillCreationDto skill);
 
         /// <summary>
         /// Gets all Skills in the database.

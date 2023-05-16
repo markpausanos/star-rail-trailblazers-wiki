@@ -1,4 +1,5 @@
-﻿using trailblazers_api.DTOs.Skills;
+﻿using AutoMapper;
+using trailblazers_api.DTOs.Skills;
 using trailblazers_api.Models;
 using trailblazers_api.Repositories.Skills;
 
@@ -6,31 +7,33 @@ namespace trailblazers_api.Services.Skills
 {
     public class SkillService : ISkillService
     {
-        private readonly ISkillRepository _repository;
+        private readonly ISkillRepository _skillRepository;
+        private readonly IMapper _mapper;
 
-        public SkillService(ISkillRepository repository)
+        public SkillService(ISkillRepository repository, IMapper mapper)
         {
-            _repository = repository;
+            _skillRepository = repository;
+            _mapper = mapper;
         }
 
-        public async Task<int> CreateSkill(SkillCreationDto skill)
+        public async Task<SkillDto?> CreateSkill(SkillCreationDto newSkill)
         {
-            var skillModel = new Skill
-            {
-                Title = skill.Title,
-                Name = skill.Name,
-                Description = skill.Description,
-                Image = skill.Image,
-                Type = skill.Type,
-                // Trailblazer = skill.TrailblazerId // Mapping needed probably
-            };
+            var skillsByTrailblazer = await _skillRepository.GetSkillsByTrailblazerId(newSkill.TrailblazerId);
 
-            return skillModel.Id = await _repository.CreateSkill(skillModel);
+            if (skillsByTrailblazer.Select(x => x.Type).Contains(newSkill.Type))
+            {
+                return null;
+            }
+
+            var skillToCreate = _mapper.Map<Skill>(newSkill);
+
+            var newlyCreatedSkill = await _skillRepository.GetSkillById(await _skillRepository.CreateSkill(skillToCreate));
+            return _mapper.Map<SkillDto>(newlyCreatedSkill);
         }
 
         public async Task<IEnumerable<SkillDto>> GetAllSkills()
         {
-            var skills = await _repository.GetAllSkills();
+            var skills = await _skillRepository.GetAllSkills();
             if (skills == null) return null;
 
             return skills.Select(skill => new SkillDto
@@ -41,13 +44,12 @@ namespace trailblazers_api.Services.Skills
                 Description = skill.Description,
                 Image = skill.Image,
                 Type = skill.Type,
-                TrailblazerId = skill.Trailblazer.Id
             });
         }
 
         public async Task<IEnumerable<SkillDto>> GetSkillsByTrailblazerId(int trailblazerId)
         {
-            var skills = await _repository.GetSkillsByTrailblazerId(trailblazerId);
+            var skills = await _skillRepository.GetSkillsByTrailblazerId(trailblazerId);
             if (skills == null) return null;
 
             return skills.Select(skill => new SkillDto
@@ -58,13 +60,12 @@ namespace trailblazers_api.Services.Skills
                 Description = skill.Description,
                 Image = skill.Image,
                 Type = skill.Type,
-                TrailblazerId = skill.Trailblazer.Id
             });
         }
 
         public async Task<SkillDto> GetSkillById(int id)
         {
-            var skills = await _repository.GetAllSkills();
+            var skills = await _skillRepository.GetAllSkills();
             if (skills == null) return null;
             var skill = skills.FirstOrDefault(x => x.Id == id);
             if (skill == null) return null;
@@ -77,7 +78,6 @@ namespace trailblazers_api.Services.Skills
                 Description = skill.Description,
                 Image = skill.Image,
                 Type = skill.Type,
-                TrailblazerId = skill.Trailblazer.Id
             };
         }
 
@@ -93,12 +93,12 @@ namespace trailblazers_api.Services.Skills
                 Type = skill.Type,
                 // Trailblazer = skill.TrailblazerId // Mapping needed probably
             };
-            return await _repository.UpdateSkill(skillModel);
+            return await _skillRepository.UpdateSkill(skillModel);
         }
 
         public async Task<bool> DeleteSkill(int id)
         {
-            return await _repository.DeleteSkill(id);
+            return await _skillRepository.DeleteSkill(id);
         }
     }
 }
