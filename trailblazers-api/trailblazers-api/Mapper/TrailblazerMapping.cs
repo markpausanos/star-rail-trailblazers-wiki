@@ -1,0 +1,14 @@
+﻿using AutoMapper;
+using trailblazers_api.Dtos.Trailblazers;
+using trailblazers_api.Models;
+
+namespace trailblazers_api.Mapper
+{
+    public class TrailblazerMapping : Profile
+    {
+        public TrailblazerMapping()
+        {
+            CreateMap<Trailblazer, TrailblazerShowDto>();
+        }
+    }
+}
