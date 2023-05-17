@@ -1,0 +1,36 @@
+.menu{
+    margin: 30px;
+  }
+  .bar{
+      display: flex;
+      margin: 5%;
+      margin-bottom: 10px;
+    }
+  
+  .tsChoice{
+      margin: 30px;
+      margin-bottom: 0%;
+      cursor: pointer;
+  }
+  .my-hr {
+      background-color: white;
+      height: 1px;
+      margin-left: 5%;
+      margin-right: 5%;
+      margin-bottom: 10px;
+      color: white;
+    }
+  
+    .baseBox{
+      gap: 20px;
+      display: flex;
+      background-color: rgba(59, 58, 58, 0.8);
+      width: 1350px;
+      height: 500px;
+      mix-blend-mode: normal;
+      border-radius: 5px;
+      gap: 0px;
+    }
+    .baseBox ChooseCharacter {
+      margin: 1px;
+    }
