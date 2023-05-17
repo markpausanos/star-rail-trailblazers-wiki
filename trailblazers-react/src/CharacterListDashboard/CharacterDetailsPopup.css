@@ -7,6 +7,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    background-color: rgba(59, 58, 58, 0.75);
 }
   
 .character-details-popup .popup-overlay {
@@ -15,7 +16,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.8);
+    background-color: rgba(59, 58, 58, 0.75);
     z-index: 1;
     display: flex;
     align-items: center;
@@ -28,7 +29,7 @@
     padding: 20px;
     max-width: 400px;
     text-align: center;
-    color: white;
+    color: rgba(59, 58, 58, 0.75);
 }
   
 .character-details-popup .popup-content img {
@@ -52,7 +53,7 @@
 .character-details-popup .popup-content button {
     padding: 8px 16px;
     background-color: #4caf50;
-    color: white;
+    color: rgb(255, 255, 255);
     border: none;
     border-radius: 4px;
     cursor: pointer;
