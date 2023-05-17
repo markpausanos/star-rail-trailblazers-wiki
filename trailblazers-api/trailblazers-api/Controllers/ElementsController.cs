@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
-using trailblazers_api.Models;
 using trailblazers_api.DTOs.Elements;
 using trailblazers_api.Services.Elements;
 
@@ -8,12 +7,12 @@ namespace trailblazers_api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ElementController : ControllerBase
+    public class ElementsController : ControllerBase
     {
-        private readonly ILogger<ElementController> _logger;
+        private readonly ILogger<ElementsController> _logger;
         private readonly IElementService _service;
 
-        public ElementController (ILogger<ElementController> logger, IElementService service)
+        public ElementsController (ILogger<ElementsController> logger, IElementService service)
         {
             _logger = logger;
             _service = service;

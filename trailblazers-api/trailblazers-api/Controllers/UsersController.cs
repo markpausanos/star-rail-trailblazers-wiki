@@ -6,12 +6,12 @@ namespace trailblazers_api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UserController : ControllerBase
+    public class UsersController : ControllerBase
     {
         private readonly ILogger<IUserService> _logger;
         private readonly IUserService _userService;
 
-        public UserController(ILogger<IUserService> logger, IUserService userService)
+        public UsersController(ILogger<IUserService> logger, IUserService userService)
         {
             _logger = logger;
             _userService = userService;
