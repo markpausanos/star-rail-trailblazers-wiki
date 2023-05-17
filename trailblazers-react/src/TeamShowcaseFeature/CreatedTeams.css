@@ -1,0 +1,8 @@
+.teams{
+    display: flex;
+    position: absolute;
+    margin: 10px;
+    font-size: 50px;
+    width: 1320px;
+    height: 470px;
+}
