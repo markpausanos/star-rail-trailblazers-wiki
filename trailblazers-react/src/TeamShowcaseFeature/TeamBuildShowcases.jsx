@@ -1,9 +1,10 @@
 import React from 'react';
 import './TeamBuildShowcases.css';
+import UserBuildPost from './UserBuildPost';
 
 function TeamBuildShowcases() {
     return (
-        <div></div>
+        <div className='teams'><UserBuildPost/></div>
     );
   }
 
