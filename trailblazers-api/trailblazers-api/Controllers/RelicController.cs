@@ -1,7 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
-using System.IO;
-using trailblazers_api.DTOs.Paths;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using trailblazers_api.DTOs.Relics;
 using trailblazers_api.Services.Relics;
 
@@ -12,116 +10,103 @@ namespace trailblazers_api.Controllers
     public class RelicController : ControllerBase
     {
         private readonly ILogger<RelicController> _logger;
-        private readonly IRelicService _service;
+        private readonly IRelicService _relicService;
 
-        public RelicController(ILogger<RelicController> logger, IRelicService service)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RelicController"/> class.
+        /// </summary>
+        /// <param name="logger">The logger instance.</param>
+        /// <param name="relicService">The relic service.</param>
+        public RelicController(ILogger<RelicController> logger, IRelicService relicService)
         {
             _logger = logger;
-            _service = service;
+            _relicService = relicService;
         }
 
         /// <summary>
-        /// Creates a new Relic in the database.
+        /// Creates a new relic.
         /// </summary>
-        /// <param name="relic">The new Relic to be created.</param>
-        /// <returns>The ID of the newly created Relic as an integer.</returns>
-        /// <remarks>
-        /// Sample request:
-        ///
-        /// POST /api/Relics
-        /// {
-        /// "name": "Relic name",
-        /// "descriptionone": "relic desc 1",
-        /// "descriptiontwo": "relic desc 2",
-        /// "image": "https://example.com/relic1.png"
-        /// }
-        ///
-        /// </remarks>
-        /// <response code="201">The Relic was successfully created.</response>
-        /// <response code="204">No content.</response>
-        /// <response code="400">Invalid request.</response>
-        /// <response code="500">An internal server error occurred.</response>
+        /// <param name="relic">The relic creation DTO.</param>
+        /// <returns>The created relic.</returns>
         [HttpPost(Name = "CreateRelic")]
         [Consumes("application/json")]
         [Produces("application/json")]
-        [ProducesResponseType(typeof(int), StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [Authorize(Roles = "A")]
+        [ProducesResponseType(typeof(RelicDto), StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> CreateRelic(RelicCreationDto relic)
         {
             try
             {
-                var newRelicId = await _service.CreateRelic(relic);
-                var newRelic = await _service.GetRelicById(newRelicId);
+                var newRelic = await _relicService.CreateRelic(relic);
+
+                if (newRelic == null)
+                {
+                    return BadRequest("Relic cannot be created.");
+                }
 
                 return CreatedAtRoute("GetRelicById", new { id = newRelic.Id }, newRelic);
             }
             catch (Exception e)
             {
                 _logger.LogError(e.Message);
-                return StatusCode(500, "An error occurred while creating the Relic.");
+                return StatusCode(500, "An error occurred while creating the relic.");
             }
         }
 
         /// <summary>
-        /// Gets all Relics in the database.
+        /// Gets all relics.
         /// </summary>
-        /// <returns>An IEnumerable of Relic objects.</returns>
-        /// <response code="200">The Relics were successfully retrieved.</response>
-        /// <response code="204">No content.</response>
-        /// <response code="400">Invalid request.</response>
-        /// <response code="500">An internal server error occurred.</response>
+        /// <param name="name">Optional. The name of the relic to filter.</param>
+        /// <returns>The list of relics.</returns>
         [HttpGet(Name = "GetAllRelics")]
         [Produces("application/json")]
         [ProducesResponseType(typeof(IEnumerable<RelicDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> GetAllRelics()
+        public async Task<IActionResult> GetAllRelics([FromQuery] string? name)
         {
             try
             {
-                var relics = await _service.GetAllRelics();
+                var relics = string.IsNullOrEmpty(name) ? await _relicService.GetAllRelics() :
+                    new List<RelicDto> { await _relicService.GetRelicByName(name) };
 
-                if (relics.IsNullOrEmpty())
+                if (relics.Count() == 0)
                 {
                     return NoContent();
                 }
+
                 return Ok(relics);
             }
             catch (Exception e)
             {
                 _logger.LogError(e.Message);
-                return StatusCode(500, "An error occurred while retrieving the Relic.");
+                return StatusCode(500, "An error occurred while retrieving the Relics.");
             }
         }
 
         /// <summary>
-        /// Gets a Relic from the database by ID.
+        /// Gets a relic by ID.
         /// </summary>
-        /// <param name="id">The ID of the Relic to get.</param>
-        /// <returns>A nullable Relic object.</returns>
-        /// <response code="200">The Relic was successfully retrieved.</response>
-        /// <response code="204">No content.</response>
-        /// <response code="400">The Relic details are invalid.</response>
-        /// <response code="500">An internal server error occurred.</response>
+        /// <param name="id">The ID of the relic.</param>
+        /// <returns>The retrieved relic.</returns
         [HttpGet("{id}", Name = "GetRelicById")]
         [Produces("application/json")]
         [ProducesResponseType(typeof(RelicDto), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetRelicById(int id)
         {
             try
             {
-                var relic = await _service.GetRelicById(id);
+                var relic = await _relicService.GetRelicById(id);
 
                 if (relic == null)
                 {
                     return NoContent();
                 }
+
                 return Ok(relic);
             }
             catch (Exception e)
@@ -132,81 +117,41 @@ namespace trailblazers_api.Controllers
         }
 
         /// <summary>
-        /// Gets a Relic from the database by name.
+        /// Updates a relic.
         /// </summary>
-        /// <param name="name">The name of the Relic to get.</param>
-        /// <returns>A nullable Relic object.</returns>
-        /// <response code="200">The Relic was successfully retrieved.</response>
-        /// <response code="204">No content.</response>
-        /// <response code="400">The Relic details are invalid.</response>
-        /// <response code="500">An internal server error occurred.</response>
-        [HttpGet("{name}", Name = "GetRelicByName")]
-        [Produces("application/json")]
-        [ProducesResponseType(typeof(RelicDto), StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> GetRelicByName(string name)
-        {
-            try
-            {
-                var relic = await _service.GetRelicByName(name);
-
-                if (relic == null)
-                {
-                    return NoContent();
-                }
-                return Ok(relic);
-            }
-            catch (Exception e)
-            {
-                _logger.LogError(e.Message);
-                return StatusCode(500, "An error occurred while retrieving the Relic.");
-            }
-        }
-
-        /// <summary>
-        /// Updates a Relic in the database.
-        /// </summary>
-        /// <param name="relic">The updated Relic object.</param>
-        /// <returns>
-        ///     true: If the update was successful.
-        ///     false: If the update was unsuccessful.
-        /// </returns>
-        /// <remarks>
-        /// Sample request:
-        ///
-        /// PUT /api/Relics
-        /// {
-        /// "id": 2
-        /// "name": "Relic name",
-        /// "descriptionone": "relic desc 1",
-        /// "descriptiontwo": "relic desc 2",
-        /// "image": "https://example.com/relic1.png"
-        /// }
-        /// </remarks>
-        /// <response code="200">The Relic was successfully updated.</response>
-        /// <response code="404">The Relic was not found.</response>
-        /// <response code="500">An internal server error occurred.</response>
+        /// <param name="id">The ID of the relic.</param>
+        /// <param name="newRelic">The updated relic DTO.</param>
+        /// <returns>True if the relic was updated successfully, otherwise false.</returns>
         [HttpPut(Name = "UpdateRelic")]
         [Consumes("application/json")]
         [Produces("application/json")]
         [ProducesResponseType(typeof(bool), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> UpdateRelic(RelicUpdateDto updateRelic)
+        public async Task<IActionResult> UpdateRelic(int id, [FromBody] RelicUpdateDto newRelic)
         {
             try
             {
-                int id = updateRelic.Id;
-                var relic = await _service.GetRelicById(id);
+                var relic = await _relicService.GetRelicById(id);
+
                 if (relic == null)
                 {
                     return NotFound($"Relic with ID = {id} does not exist.");
                 }
 
-                var updatedRelic = await _service.UpdateRelic(updateRelic);
-                return Ok(updatedRelic);
+                newRelic.Name ??= relic.Name;
+                newRelic.DescriptionOne ??= relic.DescriptionOne;
+                newRelic.DescriptionTwo ??= relic.DescriptionTwo;
+                newRelic.Image ??= relic.Image;
+
+                if (await _relicService.UpdateRelic(id, newRelic))
+                {
+                    var updatedRelic = await _relicService.GetRelicById(id);
+
+                    return Ok(updatedRelic);
+                }
+
+                return BadRequest();
             }
             catch (Exception e)
             {
@@ -216,17 +161,10 @@ namespace trailblazers_api.Controllers
         }
 
         /// <summary>
-        /// Soft deletes a Relic in the database.
+        /// Deletes a relic by ID.
         /// </summary>
-        /// <param name="id">The ID of the Relic to be deleted.</param>
-        /// <returns>
-        ///     true: If the soft delete was successful.
-        ///     false: If the soft delete was unsuccessful.
-        /// </returns>
-        /// <response code="200">The Relic was successfully deleted.</response>
-        /// <response code="400">Invalid request.</response>
-        /// <response code="404">The Relic was not found.</response>
-        /// <response code="500">An internal server error occurred.</response>
+        /// <param name="id">The ID of the relic to delete.</param>
+        /// <returns>True if the relic was deleted successfully, otherwise false.</returns>
         [HttpDelete("{id}", Name = "DeleteRelic")]
         [Produces("application/json")]
         [ProducesResponseType(typeof(bool), StatusCodes.Status200OK)]
@@ -237,18 +175,12 @@ namespace trailblazers_api.Controllers
         {
             try
             {
-                var relic = await _service.GetRelicById(id);
-                if (relic == null)
+                if (await _relicService.DeleteRelic(id))
                 {
-                    return NotFound($"Relic with ID = {id} not found.");
+                    return Ok($"Successfully deleted relic with ID {id}.");
                 }
 
-                var isDeleted = await _service.DeleteRelic(id);
-                if (isDeleted)
-                {
-                    return Ok("Successfully deleted.");
-                }
-                return BadRequest($"Relic with ID = {id} could not be deleted.");
+                return BadRequest();
             }
             catch (Exception e)
             {
