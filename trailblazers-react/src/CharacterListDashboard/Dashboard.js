@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from "react-router";
 import './Dashboard.css';
 import CategoryTab from './CategoryTab';
 import CharacterPageList from './CharacterPageList';
@@ -11,6 +12,7 @@ import Ornaments from './Ornaments';
  * @returns Renders the overall Content for the Character List Page along with the navigation tab
  */
 function Dashboard() {
+  const navigate = useNavigate();
   const [activeItem, setActiveItem] = useState('characters');
 
   const handleClick = (event) => {
@@ -27,7 +29,7 @@ function Dashboard() {
           {activeItem === 'ornaments' && <Ornaments />}
           <div className='spacer' />
         </div>
-        
+        <button className="link-button" onClick={() => navigate('admindashboard')}>Button to Admin Pages, delet this</button>
     </div>
   );
 }
