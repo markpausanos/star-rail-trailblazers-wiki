@@ -29,7 +29,7 @@ function Dashboard() {
           {activeItem === 'ornaments' && <Ornaments />}
           <div className='spacer' />
         </div>
-        <button className="link-button" onClick={() => navigate('admindashboard')}>Button to Admin Pages, delet this</button>
+        <button className="link-button" onClick={() => navigate('/admindashboard')}>Button to Admin Pages, delet this</button>
     </div>
   );
 }

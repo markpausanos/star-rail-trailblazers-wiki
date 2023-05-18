@@ -6,6 +6,7 @@ import CharacterCreatePage from './CharacterCreatePage'
 import LightConeCreatePage from './LightConeCreatePage'
 import RelicCreatePage from './RelicCreatePage'
 import OrnamentCreatePage from './OrnamentCreatePage'
+import CharacterPageList from "../CharacterListDashboard/CharacterPageList";
 
 function AdminDashboard() {
     const [activeItem, setActiveItem] = useState('characters');
@@ -21,17 +22,13 @@ function AdminDashboard() {
 
     return (
         <div>
-            <div className="tabs">
-                <ActionTab OnClickHandle={handleCreateUpdate} isUpdating={isUpdating}/>
-                <CategoryTab OnClickHandle={handleClick} activeItem={activeItem} isUpdating={isUpdating}/>
-            </div>
+            <ActionTab OnClickHandle={handleCreateUpdate} isUpdating={isUpdating}/>
+            <CategoryTab OnClickHandle={handleClick} activeItem={activeItem}/>
             <div className='content'>
-                          {/*
-            {activeItem === 'characters' && isUpdating === false && <CharacterCreatePage />}
+            {activeItem === 'characters' && isUpdating === false && <CharacterPageList />}
             {activeItem === 'light cones' && isUpdating === false && <LightConeCreatePage />}
             {activeItem === 'relics' && isUpdating === false && <RelicCreatePage />}
             {activeItem === 'ornaments' && isUpdating === false && <OrnamentCreatePage />}   
-                      */}
             <div className='spacer' />
             </div>
         </div>

@@ -1,5 +1,5 @@
 import React from 'react';
-import './CategoryTab.css';
+import './ActionTab.css';
 
 function ActionTab(props) {
 
@@ -8,7 +8,7 @@ function ActionTab(props) {
   };
 
   return (
-    <div className='CategoryTab'>
+    <div className='ActionTab'>
       <ul className='list'>
         <li data-id="nav" onClick={props.OnClickHandle} className={activeNameLine('Create')}>Create</li>
         <li data-id="nav" onClick={props.OnClickHandle} className={activeNameLine('Update')}>Update</li>  
