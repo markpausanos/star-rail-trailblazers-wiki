@@ -33,28 +33,3 @@ li[data-id = 'header']{
     justify-content: center;
     border-radius: 7px;
 }
-
-.character-portrait{
-    color: rgb(220, 214, 214);
-    font-family: "Open Sans", Arial, sans-serif;
-    text-align: center;
-    transition: transform 0.3s, filter 0.3s;
-}
-
-.character-portrait:hover{
-    transform: scale(1.05);
-    cursor: pointer;
-    filter: brightness(1.05);
-}
-
-
-
-.character-portrait-rare4{
-    background-image: linear-gradient(to top, #6f4cb0, #441757);
-    border-radius: 3px;
-}
-
-.character-portrait-rare5{
-    background-image: linear-gradient(to top, #cfb41d, #6a5f3e);
-    border-radius: 3px;
-}
