@@ -1,30 +1,30 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 import './CharacterPageList.css';
 import Search from './Search';
 import FilterBox from './FilterBox';
 import CharacterList from './CharacterList';
+import CharacterDetailsPopup from './CharacterDetailsPopup';
 
-
-/**
- * Displays the content box for Character Page List
- * @returns renders the search bar, list of characters and filter
- */
 function CharacterPageList() {
-
   const [searchTerm, setSearchTerm] = useState('');
   const [rarity, setRarity] = useState('');
   const [element, setElement] = useState('');
   const [pathType, setPathType] = useState('');
 
+  const [selectedCharacter, setSelectedCharacter] = useState(null);
+
+  const handleCharacterClick = (character) => {
+    setSelectedCharacter(character);
+  };
 
   const searchOnChangeHandler = (event) => {
     setSearchTerm(event.target.value);
   };
 
   const handleRarityChange = (alt) => {
-    if(rarity === alt){
+    if (rarity === alt) {
       setRarity('');
-    }else{
+    } else {
       setRarity(alt);
     }
   };
@@ -122,7 +122,6 @@ function CharacterPageList() {
     .toLocaleLowerCase()
     .includes(searchTerm.toLocaleLowerCase()));
 
-
   return (
     <div>
       <ul className='headerbar'>
@@ -134,6 +133,15 @@ function CharacterPageList() {
         <CharacterList list={searchedChar} />
           
       </div>
+
+      {selectedCharacter && (
+        <div className="popup-container">
+          <CharacterDetailsPopup
+            character={selectedCharacter}
+            onClose={() => setSelectedCharacter(null)}
+          />
+        </div>
+      )}
     </div>
   );
 }
