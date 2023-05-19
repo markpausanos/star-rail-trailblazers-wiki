@@ -1,4 +1,4 @@
-﻿namespace trailblazers_api.DTOs.Builds
+﻿namespace trailblazers_api.Dtos.Builds
 {
     /// <summary>
     /// Build DTO class

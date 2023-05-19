@@ -1,4 +1,4 @@
-﻿namespace trailblazers_api.DTOs.Lightcones
+﻿namespace trailblazers_api.Dtos.Lightcones
 {
     /// <summary>
     /// Lightcone DTO class

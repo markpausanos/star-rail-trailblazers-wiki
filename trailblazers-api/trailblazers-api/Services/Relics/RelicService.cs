@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using trailblazers_api.DTOs.Relics;
+using trailblazers_api.Dtos.Relics;
 using trailblazers_api.Models;
 using trailblazers_api.Repositories.Relics;
 

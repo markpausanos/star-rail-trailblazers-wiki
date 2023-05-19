@@ -1,4 +1,4 @@
-﻿using trailblazers_api.DTOs.Elements;
+﻿using trailblazers_api.Dtos.Elements;
 
 namespace trailblazers_api.Services.Elements
 {

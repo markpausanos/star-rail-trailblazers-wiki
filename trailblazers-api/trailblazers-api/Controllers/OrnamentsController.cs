@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
-using trailblazers_api.DTOs.Ornaments;
+using trailblazers_api.Dtos.Ornaments;
 using trailblazers_api.Services.Ornaments;
 
 namespace trailblazers_api.Controllers

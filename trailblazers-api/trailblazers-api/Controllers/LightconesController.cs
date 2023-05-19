@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System.IO;
-using trailblazers_api.DTOs.Lightcones;
-using trailblazers_api.DTOs.Paths;
+using trailblazers_api.Dtos.Lightcones;
+using trailblazers_api.Dtos.Paths;
 using trailblazers_api.Models;
 using trailblazers_api.Services.Lightcones;
 

@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace trailblazers_api.DTOs.Ornaments
+namespace trailblazers_api.Dtos.Ornaments
 {
     public class OrnamentCreationDto
     {
@@ -8,8 +8,6 @@ namespace trailblazers_api.DTOs.Ornaments
         public string? Name { get; set; }
         [Required(ErrorMessage = "Description is a required field")]
         public string? Description { get; set; }
-
-        [Required(ErrorMessage = "Image is a required field")]
         public string? Image { get; set; }
     }
 }

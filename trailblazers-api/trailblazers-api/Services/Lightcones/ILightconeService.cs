@@ -1,4 +1,4 @@
-﻿using trailblazers_api.DTOs.Lightcones;
+﻿using trailblazers_api.Dtos.Lightcones;
 
 namespace trailblazers_api.Services.Lightcones
 {

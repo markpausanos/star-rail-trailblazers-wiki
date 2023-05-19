@@ -1,4 +1,4 @@
-﻿using trailblazers_api.DTOs.Lightcones;
+﻿using trailblazers_api.Dtos.Lightcones;
 using trailblazers_api.Models;
 using trailblazers_api.Repositories.Lightcones;
 

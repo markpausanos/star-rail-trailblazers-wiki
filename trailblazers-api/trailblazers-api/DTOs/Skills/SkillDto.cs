@@ -1,6 +1,6 @@
 ﻿using trailblazers_api.Dtos.Trailblazers;
 
-namespace trailblazers_api.DTOs.Skills
+namespace trailblazers_api.Dtos.Skills
 {
     public class SkillDto
     {

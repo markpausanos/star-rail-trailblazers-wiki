@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using trailblazers_api.DTOs.Skills;
+using trailblazers_api.Dtos.Skills;
 using trailblazers_api.Models;
 using trailblazers_api.Repositories.Skills;
 

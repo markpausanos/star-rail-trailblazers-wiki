@@ -1,4 +1,4 @@
-﻿namespace trailblazers_api.DTOs.Eidolons
+﻿namespace trailblazers_api.Dtos.Eidolons
 {
     /// <summary>
     /// Element DTO class

@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
-using trailblazers_api.DTOs.Elements;
+using trailblazers_api.Dtos.Elements;
 using trailblazers_api.Services.Elements;
 
 namespace trailblazers_api.Controllers

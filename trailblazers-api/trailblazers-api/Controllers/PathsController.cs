@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using trailblazers_api.DTOs.Paths;
+using trailblazers_api.Dtos.Paths;
 using trailblazers_api.Services.Paths;
 using Microsoft.IdentityModel.Tokens;
 

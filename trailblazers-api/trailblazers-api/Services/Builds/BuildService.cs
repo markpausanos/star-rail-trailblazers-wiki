@@ -1,4 +1,4 @@
-﻿using trailblazers_api.DTOs.Builds;
+﻿using trailblazers_api.Dtos.Builds;
 using trailblazers_api.Models;
 using trailblazers_api.Repositories.Builds;
 

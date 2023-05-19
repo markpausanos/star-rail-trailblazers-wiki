@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
-using trailblazers_api.DTOs.Relics;
+using trailblazers_api.Dtos.Relics;
 using trailblazers_api.Services.Relics;
 
 namespace trailblazers_api.Controllers
