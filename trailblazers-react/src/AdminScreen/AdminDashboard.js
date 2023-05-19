@@ -30,7 +30,7 @@ function AdminDashboard() {
             <div className='content'>
             {activeItem === 'characters' && isUpdating === false && <CharacterCreatePage />}
             {activeItem === 'light cones' && isUpdating === false && <LightConeCreatePage />}
-            {activeItem === 'relics' && isUpdating === false && <Relics />}
+            {activeItem === 'relics' && isUpdating === false && <RelicCreatePage />}
             {activeItem === 'ornaments' && isUpdating === false && <Ornaments />}   
             {activeItem === 'characters' && isUpdating === true && <Ornaments />}
             {activeItem === 'light cones' && isUpdating === true && <Relics />}
