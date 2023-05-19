@@ -1,82 +1,61 @@
-﻿using trailblazers_api.DTOs.Paths;
+﻿using AutoMapper;
+using trailblazers_api.DTOs.Paths;
 using trailblazers_api.Models;
 using trailblazers_api.Repositories.Paths;
 
 namespace trailblazers_api.Services.Paths
 {
-    public class PathSRService :IPathSRService
+    public class PathSRService : IPathSRService
     {
-        private readonly IPathSRRepository _repository;
+        private readonly IPathSRRepository _pathRepository;
+        private readonly IMapper _mapper;
 
-        public PathSRService(IPathSRRepository repository)
+        public PathSRService(IPathSRRepository repository, IMapper mapper)
         {
-            _repository = repository;
+            _pathRepository = repository;
+            _mapper = mapper;
         }
 
-        public async Task<int> CreatePathSR(PathSRCreationDto path)
+        public async Task<PathSRDto> CreatePathSR(PathSRCreationDto newPath)
         {
-            var pathModel = new PathSR
-            {
-                Name = path.Name,
-                Image = path.Image
-            };
-            
-            return pathModel.Id = await _repository.CreatePathSR(pathModel);
+            var pathToCreate = _mapper.Map<PathSR>(newPath);
+
+            var newlyCreatedPath = await _pathRepository.GetPathSRById(await _pathRepository.CreatePathSR(pathToCreate));
+            return _mapper.Map<PathSRDto>(newlyCreatedPath);
         }
 
         public async Task<IEnumerable<PathSRDto>> GetAllPathSRs()
         {
-            var paths = await _repository.GetAllPathSRs();
-            if (paths == null) return null;
+            var paths = await _pathRepository.GetAllPathSRs();
 
-            return paths.Select(path => new PathSRDto
-            {
-                Id = path.Id,
-                Name = path.Name,
-                Image = path.Image
-            });
+            return paths.Select(path => _mapper.Map<PathSRDto>(path));
         }
 
         public async Task<PathSRDto?> GetPathSRById(int id)
         {
-            var path = await _repository.GetPathSRById(id);
-            if (path == null) return null;
+            var path = await _pathRepository.GetPathSRById(id);
 
-            return new PathSRDto
-            {
-                Id = path.Id,
-                Name = path.Name,
-                Image = path.Image
-            };
+            return path == null ? null : _mapper.Map<PathSRDto>(path);
         }
 
         public async Task<PathSRDto?> GetPathSRByName(string name)
         {
-            var path = await _repository.GetPathSRByName(name);
-            if (path == null) return null;
+            var path = await _pathRepository.GetPathSRByName(name);
 
-            return new PathSRDto
-            {
-                Id = path.Id,
-                Name = path.Name,
-                Image = path.Image
-            };
+            return path == null ? null : _mapper.Map<PathSRDto>(path);
         }
 
-        public async Task<bool> UpdatePathSR(PathSRUpdateDto path)
+        public async Task<bool> UpdatePathSR(int id, PathSRUpdateDto updatedPath)
         {
-            var pathModel = new PathSR
-            {
-                Id = path.Id,
-                Name = path.Name,
-                Image = path.Image
-            };
-            return await _repository.UpdatePathSR(pathModel);
+            var pathToUpdate = _mapper.Map<PathSR>(updatedPath);
+            pathToUpdate.Id = id;
+
+            return await _pathRepository.UpdatePathSR(pathToUpdate);
         }
 
         public async Task<bool> DeletePathSR(int id)
         {
-            return await _repository.DeletePathSR(id);
+            return await _pathRepository.DeletePathSR(id);
         }
     }
 }

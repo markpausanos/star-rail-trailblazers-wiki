@@ -1,4 +1,5 @@
-﻿using trailblazers_api.DTOs.Relics;
+﻿using AutoMapper;
+using trailblazers_api.DTOs.Relics;
 using trailblazers_api.Models;
 using trailblazers_api.Repositories.Relics;
 
@@ -6,87 +7,55 @@ namespace trailblazers_api.Services.Relics
 {
     public class RelicService : IRelicService
     {
-        private readonly IRelicRepository _repository;
+        private readonly IRelicRepository _relicRepository;
+        private readonly IMapper _mapper;
 
-        public RelicService(IRelicRepository repository)
+        public RelicService(IRelicRepository repository, IMapper mapper)
         {
-            _repository = repository;
+            _relicRepository = repository;
+            _mapper = mapper;
         }
 
-        public async Task<int> CreateRelic(RelicCreationDto relic)
+        public async Task<RelicDto?> CreateRelic(RelicCreationDto newRelic)
         {
-            var relicModel = new Relic
-            {
-                Name = relic.Name,
-                DescriptionOne = relic.DescriptionOne,
-                DescriptionTwo = relic.DescriptionTwo,
-                Image = relic.Image
-            };
-            
-            return relicModel.Id = await _repository.CreateRelic(relicModel);
+            var relicToCreate = _mapper.Map<Relic>(newRelic);
+
+            var newlyCreatedRelic = await _relicRepository.GetRelicById(await _relicRepository.CreateRelic(relicToCreate));
+            return _mapper.Map<RelicDto>(newlyCreatedRelic);
         }
 
         public async Task<IEnumerable<RelicDto>> GetAllRelics()
         {
-            var relics = await _repository.GetAllRelics();
-            if (relics == null) return null;
+            var relics = await _relicRepository.GetAllRelics();
 
-            return relics.Select(relic => new RelicDto
-            {
-                Id = relic.Id,
-                Name = relic.Name,
-                DescriptionOne = relic.DescriptionOne,
-                DescriptionTwo = relic.DescriptionTwo,
-                Image = relic.Image
-            });
+            return relics.Select(relic => _mapper.Map<RelicDto>(relic));
         }
 
         public async Task<RelicDto?> GetRelicById(int id)
         {
-            var relic = await _repository.GetRelicById(id);
-            if (relic == null) return null;
+            var relic = await _relicRepository.GetRelicById(id);
 
-            return new RelicDto
-            {
-                Id = relic.Id,
-                Name = relic.Name,
-                DescriptionOne = relic.DescriptionOne,
-                DescriptionTwo = relic.DescriptionTwo,
-                Image = relic.Image
-            };
+            return relic == null ? null : _mapper.Map<RelicDto>(relic);
         }
 
         public async Task<RelicDto?> GetRelicByName(string name)
         {
-            var relic = await _repository.GetRelicByName(name);
-            if (relic == null) return null;
+            var relic = await _relicRepository.GetRelicByName(name);
 
-            return new RelicDto
-            {
-                Id = relic.Id,
-                Name = relic.Name,
-                DescriptionOne = relic.DescriptionOne,
-                DescriptionTwo = relic.DescriptionTwo,
-                Image = relic.Image
-            };
+            return relic == null ? null : _mapper.Map<RelicDto>(relic);
         }
 
-        public async Task<bool> UpdateRelic(RelicUpdateDto relic)
+        public async Task<bool> UpdateRelic(int id, RelicUpdateDto updatedRelic)
         {
-            var relicModel = new Relic
-            {
-                Id = relic.Id,
-                Name = relic.Name,
-                DescriptionOne = relic.DescriptionOne,
-                DescriptionTwo = relic.DescriptionTwo,
-                Image = relic.Image
-            };
-            return await _repository.UpdateRelic(relicModel);
+            var relicToUpdate = _mapper.Map<Relic>(updatedRelic);
+            relicToUpdate.Id = id;
+
+            return await _relicRepository.UpdateRelic(relicToUpdate);
         }
 
         public async Task<bool> DeleteRelic(int id)
         {
-            return await _repository.DeleteRelic(id);
+            return await _relicRepository.DeleteRelic(id);
         }
     }
 }

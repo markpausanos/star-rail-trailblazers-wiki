@@ -89,21 +89,43 @@ namespace trailblazers_api.Repositories.Skills
             }
         }
 
-
-        public async Task<Skill?> GetSkillByName(string name)
+        public async Task<Skill?> GetSkillById(int id)
         {
-            var sql = "SELECT * FROM Skill WHERE Name = @Name AND IsDeleted = 0;";
+            var sql = @"SELECT s.*, t.*
+                FROM Skill s
+                LEFT JOIN Trailblazer t ON s.TrailblazerId = t.Id
+                WHERE s.IsDeleted = 0 AND s.Id = @Id;";
 
             using (var con = _context.CreateConnection())
             {
-                return await con.QuerySingleOrDefaultAsync<Skill>(sql, new { name });
+                var skillDict = new Dictionary<int, Skill>();
+                var skills = await con.QueryAsync<Skill, Trailblazer, Skill>(
+                    sql,
+                    (s, t) =>
+                    {
+                        if (!skillDict.TryGetValue(s.Id, out var skill))
+                        {
+                            skill = s;
+                            skill.Trailblazer = t;
+                            skillDict.Add(s.Id, skill);
+                        }
+                        else if (skill.Trailblazer == null)
+                        {
+                            skill.Trailblazer = t;
+                        }
+                        return skill;
+                    },
+                new { id },
+                splitOn: "Id");
+
+                return skills.FirstOrDefault();
             }
         }
 
         public async Task<bool> UpdateSkill(Skill skill)
         {
             var sql = "UPDATE Skill SET Title = @Title, Name = @Name, Description = @Description, " +
-                      "Image = @Image, Type = @Type, TrailblazerId = @TrailblazerId WHERE Id = @Id;";
+                      "Image = @Image WHERE Id = @Id;";
 
             using (var con = _context.CreateConnection())
             {
@@ -113,8 +135,6 @@ namespace trailblazers_api.Repositories.Skills
                     skill.Name,
                     skill.Description,
                     skill.Image,
-                    skill.Type,
-                    TrailblazerId = skill.Trailblazer?.Id,
                     skill.Id
                 }) > 0;
             }

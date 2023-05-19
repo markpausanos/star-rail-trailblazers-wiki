@@ -9,7 +9,7 @@ namespace trailblazers_api.Services.Relics
         /// </summary>
         /// <param name="relic">The new Relic to be created.</param>
         /// <returns>The ID of the newly created Relic as an integer.</returns>
-        Task<int> CreateRelic(RelicCreationDto relic);
+        Task<RelicDto?> CreateRelic(RelicCreationDto relic);
 
         /// <summary>
         /// Gets all Relics in the database.
@@ -34,12 +34,13 @@ namespace trailblazers_api.Services.Relics
         /// <summary>
         /// Updates a Relic in the database.
         /// </summary>
+        /// <param name="id">The ID of the Relic to update.</param>
         /// <param name="relic">The updated Relic object.</param>
         /// <returns>
         ///     true: If the update was successful.
         ///     false: If the update was unsuccessful.
         /// </returns>
-        Task<bool> UpdateRelic(RelicUpdateDto relic);
+        Task<bool> UpdateRelic(int id, RelicUpdateDto relic);
 
         /// <summary>
         /// Soft deletes a Relic in the database.
