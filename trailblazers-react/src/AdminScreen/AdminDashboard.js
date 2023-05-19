@@ -31,7 +31,7 @@ function AdminDashboard() {
             {activeItem === 'characters' && isUpdating === false && <CharacterCreatePage />}
             {activeItem === 'light cones' && isUpdating === false && <LightConeCreatePage />}
             {activeItem === 'relics' && isUpdating === false && <RelicCreatePage />}
-            {activeItem === 'ornaments' && isUpdating === false && <Ornaments />}   
+            {activeItem === 'ornaments' && isUpdating === false && <OrnamentCreatePage />}   
             {activeItem === 'characters' && isUpdating === true && <Ornaments />}
             {activeItem === 'light cones' && isUpdating === true && <Relics />}
             {activeItem === 'relics' && isUpdating === true && <LightConePage />}
