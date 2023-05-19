@@ -25,6 +25,7 @@ using trailblazers_api.Services.Ornaments;
 using trailblazers_api.Services.Paths;
 using trailblazers_api.Services.Relics;
 using trailblazers_api.Services.Skills;
+using trailblazers_api.Services.Trailblazers;
 using trailblazers_api.Services.Users;
 using trailblazers_api.Utils;
 
@@ -85,6 +86,7 @@ void ConfigureServices(IServiceCollection services, IConfiguration configuration
     services.AddScoped<IPathSRService, PathSRService>();
     services.AddScoped<IRelicService, RelicService>();
     services.AddScoped<ISkillService, SkillService>();
+    services.AddScoped<ITrailblazerService, TrailblazerService>();
     services.AddScoped<IUserService, UserService>();
 
     services.AddScoped<IBuildRepository, BuildRepository>();
