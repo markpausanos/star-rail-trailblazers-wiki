@@ -4,7 +4,7 @@ using trailblazers_api.Models;
 
 namespace trailblazers_api.Repositories.Eidolons
 {
-    public class EidolonRepository
+    public class EidolonRepository : IEidolonRepository
     {
         private readonly DapperContext _context;
 
@@ -22,33 +22,29 @@ namespace trailblazers_api.Repositories.Eidolons
                 return await con.ExecuteScalarAsync<int>(sql, new { eidolon.Name, eidolon.Description, eidolon.Image });
             }
         }
-        public async Task<IEnumerable<Eidolon>> GetAllEidolons()
+        public async Task<IEnumerable<Eidolon>> GetAllEidolonsByTrailblazerId(int trailblazerId)
         {
-            var sql = "SELECT * FROM Eidolons;";
+            var sql = "SELECT e.*, t.* " +
+                      "FROM Eidolon e " +
+                      "LEFT JOIN Trailblazer t ON e.TrailblazerId = t.Id " +
+                      "WHERE e.TrailblazerId = @TrailblazerId AND e.IsDeleted = 0;";
 
-            using (var con = _context.CreateConnection())
+            using (var connection = _context.CreateConnection())
             {
-                return await con.QueryAsync<Eidolon>(sql);
+                var eidolons = await connection.QueryAsync<Eidolon, Trailblazer, Eidolon>(
+                    sql,
+                    (eidolon, trailblazer) =>
+                    {
+                        eidolon.Trailblazer = trailblazer;
+                        return eidolon;
+                    },
+                    new { trailblazerId },
+                    splitOn: "Id");
+
+                return eidolons;
             }
         }
-        public async Task<Eidolon?> GetEidolonById(int id)
-        {
-            var sql = "SELECT * FROM Eidolons WHERE Id = @Id;";
 
-            using (var con = _context.CreateConnection())
-            {
-                return await con.QuerySingleOrDefaultAsync<Eidolon>(sql, new { id });
-            }
-        }
-        public async Task<Eidolon?> GetEidolonByName(string name)
-        {
-            var sql = "SELECT * FROM Eidolons WHERE Name = @Name;";
-
-            using (var con = _context.CreateConnection())
-            {
-                return await con.QuerySingleOrDefaultAsync<Eidolon>(sql, new { name });
-            }
-        }
         public async Task<bool> UpdateEidolon(Eidolon eidolon)
         {
             var sql = "UPDATE Eidolons SET Description = @Description WHERE Id = @Id;";

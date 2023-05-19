@@ -16,8 +16,8 @@ namespace trailblazers_api.Repositories.Users
 
         public async Task<int> CreateUser(User user)
         {
-            var sql = "INSERT INTO Users (Name, Password) VALUES (@Name, @Password); " +
-                      "SELECT SCOPE_IDENTITY();";
+            var sql = "INSERT INTO [User] ([Name], [Password]) VALUES (@Name, @Password); " +
+                      "SELECT CAST(SCOPE_IDENTITY() AS INT);";
 
             using (var con = _context.CreateConnection())
             {
@@ -27,7 +27,7 @@ namespace trailblazers_api.Repositories.Users
 
         public async Task<IEnumerable<User>> GetAllUsers()
         {
-            var sql = "SELECT * FROM Users WHERE IsDeleted = 0;";
+            var sql = "SELECT * FROM [User] WHERE IsDeleted = 0;";
 
             using (var con = _context.CreateConnection())
             {
@@ -37,27 +37,27 @@ namespace trailblazers_api.Repositories.Users
 
         public async Task<User?> GetUserById(int id)
         {
-            var sql = "SELECT * FROM Users WHERE Id = @Id AND IsDeleted = 0;";
+            var sql = "SELECT * FROM [User] WHERE Id = @Id AND IsDeleted = 0;";
 
             using (var con = _context.CreateConnection())
             {
-                return await con.QuerySingleOrDefaultAsync<User>(sql, new { id });
+                return await con.QuerySingleOrDefaultAsync<User>(sql, new { Id = id });
             }
         }
 
         public async Task<User?> GetUserByName(string name)
         {
-            var sql = "SELECT * FROM Users WHERE Name = @Name AND IsDeleted = 0;";
+            var sql = "SELECT * FROM [User] WHERE [Name] = @Name AND IsDeleted = 0;";
 
             using (var con = _context.CreateConnection())
             {
-                return await con.QuerySingleOrDefaultAsync<User>(sql, new { name });
+                return await con.QuerySingleOrDefaultAsync<User>(sql, new { Name = name });
             }
         }
 
         public async Task<bool> UpdateUser(User user)
         {
-            var sql = "UPDATE Users SET Password = @Password WHERE Id = @Id;";
+            var sql = "UPDATE [User] SET [Password] = @Password WHERE [Id] = @Id;";
 
             using (var con = _context.CreateConnection())
             {
@@ -67,15 +67,15 @@ namespace trailblazers_api.Repositories.Users
 
         public async Task<bool> DeleteUser(int id)
         {
-            var sql = "SELECT Id FROM Team WHERE UserId = @Id";
+            var sql = "SELECT [Id] FROM [Team] WHERE [UserId] = @Id";
             var spName = "[spUser_DeleteUser]";
 
             using (var con = _context.CreateConnection())
             {
-                var ids = await con.QueryAsync<int>(sql, new { id });
+                var ids = await con.QueryAsync<int>(sql, new { Id = id });
                 foreach (var teamId in ids)
                 {
-                    await con.ExecuteAsync("spTeam_DeleteTeam", new { TeamId = teamId }, commandType: CommandType.StoredProcedure);
+                    await con.ExecuteAsync("[spTeam_DeleteTeam]", new { TeamId = teamId }, commandType: CommandType.StoredProcedure);
                 }
                 return await con.ExecuteAsync(spName,
                     new { UserId = id },

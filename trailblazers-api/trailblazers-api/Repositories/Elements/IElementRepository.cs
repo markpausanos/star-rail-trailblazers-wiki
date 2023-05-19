@@ -18,20 +18,6 @@ namespace trailblazers_api.Repositories.Elements
         Task<IEnumerable<Element>> GetAllElements();
 
         /// <summary>
-        /// Retrieves an element from the database by ID.
-        /// </summary>
-        /// <param name="id">The ID of the element to retrieve.</param>
-        /// <returns>The element with the specified ID, or null if not found.</returns>
-        Task<Element?> GetElementById(int id);
-
-        /// <summary>
-        /// Retrieves an element from the database by name.
-        /// </summary>
-        /// <param name="name">The name of the element to retrieve.</param>
-        /// <returns>The element with the specified name, or null if not found.</returns>
-        Task<Element?> GetElementByName(string name);
-
-        /// <summary>
         /// Updates an existing element in the database.
         /// </summary>
         /// <param name="element">The updated element.</param>

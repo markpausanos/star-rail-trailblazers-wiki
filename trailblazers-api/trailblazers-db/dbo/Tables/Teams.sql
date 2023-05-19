@@ -1,0 +1,8 @@
+﻿CREATE TABLE [dbo].[Team]
+(
+    [Id] INT NOT NULL PRIMARY KEY IDENTITY(1,1),
+    [Name] NVARCHAR(MAX) NULL,
+    [UserId] INT NULL,
+    [IsDeleted] BIT NOT NULL DEFAULT 0,
+    CONSTRAINT [FK_Team_User] FOREIGN KEY ([UserId]) REFERENCES [dbo].[User]([Id]) ON DELETE NO ACTION
+);
