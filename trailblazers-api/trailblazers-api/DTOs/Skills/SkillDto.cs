@@ -10,6 +10,6 @@ namespace trailblazers_api.DTOs.Skills
         public string? Description { get; set; }
         public string? Image { get; set; }
         public string? Type { get; set; }
-        public TrailblazerShowDto? Trailblazer{ get; set; }
+        public TrailblazerIdNameDto? Trailblazer{ get; set; }
     }
 }
