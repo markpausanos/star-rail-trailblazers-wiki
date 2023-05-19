@@ -57,7 +57,7 @@ namespace trailblazers_api.Repositories.Relics
             }
         }
 
-        public async Task<bool> UpdateRelic(int id, Relic relic)
+        public async Task<bool> UpdateRelic(Relic relic)
         {
             var sql = @"
                 UPDATE Relic 
@@ -71,7 +71,7 @@ namespace trailblazers_api.Repositories.Relics
                     DescriptionOne = relic.DescriptionOne,
                     DescriptionTwo = relic.DescriptionTwo,
                     Image = relic.Image,
-                    Id = id
+                    Id = relic.Id
                 }) > 0;
             }
         }

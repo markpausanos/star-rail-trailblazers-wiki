@@ -34,13 +34,12 @@ namespace trailblazers_api.Repositories.Relics
         /// <summary>
         /// Updates a Relic in the database.
         /// </summary>
-        /// <param name="id">The ID of the Relic to update.</param>
         /// <param name="relic">The updated Relic object.</param>
         /// <returns>
         ///     true: If the update was successful.
         ///     false: If the update was unsuccessful.
         /// </returns>
-        Task<bool> UpdateRelic(int id, Relic relic);
+        Task<bool> UpdateRelic(Relic relic);
 
         /// <summary>
         /// Soft deletes a Relic in the database.
