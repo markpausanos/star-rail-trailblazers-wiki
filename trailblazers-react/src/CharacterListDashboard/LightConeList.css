@@ -1,0 +1,52 @@
+.lightconeItem{
+    position: relative;
+    top: 80px;
+    padding: 30px 30px 30px 30px;
+    background-color: rgba(27, 26, 26, 0.7);
+    min-height: 200px;
+    margin-left: 5%;
+    margin-right: 5%;
+    margin-bottom: 2%;
+    display: grid;
+    grid-template-columns: 200px 1fr ; /* Adjust the number of columns as needed */
+    grid-gap: -10px; /* Adjust the gap between items as needed */
+    grid-row-gap: 0px; /* Specify the gap size between rows */
+    justify-content: center;
+    border-radius: 7px;
+}
+
+.details{
+    line-height: 35px;
+}
+
+.description{
+    color: whitesmoke;
+
+}
+
+.title{
+    color: goldenrod;
+    line-height: 40px;
+}
+
+.name{
+    color: whitesmoke;
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.lightcone-rare3{
+    background: linear-gradient(to bottom, #0e49c9, #6c87e7);
+    border-radius: 3px;
+}
+
+.lightcone-rare4{
+    background-image: linear-gradient(to top, #6f4cb0, #441757);
+    border-radius: 3px;
+}
+
+.lightcone-rare5{
+    background-image: linear-gradient(to top, #cfb41d, #6a5f3e);
+    border-radius: 3px;
+}
