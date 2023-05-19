@@ -1,20 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using trailblazers_api.DTOs.Paths;
-using trailblazers_api.DTOs.Relics;
 using trailblazers_api.Services.Paths;
 using Microsoft.IdentityModel.Tokens;
 
 namespace trailblazers_api.Controllers
 {
-    /// <summary>
-    /// Controller for managing Paths.
-    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class PathsController : ControllerBase
