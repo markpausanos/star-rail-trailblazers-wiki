@@ -2,9 +2,6 @@
 
 namespace trailblazers_api.Services.Relics
 {
-    /// <summary>
-    /// Interface for managing Relics in the database.
-    /// </summary>
     public interface IRelicService
     {
         /// <summary>
