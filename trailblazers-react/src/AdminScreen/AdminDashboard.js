@@ -7,6 +7,9 @@ import LightConeCreatePage from './LightConeCreatePage'
 import RelicCreatePage from './RelicCreatePage'
 import OrnamentCreatePage from './OrnamentCreatePage'
 import CharacterPageList from "../CharacterListDashboard/CharacterPageList";
+import LightConePage from "../CharacterListDashboard/LightConePage";
+import Relics from "../CharacterListDashboard/Relics";
+import Ornaments from "../CharacterListDashboard/Ornaments";
 
 function AdminDashboard() {
     const [activeItem, setActiveItem] = useState('characters');
@@ -17,7 +20,7 @@ function AdminDashboard() {
     };
 
     const handleCreateUpdate = (action) => {
-        setIsUpdating(action === 'Create' ? false : true);
+        setIsUpdating(action.target.textContent === 'Create' ? false : true);
     };
 
     return (
@@ -25,10 +28,14 @@ function AdminDashboard() {
             <ActionTab OnClickHandle={handleCreateUpdate} isUpdating={isUpdating}/>
             <CategoryTab OnClickHandle={handleClick} activeItem={activeItem}/>
             <div className='content'>
-            {activeItem === 'characters' && isUpdating === false && <CharacterPageList />}
-            {activeItem === 'light cones' && isUpdating === false && <LightConeCreatePage />}
-            {activeItem === 'relics' && isUpdating === false && <RelicCreatePage />}
-            {activeItem === 'ornaments' && isUpdating === false && <OrnamentCreatePage />}   
+            {activeItem === 'characters' && isUpdating === false && <CharacterCreatePage />}
+            {activeItem === 'light cones' && isUpdating === false && <LightConePage />}
+            {activeItem === 'relics' && isUpdating === false && <Relics />}
+            {activeItem === 'ornaments' && isUpdating === false && <Ornaments />}   
+            {activeItem === 'characters' && isUpdating === true && <Ornaments />}
+            {activeItem === 'light cones' && isUpdating === true && <Relics />}
+            {activeItem === 'relics' && isUpdating === true && <LightConePage />}
+            {activeItem === 'ornaments' && isUpdating === true && <CharacterPageList />}   
             <div className='spacer' />
             </div>
         </div>
