@@ -122,7 +122,7 @@ namespace trailblazers_api.Repositories.Skills
             }
         }
 
-        public async Task<bool> UpdateSkill(int id, Skill skill)
+        public async Task<bool> UpdateSkill(Skill skill)
         {
             var sql = "UPDATE Skill SET Title = @Title, Name = @Name, Description = @Description, " +
                       "Image = @Image WHERE Id = @Id;";
