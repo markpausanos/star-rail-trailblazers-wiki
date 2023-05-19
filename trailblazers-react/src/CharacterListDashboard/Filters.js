@@ -2,10 +2,6 @@ import React from 'react'
 import './Filters.css';
 
 function Filters(props) {
-    const handleButtonClick = (alt) => {
-        props.onFilterChange(alt);
-    };
-
 
     return (
     <>
@@ -18,6 +14,7 @@ function Filters(props) {
                             onClick={() => props.onFilterChange(item.alt)}
                         >
                                 <img src={item.img} alt={item.alt}/>
+                                <div class="label">{item.alt}</div>
                             </button>
                         </li>
                     </div>
