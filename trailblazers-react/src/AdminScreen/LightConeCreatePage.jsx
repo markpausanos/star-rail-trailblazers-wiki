@@ -13,10 +13,9 @@ export const LightConeCreatePage = (props) => {
 
     return (
         <div>
-            <input type="text" placeholder="Light Cone Image Link" value={image} onChange={(e) => setImage(e.target.value)} />
             <div>
                 <label for="image">Light Cone Image</label>
-                <input type="text" placeholder="Image URL" value={charImage} onChange={(e) => setCharImage(e.target.value)} />
+                <input type="text" placeholder="Light Cone Image Link" value={image} onChange={(e) => setImage(e.target.value)} />
                 <img src={image} />
             </div>
             <input type="text" placeholder="Light Cone Name" value={name} onChange={(e) => setName(e.target.value)} />
@@ -34,9 +33,14 @@ export const LightConeCreatePage = (props) => {
                 <option value="5">Nihility</option>
                 <option value="6">Harmony</option>
             </select>
-            <input type="number" placeholder="Base HP" value={baseHP} onChange={(e) => setBaseHP(e.target.value)} />
-            <input type="number" placeholder="Base ATK" value={baseAtk} onChange={(e) => setBaseAtk(e.target.value)} />
-            <input type="number" placeholder="Base DEF" value={baseDef} onChange={(e) => setBaseDef(e.target.value)} />
+            <div>
+                <label for="Base HP">Base HP</label>
+                <input type="number" placeholder="Base HP" value={baseHP} onChange={(e) => setBaseHP(e.target.value)} />
+                <label for="Base ATK">Base ATK</label>
+                <input type="number" placeholder="Base ATK" value={baseAtk} onChange={(e) => setBaseAtk(e.target.value)} />
+                <label for="Base DEF">Base DEF</label>
+                <input type="number" placeholder="Base DEF" value={baseDef} onChange={(e) => setBaseDef(e.target.value)} />
+            </div>
             <div>
                 <label for="effects">Effect</label>
                 <ul>
