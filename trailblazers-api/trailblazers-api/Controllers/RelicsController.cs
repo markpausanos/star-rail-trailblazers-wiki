@@ -13,11 +13,6 @@ namespace trailblazers_api.Controllers
         private readonly ILogger<RelicsController> _logger;
         private readonly IRelicService _relicService;
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="RelicsController"/> class.
-        /// </summary>
-        /// <param name="logger">The logger instance.</param>
-        /// <param name="relicService">The relic service.</param>
         public RelicsController(ILogger<RelicsController> logger, IRelicService relicService)
         {
             _logger = logger;
