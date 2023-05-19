@@ -29,7 +29,7 @@ function AdminDashboard() {
             <CategoryTab OnClickHandle={handleClick} activeItem={activeItem}/>
             <div className='content'>
             {activeItem === 'characters' && isUpdating === false && <CharacterCreatePage />}
-            {activeItem === 'light cones' && isUpdating === false && <LightConePage />}
+            {activeItem === 'light cones' && isUpdating === false && <LightConeCreatePage />}
             {activeItem === 'relics' && isUpdating === false && <Relics />}
             {activeItem === 'ornaments' && isUpdating === false && <Ornaments />}   
             {activeItem === 'characters' && isUpdating === true && <Ornaments />}
