@@ -50,7 +50,7 @@ namespace trailblazers_api.Services.Relics
             var relicToUpdate = _mapper.Map<Relic>(updatedRelic);
             relicToUpdate.Id = id;
 
-            return await _relicRepository.UpdateRelic(id, relicToUpdate);
+            return await _relicRepository.UpdateRelic(relicToUpdate);
         }
 
         public async Task<bool> DeleteRelic(int id)

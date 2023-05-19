@@ -57,7 +57,7 @@ namespace trailblazers_api.Services.Skills
             var skillToUpdate = _mapper.Map<Skill>(updatedskill);
             skillToUpdate.Id = id;
 
-            return await _skillRepository.UpdateSkill(id, skillToUpdate);
+            return await _skillRepository.UpdateSkill(skillToUpdate);
         }
 
         public async Task<bool> DeleteSkill(int id)
