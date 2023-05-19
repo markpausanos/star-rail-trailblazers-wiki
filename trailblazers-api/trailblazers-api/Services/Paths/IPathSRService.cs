@@ -9,7 +9,7 @@ namespace trailblazers_api.Services.Paths
         /// </summary>
         /// <param name="path">The new PathSR to create.</param>
         /// <returns>The ID of the newly created PathSR.</returns>
-        Task<int> CreatePathSR(PathSRCreationDto path);
+        Task<PathSRDto> CreatePathSR(PathSRCreationDto path);
 
         /// <summary>
         /// Gets all PathSRs in the database.
@@ -34,19 +34,16 @@ namespace trailblazers_api.Services.Paths
         /// <summary>
         /// Updates a PathSR in the database.
         /// </summary>
+        /// <param name="id">The ID of the PathSR to update.</param>
         /// <param name="path">The updated PathSR object.</param>
-        /// <returns>
-        /// true if the update was successful; otherwise, false.
-        /// </returns>
-        Task<bool> UpdatePathSR(PathSRUpdateDto path);
+        /// <returns>true if the update was successful; otherwise, false.</returns>
+        Task<bool> UpdatePathSR(int id, PathSRUpdateDto path);
 
         /// <summary>
         /// Deletes a PathSR from the database.
         /// </summary>
         /// <param name="id">The ID of the PathSR to delete.</param>
-        /// <returns>
-        /// true if the delete was successful; otherwise, false.
-        /// </returns>
+        /// <returns>true if the delete was successful; otherwise, false.</returns>
         Task<bool> DeletePathSR(int id);
     }
 }
