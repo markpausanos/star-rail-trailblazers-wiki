@@ -11,13 +11,18 @@ export const CharacterCreatePage = (props) => {
     const [baseAtk, setBaseAtk] = useState(0);
     const [baseDef, setBaseDef] = useState(0);
     const [baseSpd, setBaseSpd] = useState(0);
-    const [skills, setSkills] = useState([{name: "",description: "",},{name: "",description: "",},{name: "",description: "",},{name: "",description: "",},{name: "",description: "",},{name: "",description: "",},]);
+    const [skills, setSkills] = useState([{name: "",description: "",},{name: "",description: "",},{name: "",description: "",},{name: "",description: "",},{name: "",description: "",},]);
     const [eidolons, setEidolons] = useState([{name: "",description: "",},{name: "",description: "",},{name: "",description: "",},{name: "",description: "",},{name: "",description: "",},{name: "",description: "",},]);
-    const [traces, setTraces] = useState([{name: "",description: "",},{name: "",description: "",},{name: "",description: "",},{name: "",description: "",},{name: "",description: "",},{name: "",description: "",},]);
+    const [traces, setTraces] = useState([{name: "",description: "",},{name: "",description: "",},{name: "",description: "",},]);
 
     return (
         <div>
             <input type="text" placeholder="Character Image Link" value={charImage} onChange={(e) => setCharImage(e.target.value)} />
+            <div>
+                <label for="characterImage">Character Image</label>
+                <input type="text" placeholder="Image URL" value={charImage} onChange={(e) => setCharImage(e.target.value)} />
+                <img src={charImage} />
+            </div>
             <input type="text" placeholder="Character Name" value={charName} onChange={(e) => setCharName(e.target.value)} />
             <select value={rarity} onChange={(e) => setRarity(e.target.value)}>
                 <option value="4">4 Star</option>
@@ -82,8 +87,26 @@ export const CharacterCreatePage = (props) => {
             </div>
 
             <button onClick={() => {
-                console.log(charImage, charName, rarity, element, path, baseHP, baseAtk, baseDef, baseSpd, skills, eidolons, traces);
+                console.log(charImage, charName, rarity, element, path, baseHP, baseAtk, baseDef, baseSpd, skills, eidolons, traces); // upload to database code here
             }}>Create Character</button>
+
+            <button onClick={() => {
+                setCharImage("")
+                setCharName("")
+                setRarity(0)
+                setElement(0)
+                setPath(0)
+                setBaseHP(0)
+                setBaseAtk(0)
+                setBaseDef(0)
+                setBaseSpd(0)
+                skills.forEach(skill => skill.name = "")
+                skills.forEach(skill => skill.description = "")
+                eidolons.forEach(eidolon => eidolon.name = "")
+                eidolons.forEach(eidolon => eidolon.description = "")
+                traces.forEach(trace => trace.name = "")
+                traces.forEach(trace => trace.description = "")
+            }}>Clear</button>
         </div>
     )
 }
