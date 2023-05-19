@@ -135,7 +135,7 @@ namespace trailblazers_api.Repositories.Skills
                     skill.Name,
                     skill.Description,
                     skill.Image,
-                    id
+                    skill.Id
                 }) > 0;
             }
         }

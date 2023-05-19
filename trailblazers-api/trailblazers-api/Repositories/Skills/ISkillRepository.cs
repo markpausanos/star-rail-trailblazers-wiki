@@ -34,10 +34,9 @@ namespace trailblazers_api.Repositories.Skills
         /// <summary>
         /// Updates a skill in the database.
         /// </summary>
-        /// <param name="id">The ID of the skill to update.</param>
         /// <param name="skill">The updated skill object.</param>
         /// <returns>true if the update was successful; otherwise, false.</returns>
-        Task<bool> UpdateSkill(int id, Skill skill);
+        Task<bool> UpdateSkill(Skill skill);
 
         /// <summary>
         /// Deletes a skill from the database.
