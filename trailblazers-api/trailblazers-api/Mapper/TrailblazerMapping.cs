@@ -8,7 +8,8 @@ namespace trailblazers_api.Mapper
     {
         public TrailblazerMapping()
         {
-            CreateMap<Trailblazer, TrailblazerShowDto>();
+            CreateMap<Trailblazer, TrailblazerIdNameDto>();
+            CreateMap<Trailblazer, TrailblazerDto>();
         }
     }
 }
