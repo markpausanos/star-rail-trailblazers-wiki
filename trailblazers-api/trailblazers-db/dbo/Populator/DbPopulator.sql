@@ -1,5 +1,5 @@
-﻿INSERT INTO [dbo].[User] ([Name], [Password])
-VALUES ('admin', '123456');
+﻿INSERT INTO [dbo].[User] ([Name], [Password], [UserType])
+VALUES ('admin', '123456', 'A');
 GO
 
 DECLARE @i INT = 2;
