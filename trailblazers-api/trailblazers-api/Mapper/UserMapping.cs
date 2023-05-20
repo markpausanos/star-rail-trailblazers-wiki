@@ -10,6 +10,9 @@ namespace trailblazers_api.Mapper
         {
             CreateMap<User, UserCreationLoginDto>();
             CreateMap<UserCreationLoginDto, User>();
+            CreateMap<UserAccessDto, User>();
+            CreateMap<User, UserAccessDto>();
+            CreateMap<UserUpdateDto, User>();
         }
     }
 }
