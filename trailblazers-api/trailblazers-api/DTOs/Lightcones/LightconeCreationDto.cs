@@ -15,6 +15,7 @@ namespace trailblazers_api.Dtos.Lightcones
         public string? Image { get; set; }
 
         [Required(ErrorMessage = "Rarity is a required field")]
+        [Range(1, 5, ErrorMessage = "Rarity must be between 1 to 5")]
         public int Rarity { get; set; }
 
         [Required(ErrorMessage = "BaseHp is a required field")]
