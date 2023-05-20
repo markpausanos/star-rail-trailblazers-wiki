@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using trailblazers_api.Dtos.Skills;
 using trailblazers_api.Dtos.Trailblazers;
-using trailblazers_api.Dtos.Skills;
 using trailblazers_api.Models;
 
 namespace trailblazers_api.Mapper
