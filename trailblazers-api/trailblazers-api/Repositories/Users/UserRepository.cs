@@ -57,16 +57,25 @@ namespace trailblazers_api.Repositories.Users
 
         public async Task<bool> UpdateUser(User user)
         {
-            var sql = "UPDATE [User] SET [Password] = @Password WHERE [Id] = @Id;";
+            var sql = "UPDATE [User] SET [Password] = @Password WHERE [Name] = @Name;";
 
             using (var con = _context.CreateConnection())
             {
-                return await con.ExecuteAsync(sql, new { user.Password, user.Id }) > 0;
+                return await con.ExecuteAsync(sql, new { user.Password, user.Name }) > 0;
             }
         }
 
-        public async Task<bool> DeleteUser(int id)
+        public async Task<bool> DeleteUser(string name)
         {
+            var user = await GetUserByName(name);
+
+            if (user == null)
+            {
+                return false;
+            }
+
+            int id = user.Id;
+
             var sql = "SELECT [Id] FROM [Team] WHERE [UserId] = @Id";
             var spName = "[spUser_DeleteUser]";
 
