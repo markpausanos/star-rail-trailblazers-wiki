@@ -8,5 +8,5 @@
     [Type] NVARCHAR(MAX) NOT NULL,
     [TrailblazerId] INT NOT NULL,
     [IsDeleted] BIT NOT NULL DEFAULT 0,
-    CONSTRAINT [FK_Skill_Trailblazer] FOREIGN KEY ([TrailblazerId]) REFERENCES [dbo].[Trailblazer]([Id]) ON DELETE SET NULL
+    CONSTRAINT [FK_Skill_Trailblazer] FOREIGN KEY ([TrailblazerId]) REFERENCES [dbo].[Trailblazer]([Id]) ON DELETE CASCADE
 );
