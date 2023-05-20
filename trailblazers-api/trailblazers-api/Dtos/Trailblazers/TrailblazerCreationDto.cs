@@ -9,6 +9,7 @@ namespace trailblazers_api.Dtos.Trailblazers
         public string? Image { get; set; }
 
         [Required(ErrorMessage = "Rarity is a required field")]
+        [Range(4, 5, ErrorMessage = "Rarity must be either 4 or 5")]
         public int Rarity { get; set; }
 
         [Required(ErrorMessage = "Base HP is a required field")]
