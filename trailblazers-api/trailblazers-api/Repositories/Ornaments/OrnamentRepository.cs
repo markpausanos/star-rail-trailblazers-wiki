@@ -19,9 +19,9 @@ namespace trailblazers_api.Repositories.Ornaments
             var sql = "INSERT INTO Ornament (Name, Description, Image) VALUES (@Name, @Description, @Image); " +
                       "SELECT SCOPE_IDENTITY();";
 
-            using (var connection = _context.CreateConnection())
+            using (var con = _context.CreateConnection())
             {
-                return await connection.ExecuteScalarAsync<int>(sql, ornament);
+                return await con.ExecuteScalarAsync<int>(sql, ornament);
             }
         }
 
@@ -29,9 +29,9 @@ namespace trailblazers_api.Repositories.Ornaments
         {
             var sql = "SELECT * FROM Ornament;";
 
-            using (var connection = _context.CreateConnection())
+            using (var con = _context.CreateConnection())
             {
-                return await connection.QueryAsync<Ornament>(sql);
+                return await con.QueryAsync<Ornament>(sql);
             }
         }
 
@@ -39,9 +39,9 @@ namespace trailblazers_api.Repositories.Ornaments
         {
             var sql = "SELECT * FROM Ornament WHERE Id = @Id;";
 
-            using (var connection = _context.CreateConnection())
+            using (var con = _context.CreateConnection())
             {
-                return await connection.QuerySingleOrDefaultAsync<Ornament>(sql, new { Id = id });
+                return await con.QuerySingleOrDefaultAsync<Ornament>(sql, new { Id = id });
             }
         }
 
@@ -49,9 +49,9 @@ namespace trailblazers_api.Repositories.Ornaments
         {
             var sql = "SELECT * FROM Ornament WHERE Name = @Name;";
 
-            using (var connection = _context.CreateConnection())
+            using (var con = _context.CreateConnection())
             {
-                return await connection.QuerySingleOrDefaultAsync<Ornament>(sql, new { Name = name });
+                return await con.QuerySingleOrDefaultAsync<Ornament>(sql, new { Name = name });
             }
         }
 
@@ -59,9 +59,9 @@ namespace trailblazers_api.Repositories.Ornaments
         {
             var sql = "UPDATE Ornament SET Description = @Description WHERE Id = @Id;";
 
-            using (var connection = _context.CreateConnection())
+            using (var con = _context.CreateConnection())
             {
-                return await connection.ExecuteAsync(sql, ornament) > 0;
+                return await con.ExecuteAsync(sql, ornament) > 0;
             }
         }
 
@@ -69,9 +69,9 @@ namespace trailblazers_api.Repositories.Ornaments
         {
             var spName = "[spOrnament_DeleteOrnament]";
 
-            using (var connection = _context.CreateConnection())
+            using (var con = _context.CreateConnection())
             {
-                return await connection.ExecuteAsync(spName, new { OrnamentId = id }, commandType: CommandType.StoredProcedure) > 0;
+                return await con.ExecuteAsync(spName, new { OrnamentId = id }, commandType: CommandType.StoredProcedure) > 0;
             }
         }
     }
