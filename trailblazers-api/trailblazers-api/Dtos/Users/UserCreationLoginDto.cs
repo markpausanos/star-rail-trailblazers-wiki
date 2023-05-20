@@ -6,10 +6,10 @@ namespace trailblazers_api.Dtos.Users
     {
         [Required(ErrorMessage = "Name is required")]
         [MaxLength(50, ErrorMessage = "Name can have at most 50 characters")]
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
         [Required(ErrorMessage = "Password is required")]
         [MaxLength(50, ErrorMessage = "Password can have at most 50 characters")]
-        public string Password { get; set; }
+        public string? Password { get; set; }
     }
 }
