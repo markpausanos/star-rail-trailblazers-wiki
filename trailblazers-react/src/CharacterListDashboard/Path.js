@@ -47,7 +47,7 @@ function Path(props) {
       {selectedPath && (
         <div className='path'>
           <img src={selectedPath.img} alt={selectedPath.alt} />
-          <span>The {selectedPath.alt}</span>
+          <span>{selectedPath.alt}</span>
         </div>
       )}
     </div>

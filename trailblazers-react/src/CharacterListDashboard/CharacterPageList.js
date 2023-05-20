@@ -98,7 +98,7 @@ function CharacterPageList() {
       name: "Gepard",
       img: "https://rerollcdn.com/STARRAIL/Characters/Thumb/1104.png",
       elem: "Ice",
-      path: "The Reservation",
+      path: "The Preservation",
       rare: 5,
       charId: 6
     }
