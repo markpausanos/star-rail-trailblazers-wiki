@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import React, { useState } from 'react';
 import './CharacterPageList.css';
 import Search from './Search';
@@ -125,10 +124,12 @@ function CharacterPageList() {
 
   return (
     <div>
-      <ul className='headerbar'>
-          <li data-id = 'header' className='searchbar'> <Search text={'Search character'} onSearchTermChange={searchOnChangeHandler}/> </li>
-          <li data-id = 'header'> <FilterBox category={'Character Page List'} onRareFilterChange={handleRarityChange}  onElemFilterChange={handleElementChange} onPathFilterChange={handlePathChange}/></li>
-      </ul>
+       <div className='headerbar'>
+            <Search text={'Search character'} onSearchTermChange={searchOnChangeHandler}/>
+            <div className='filterBox'>
+            <FilterBox category={'Character Page List'} onRareFilterChange={handleRarityChange}  onElemFilterChange={handleElementChange} onPathFilterChange={handlePathChange}/>
+            </div>     
+        </div>
 
       <div className='contents'>
         <CharacterList list={searchedChar} />

@@ -80,12 +80,17 @@ function LightConePage() {
 
   return (
       <div>
-          <ul className='headerbar'>
-            <li data-id = 'header' className='searchbar'> <Search text={'Search light cone'} onSearchTermChange={searchOnChangeHandler}/> </li>
-            <li data-id = 'header'> <FilterBox category={'Light Cone'} onRareFilterChange={handleRarityChange}  onPathFilterChange={handlePathChange}/></li>
-          </ul>
+          <div className='headerbar'>
+              <Search text={'Search light cone'} onSearchTermChange={searchOnChangeHandler}/>
+              <div className='filterBox'>
+            <FilterBox category={'Light cone'} onRareFilterChange={handleRarityChange}  onPathFilterChange={handlePathChange}/>
 
+            </div>
+          </div>
+
+         <div className='contentAdjust'>
           <LightConeList list = {searchedCone} />
+         </div>
       </div>
   );
 }

@@ -121,7 +121,7 @@ function FilterBox(props) {
     function addFilter(){
         return (
             <>
-                <li className='vertical'> </li>
+                <div className='vertical'> </div>
                 <Filters filter={element} onFilterChange={handleElementFilterChange} selectedFilter={selectedElementFilter}/>
             </>
         );
@@ -144,18 +144,14 @@ function FilterBox(props) {
     }
 
   return (
-    <div className='filterbox'>
-        <ul data-id = 'filter' className='table'>
-        
-            {rareFilterAdd()}
+    <div className='filterbox'>   
+        {rareFilterAdd()}
 
-            {props.category === 'Character Page List' && addFilter()}
+        {props.category === 'Character Page List' && addFilter()}
 
-            <li className='vertical'> </li>
+        <div className='vertical'> </div>
 
-            <Filters filter={pathType} onFilterChange={handlePathFilterChange} selectedFilter={selectedPathFilter}/>
-
-        </ul>
+        <Filters filter={pathType} onFilterChange={handlePathFilterChange} selectedFilter={selectedPathFilter}/>
     </div>
   );
 }
