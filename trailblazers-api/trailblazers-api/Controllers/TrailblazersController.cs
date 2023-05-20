@@ -47,7 +47,7 @@ namespace trailblazers_api.Controllers
             catch (Exception e)
             {
                 _logger.LogError(e.Message);
-                return StatusCode(500, "An error occurred while updating the Trailblazer.");
+                return StatusCode(500, "An error occurred while creating the Trailblazer.");
             }
         }
 
@@ -76,7 +76,7 @@ namespace trailblazers_api.Controllers
             catch (Exception e)
             {
                 _logger.LogError(e.Message);
-                return StatusCode(500, "An error occurred while retrieving the Trailblazer.");
+                return StatusCode(500, "An error occurred while retrieving Trailblazers.");
             }
         }
 
@@ -106,7 +106,7 @@ namespace trailblazers_api.Controllers
             catch (Exception e)
             {
                 _logger.LogError(e.Message);
-                return StatusCode(500, "An error occurred while updating the Trailblazer.");
+                return StatusCode(500, "An error occurred while retrieving the Trailblazer.");
             }
         }
 
