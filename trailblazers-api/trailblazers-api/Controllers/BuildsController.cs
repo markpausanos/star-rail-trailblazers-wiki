@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using trailblazers_api.DTOs.Builds;
+using trailblazers_api.Dtos.Builds;
 using trailblazers_api.Services.Builds;
 
 namespace trailblazers_api.Controllers

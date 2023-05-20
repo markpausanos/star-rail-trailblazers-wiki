@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using trailblazers_api.DTOs.Paths;
+using trailblazers_api.Dtos.Paths;
 using trailblazers_api.Models;
 
 namespace trailblazers_api.Mapper

@@ -1,4 +1,4 @@
-﻿using trailblazers_api.DTOs.Elements;
+﻿using trailblazers_api.Dtos.Elements;
 using trailblazers_api.Models;
 using trailblazers_api.Repositories.Elements;
 

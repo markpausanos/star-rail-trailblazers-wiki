@@ -1,4 +1,4 @@
-﻿namespace trailblazers_api.DTOs.Ornaments
+﻿namespace trailblazers_api.Dtos.Ornaments
 {
     public class OrnamentUpdateDto
     {

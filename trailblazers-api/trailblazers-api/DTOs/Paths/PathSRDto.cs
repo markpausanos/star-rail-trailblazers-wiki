@@ -1,4 +1,4 @@
-﻿namespace trailblazers_api.DTOs.Paths
+﻿namespace trailblazers_api.Dtos.Paths
 {
     public class PathSRDto
     {

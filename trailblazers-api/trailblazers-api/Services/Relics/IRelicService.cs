@@ -1,4 +1,4 @@
-﻿using trailblazers_api.DTOs.Relics;
+﻿using trailblazers_api.Dtos.Relics;
 
 namespace trailblazers_api.Services.Relics
 {

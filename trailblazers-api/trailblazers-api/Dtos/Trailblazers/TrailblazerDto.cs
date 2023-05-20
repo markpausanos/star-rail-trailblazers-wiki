@@ -2,8 +2,8 @@
 using trailblazers_api.Dtos.Eidolons;
 using trailblazers_api.Dtos.Skills;
 using trailblazers_api.Dtos.Traces;
-using trailblazers_api.DTOs.Elements;
-using trailblazers_api.DTOs.Paths;
+using trailblazers_api.Dtos.Elements;
+using trailblazers_api.Dtos.Paths;
 
 namespace trailblazers_api.Dtos.Trailblazers
 {

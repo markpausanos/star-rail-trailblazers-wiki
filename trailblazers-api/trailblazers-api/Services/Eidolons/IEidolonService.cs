@@ -1,4 +1,4 @@
-﻿using trailblazers_api.DTOs.Eidolons;
+﻿using trailblazers_api.Dtos.Eidolons;
 
 namespace trailblazers_api.Services.Eidolons
 {

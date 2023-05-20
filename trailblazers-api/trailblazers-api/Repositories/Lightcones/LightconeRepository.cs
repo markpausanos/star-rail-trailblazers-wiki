@@ -15,7 +15,7 @@ namespace trailblazers_api.Repositories.Lightcones
         }
         public async Task<int> CreateLightcone(Lightcone lightcone)
         {
-            var sql = "INSERT INTO Lightcones (Name, Description, Image) VALUES (@Name, @Description, @Image); " +
+            var sql = "INSERT INTO Lightcone (Name, Description, Image) VALUES (@Name, @Description, @Image); " +
                       "SELECT SCOPE_IDENTITY();";
 
             using (var con = _context.CreateConnection())
@@ -75,7 +75,7 @@ namespace trailblazers_api.Repositories.Lightcones
         }
         public async Task<bool> UpdateLightcone(Lightcone lightcone)
         {
-            var sql = "UPDATE Lightcones SET Description = @Description WHERE Id = @Id;";
+            var sql = "UPDATE Lightcone SET Description = @Description WHERE Id = @Id;";
 
 
             using (var con = _context.CreateConnection())

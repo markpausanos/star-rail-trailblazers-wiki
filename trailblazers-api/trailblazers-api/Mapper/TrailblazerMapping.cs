@@ -10,6 +10,8 @@ namespace trailblazers_api.Mapper
         {
             CreateMap<Trailblazer, TrailblazerIdNameDto>();
             CreateMap<Trailblazer, TrailblazerDto>();
+            CreateMap<TrailblazerCreationDto, Trailblazer>();
+            CreateMap<Trailblazer, TrailblazerCreationDto>();
         }
     }
 }

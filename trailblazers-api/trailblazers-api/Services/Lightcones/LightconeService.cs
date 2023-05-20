@@ -1,4 +1,5 @@
-﻿using trailblazers_api.DTOs.Lightcones;
+﻿using AutoMapper;
+using trailblazers_api.Dtos.Lightcones;
 using trailblazers_api.Models;
 using trailblazers_api.Repositories.Lightcones;
 
@@ -6,106 +7,55 @@ namespace trailblazers_api.Services.Lightcones
 {
     public class LightconeService : ILightconeService
     {
-        private readonly ILightconeRepository _repository;
+        private readonly ILightconeRepository _lightconeRepository;
+        private readonly IMapper _mapper;
 
-        public LightconeService(ILightconeRepository repository)
+        public LightconeService(ILightconeRepository repository, IMapper mapper)
         {
-            _repository = repository;
-        }
+            _lightconeRepository = repository;
+            _mapper = mapper;
+        }   
 
-        public async Task<int> CreateLightcone(LightconeCreationDto lightcone)
+        public async Task<LightconeDto?> CreateLightcone(LightconeCreationDto newLightcone)
         {
-            var lightcodeModel = new Lightcone
-            {
-                Title = lightcone.Title,
-                Name = lightcone.Name,
-                Description = lightcone.Description,
-                Image = lightcone.Image,
-                Rarity = lightcone.Rarity,
-                BaseHp = lightcone.BaseHp,
-                BaseAtk = lightcone.BaseAtk,
-                BaseDef = lightcone.BaseDef
-            };
+            var lightconeToCreate = _mapper.Map<Lightcone>(newLightcone);
 
-            return lightcodeModel.Id = await _repository.CreateLightcone(lightcodeModel);
+            var newlyCreatedLightcone = await _lightconeRepository.GetLightconeById(await _lightconeRepository.CreateLightcone(lightconeToCreate));
+            return _mapper.Map<LightconeDto>(newlyCreatedLightcone);
         }
 
         public async Task<IEnumerable<LightconeDto>> GetAllLightcones()
         {
-            var lightcones = await _repository.GetAllLightcones();
-            if (lightcones == null) return null;
+            var lightcones = await _lightconeRepository.GetAllLightcones();
 
-            return lightcones.Select(lightcone => new LightconeDto
-            {
-                Id = lightcone.Id,
-                Title = lightcone.Title,
-                Name = lightcone.Name,
-                Description = lightcone.Description,
-                Image = lightcone.Image,
-                Rarity = lightcone.Rarity,
-                BaseHp = lightcone.BaseHp,
-                BaseAtk= lightcone.BaseAtk,
-                BaseDef = lightcone.BaseDef
-            });
+            return lightcones.Select(lightcone => _mapper.Map<LightconeDto>(lightcone));
         }
 
-        public async Task<LightconeDto> GetLightconeById(int id)
+        public async Task<LightconeDto?> GetLightconeById(int id)
         {
-            var lightcone = await _repository.GetLightconeById(id);
-            if (lightcone == null) return null;
+            var lightcone = await _lightconeRepository.GetLightconeById(id);
 
-            return new LightconeDto
-            {
-                Id = lightcone.Id,
-                Title = lightcone.Title,
-                Name = lightcone.Name,
-                Description = lightcone.Description,
-                Image = lightcone.Image,
-                Rarity = lightcone.Rarity,
-                BaseHp = lightcone.BaseHp,
-                BaseAtk = lightcone.BaseAtk,
-                BaseDef = lightcone.BaseDef
-            };
+            return lightcone == null ? null : _mapper.Map<LightconeDto>(lightcone);
         }
 
-        public async Task<LightconeDto> GetLightconeByName(string name)
+        public async Task<LightconeDto?> GetLightconeByName(string name)
         {
-            var lightcone = await _repository.GetLightconeByName(name);
-            if (lightcone == null) return null;
+            var lightcone = await _lightconeRepository.GetLightconeByName(name);
 
-            return new LightconeDto
-            {
-                Id = lightcone.Id,
-                Title = lightcone.Title,
-                Name = lightcone.Name,
-                Description = lightcone.Description,
-                Image = lightcone.Image,
-                Rarity = lightcone.Rarity,
-                BaseHp = lightcone.BaseHp,
-                BaseAtk = lightcone.BaseAtk,
-                BaseDef = lightcone.BaseDef
-            };
+            return lightcone == null ? null : _mapper.Map<LightconeDto>(lightcone);
         }
 
-        public async Task<bool> UpdateLightcone(LightconeUpdateDto lightcone)
+        public async Task<bool> UpdateLightcone(int id, LightconeUpdateDto updatedLightcone)
         {
-            var lightconeModel = new Lightcone
-            {
-                Id = lightcone.Id,
-                Title = lightcone.Title,
-                Name = lightcone.Name,
-                Description = lightcone.Description,
-                Image = lightcone.Image,
-                BaseHp = lightcone.BaseHp,
-                BaseAtk = lightcone.BaseAtk,
-                BaseDef = lightcone.BaseDef
-            };
-            return await _repository.UpdateLightcone(lightconeModel);
+            var lightconeToUpdate = _mapper.Map<Lightcone>(updatedLightcone);
+            lightconeToUpdate.Id = id;
+
+            return await _lightconeRepository.UpdateLightcone(lightconeToUpdate);
         }
 
         public async Task<bool> DeleteLightcone(int id)
         {
-            return await _repository.DeleteLightcone(id);
+            return await _lightconeRepository.DeleteLightcone(id);
         }
     }
 }

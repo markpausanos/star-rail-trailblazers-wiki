@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using trailblazers_api.DTOs.Ornaments;
+using trailblazers_api.Dtos.Ornaments;
 using trailblazers_api.Models;
 using trailblazers_api.Repositories.Ornaments;
 

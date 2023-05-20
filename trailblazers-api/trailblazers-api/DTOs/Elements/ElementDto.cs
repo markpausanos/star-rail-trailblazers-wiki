@@ -1,4 +1,4 @@
-﻿namespace trailblazers_api.DTOs.Elements
+﻿namespace trailblazers_api.Dtos.Elements
 {
     public class ElementDto
     {

@@ -1,4 +1,4 @@
-﻿using trailblazers_api.DTOs.Eidolons;
+﻿using trailblazers_api.Dtos.Eidolons;
 using trailblazers_api.Models;
 using trailblazers_api.Repositories.Eidolons;
 

@@ -1,9 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
-using System.IO;
-using trailblazers_api.DTOs.Lightcones;
-using trailblazers_api.DTOs.Paths;
-using trailblazers_api.Models;
+using trailblazers_api.Dtos.Lightcones;
 using trailblazers_api.Services.Lightcones;
 
 namespace trailblazers_api.Controllers
@@ -13,52 +11,36 @@ namespace trailblazers_api.Controllers
     public class LightconesController : ControllerBase
     {
         private readonly ILogger<LightconesController> _logger;
-        private readonly ILightconeService _service;
+        private readonly ILightconeService _lightconeService;
 
         public LightconesController(ILogger<LightconesController> logger, ILightconeService service)
         {
             _logger = logger;
-            _service = service;
+            _lightconeService = service;
         }
 
         /// <summary>
         /// Creates a new Lightcone.
         /// </summary>
-        /// <param name="path">The Lightcone to be created.</param>
-        /// <returns>The Id of the newly created Lightcone.</returns>
-        /// <remarks>
-        /// Sample request:
-        ///
-        /// POST /api/Lightcones
-        /// {
-        /// "title": "Meditation",
-        /// "name": "Family",
-        /// "description": "A drop of strength...",
-        /// "image": "https://example.com/meditation.png",
-        /// "rarity": 3,
-        /// "basehp": 38,
-        /// "baseatk": 14,
-        /// "basedef": 12
-        /// }
-        ///
-        /// </remarks>
-        /// <response code="201">The Lightcone was successfully created.</response>
-        /// <response code="204">No content.</response>
-        /// <response code="400">Invalid request.</response>
-        /// <response code="500">An internal server error occurred.</response>
+        /// <param name="lightcone">The Lightcone creation data.</param>
+        /// <returns>The created Lightcone.</returns>
         [HttpPost(Name = "CreateLightcone")]
         [Consumes("application/json")]
         [Produces("application/json")]
+        [Authorize(Roles = "A")]
         [ProducesResponseType(typeof(LightconeDto), StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> CreateLightcone([FromForm] LightconeCreationDto lightcone)
+        public async Task<IActionResult> CreateLightcone(LightconeCreationDto lightcone)
         {
             try
             {
-                var newLightconeId = await _service.CreateLightcone(lightcone);
-                var newLightcone = await _service.GetLightconeById(newLightconeId);
+                var newLightcone = await _lightconeService.CreateLightcone(lightcone);
+
+                if (newLightcone == null)
+                {
+                    return BadRequest("Lightcone cannot be created.");
+                }
 
                 return CreatedAtRoute("GetLightconeById", new { id = newLightcone.Id }, newLightcone);
             }
@@ -70,30 +52,39 @@ namespace trailblazers_api.Controllers
         }
 
         /// <summary>
-        /// Gets all Lightcones in the database.
+        /// Gets all Lightcones.
         /// </summary>
-        /// <returns>IEnumerable with all Lightcones.</returns>
-        /// <response code="200">The Lightcones were successfully retrieved.</response>
-        /// <response code="204">No content.</response>
-        /// <response code="400">Invalid request.</response>
-        /// <response code="500">An internal server error occurred.</response>
+        /// <param name="name">Optional name filter.</param>
+        /// <returns>A collection of Lightcones.</returns>
         [HttpGet(Name = "GetAllLightcones")]
         [Produces("application/json")]
         [ProducesResponseType(typeof(IEnumerable<LightconeDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> GetAllLightcones()
+        public async Task<IActionResult> GetAllLightcones([FromQuery] string? name)
         {
             try
             {
-                var lightcones = await _service.GetAllLightcones();
-
-                if (lightcones.IsNullOrEmpty())
+                if (string.IsNullOrEmpty(name))
                 {
-                    return NoContent();
+                    var lightcones = await _lightconeService.GetAllLightcones();
+
+                    if (!lightcones.IsNullOrEmpty())
+                    {
+                        return Ok(lightcones);
+                    }
                 }
-                return Ok(lightcones);
+                else
+                {
+                    var lightcone = await _lightconeService.GetLightconeByName(name);
+
+                    if (lightcone != null)
+                    {
+                        return Ok(lightcone);
+                    }
+                }
+
+                return NoContent();
             }
             catch (Exception e)
             {
@@ -103,25 +94,20 @@ namespace trailblazers_api.Controllers
         }
 
         /// <summary>
-        /// Gets Lightcone with the given Id from the database.
+        /// Gets a Lightcone by ID.
         /// </summary>
-        /// <param name="id">Id of Lightcone to be retrieved.</param>
-        /// <returns>Lightcone with Id.</returns>
-        /// <response code="200">The Lightcone was successfully retrieved.</response>
-        /// <response code="204">No content.</response>
-        /// <response code="400">The Path details are invalid.</response>
-        /// <response code="500">An internal server error occurred.</response>
+        /// <param name="id">The ID of the Lightcone to retrieve.</param>
+        /// <returns>The Lightcone with the specified ID.</returns>
         [HttpGet("{id}", Name = "GetLightconeById")]
         [Produces("application/json")]
         [ProducesResponseType(typeof(LightconeDto), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetLightconeById(int id)
         {
             try
             {
-                var lightcone = await _service.GetLightconeById(id);
+                var lightcone = await _lightconeService.GetLightconeById(id);
 
                 if (lightcone == null)
                 {
@@ -137,83 +123,45 @@ namespace trailblazers_api.Controllers
         }
 
         /// <summary>
-        /// Gets Lightcone with the given Name from the database.
+        /// Updates a Lightcone.
         /// </summary>
-        /// <param name="name">Name of Lightcone to be retrieved.</param>
-        /// <returns>Lightcone with Name.</returns>
-        /// <response code="200">The Lightcone was successfully retrieved.</response>
-        /// <response code="204">No content.</response>
-        /// <response code="400">The Lightcone details are invalid.</response>
-        /// <response code="500">An internal server error occurred.</response>
-        [HttpGet("{name}", Name = "GetLightconeByName")]
-        [Produces("application/json")]
-        [ProducesResponseType(typeof(LightconeDto), StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> GetLightconeByName(string name)
-        {
-            try
-            {
-                var lightcone = await _service.GetLightconeByName(name);
-
-                if (lightcone == null)
-                {
-                    return NoContent();
-                }
-                return Ok(lightcone);
-            }
-            catch (Exception e)
-            {
-                _logger.LogError(e.Message);
-                return StatusCode(500, "An error occurred while retrieving the Lightcone.");
-            }
-        }
-
-        /// <summary>
-        /// Updates Lightcone with given data.
-        /// </summary>
-        /// <param name="updateLightcone">Data to update to the Lightcone.</param>
-        /// <returns>True if the updating was successful, false otherwise.</returns>
-        /// <remarks>
-        /// Sample request:
-        ///
-        /// POST /api/Lightcones
-        /// {
-        /// "id": 2
-        /// "title": "Meditation",
-        /// "name": "Family",
-        /// "description": "A drop of strength...",
-        /// "image": "https://example.com/meditation.png",
-        /// "rarity": 3,
-        /// "basehp": 38,
-        /// "baseatk": 14,
-        /// "basedef": 12
-        /// }
-        /// 
-        /// </remarks>
-        /// <response code="200">The Lightcone was successfully updated.</response>
-        /// <response code="404">The Lightcone was not found.</response>
-        /// <response code="500">An internal server error occurred.</response>
+        /// <param name="id">The ID of the Lightcone to update.</param>
+        /// <param name="newLightcone">The updated Lightcone data.</param>
+        /// <returns>True if the update was successful, otherwise false.</returns>
         [HttpPut(Name = "UpdateLightcone")]
         [Consumes("application/json")]
         [Produces("application/json")]
         [ProducesResponseType(typeof(bool), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> UpdateLightcone([FromForm] LightconeUpdateDto updateLightcone)
+        public async Task<IActionResult> UpdateLightcone(int id, [FromBody] LightconeUpdateDto newLightcone)
         {
             try
             {
-                int id = updateLightcone.Id;
-                var lightcone = await _service.GetLightconeById(id);
+                var lightcone = await _lightconeService.GetLightconeById(id);
+
                 if (lightcone == null)
                 {
                     return NotFound($"Lightcone with ID = {id} does not exist.");
                 }
 
-                var updatedLightcone = await _service.UpdateLightcone(updateLightcone);
-                return Ok(updatedLightcone);
+                newLightcone.Title ??= lightcone.Title;
+                newLightcone.Name ??= lightcone.Name;
+                newLightcone.Description ??= lightcone.Description;
+                newLightcone.Image ??= lightcone.Image;
+                newLightcone.Rarity ??= lightcone.Rarity;
+                newLightcone.BaseHp ??= lightcone.BaseHp;
+                newLightcone.BaseAtk ??= lightcone.BaseAtk;
+                newLightcone.BaseDef ??= lightcone.BaseDef;
+
+                if (await _lightconeService.UpdateLightcone(id, newLightcone))
+                {
+                    var updatedLightcone = await _lightconeService.GetLightconeById(id);
+
+                    return Ok(updatedLightcone);
+                }
+
+                return BadRequest();
             }
             catch (Exception e)
             {
@@ -223,14 +171,10 @@ namespace trailblazers_api.Controllers
         }
 
         /// <summary>
-        /// Deletes an Lightcone with the given Id
+        /// Deletes a Lightcone by ID.
         /// </summary>
-        /// <param name="id">Id of Lightcone to be deleted</param>
-        /// <returns>True if the deletion was successful, false otherwise.</returns>
-        /// <response code="200">The Lightcone was successfully deleted.</response>
-        /// <response code="400">Invalid request.</response>
-        /// <response code="404">The Lightcone was not found.</response>
-        /// <response code="500">An internal server error occurred.</response>
+        /// <param name="id">The ID of the Lightcone to delete.</param>
+        /// <returns>True if the deletion was successful, otherwise false.</returns>
         [HttpDelete("{id}", Name = "DeleteLightcone")]
         [Produces("application/json")]
         [ProducesResponseType(typeof(bool), StatusCodes.Status200OK)]
@@ -241,18 +185,12 @@ namespace trailblazers_api.Controllers
         {
             try
             {
-                var lightcone = await _service.GetLightconeById(id);
-                if (lightcone == null)
+                if (await _lightconeService.DeleteLightcone(id))
                 {
-                    return NotFound($"Lightcone with ID = {id} not found.");
+                    return Ok($"Successfully deleted lightcone with ID {id}.");
                 }
 
-                var isDeleted = await _service.DeleteLightcone(id);
-                if (isDeleted)
-                {
-                    return Ok("Successfully deleted.");
-                }
-                return BadRequest($"Lightcone with ID = {id} could not be deleted.");
+                return BadRequest();
             }
             catch (Exception e)
             {

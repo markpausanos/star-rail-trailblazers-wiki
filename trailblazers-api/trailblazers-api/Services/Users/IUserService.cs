@@ -1,5 +1,4 @@
 ﻿using trailblazers_api.Dtos.Users;
-using trailblazers_api.Models;
 
 namespace trailblazers_api.Services.Users
 {
@@ -9,21 +8,28 @@ namespace trailblazers_api.Services.Users
         /// Authenticates a user based on their name and password.
         /// </summary>
         /// <param name="userDto">The user credentials.</param>
-        /// <returns>The authenticated user.</returns>
-        Task<UserCreationLoginDto?> Authenticate(UserCreationLoginDto userDto);
+        /// <returns>A boolean indicating whether the user is authenticated.</returns>
+        Task<bool> Authenticate(UserCreationLoginDto userDto);
 
         /// <summary>
         /// Generates a JWT token for the given user.
         /// </summary>
         /// <param name="userDto">The user to generate a token for.</param>
-        /// <returns>The generated token.</returns>
+        /// <returns>The generated token, or null if the token generation fails.</returns>
         Task<string?> GenerateToken(UserCreationLoginDto userDto);
+
+        /// <summary>
+        /// Gets the currently authenticated user.
+        /// </summary>
+        /// <param name="context">The HTTP context.</param>
+        /// <returns>The currently authenticated user, or null if not authenticated.</returns>
+        Task<UserAccessDto?> GetCurrentUser(HttpContext context);
 
         /// <summary>
         /// Creates a new user with the given details.
         /// </summary>
         /// <param name="userDto">The user details.</param>
-        /// <returns>The generated JWT token for the new user.</returns>
+        /// <returns>The generated JWT token for the new user, or null if user creation fails.</returns>
         Task<string?> CreateUser(UserCreationLoginDto userDto);
 
         /// <summary>
@@ -31,21 +37,27 @@ namespace trailblazers_api.Services.Users
         /// </summary>
         /// <param name="id">The ID of the user to retrieve.</param>
         /// <returns>The user with the given ID, or null if not found.</returns>
-        Task<User?> GetUserById(int id);
+        Task<UserAccessDto?> GetUserById(int id);
 
         /// <summary>
-        /// Updates a user with the given ID and details.
+        /// Retrieves a user by their name.
         /// </summary>
-        /// <param name="id">The ID of the user to update.</param>
+        /// <param name="name">The name of the user to retrieve.</param>
+        /// <returns>The user with the given name, or null if not found.</returns>
+        Task<UserAccessDto?> GetUserByName(string name);
+
+        /// <summary>
+        /// Updates a user with the given details.
+        /// </summary>
         /// <param name="userUpdateDto">The new details for the user.</param>
-        /// <returns>The updated user.</returns>
-        Task<bool> UpdateUserById(int id, UserUpdateDto userUpdateDto);
+        /// <returns>A boolean indicating whether the user update was successful.</returns>
+        Task<bool> UpdateUserByName(UserUpdateDto userUpdateDto);
 
         /// <summary>
-        /// Deletes a user with the given ID.
+        /// Deletes a user with the given name.
         /// </summary>
-        /// <param name="id">The ID of the user to delete.</param>
-        /// <returns>True if the user was deleted, false otherwise.</returns>
-        Task<bool> DeleteUserById(int id);
+        /// <param name="name">The name of the user to delete.</param>
+        /// <returns>A boolean indicating whether the user was deleted.</returns>
+        Task<bool> DeleteUser(string name);
     }
 }

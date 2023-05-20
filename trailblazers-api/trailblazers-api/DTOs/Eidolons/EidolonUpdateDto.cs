@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace trailblazers_api.DTOs.Eidolons
+namespace trailblazers_api.Dtos.Eidolons
 {
     /// <summary>
     /// Element update DTO class
