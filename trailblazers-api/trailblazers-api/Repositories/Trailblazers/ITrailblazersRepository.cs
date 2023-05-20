@@ -7,28 +7,28 @@ namespace trailblazers_api.Repositories.Trailblazers
         /// <summary>
         /// Creates a new Trailblazer in the database.
         /// </summary>
-        /// <param name="trailblazer">The Trailblazer to create.</param>
+        /// <param name="trailblazer">The Trailblazer object to create.</param>
         /// <returns>The Id of the newly created Trailblazer.</returns>
         Task<int> CreateTrailblazer(Trailblazer trailblazer);
 
         /// <summary>
         /// Gets all Trailblazers in the database.
         /// </summary>
-        /// <returns>An IEnumerable of all Trailblazers.</returns>
+        /// <returns>An IEnumerable collection of all Trailblazers.</returns>
         Task<IEnumerable<Trailblazer>> GetAllTrailblazers();
 
         /// <summary>
         /// Gets a Trailblazer from the database by its Id.
         /// </summary>
         /// <param name="id">The Id of the Trailblazer to retrieve.</param>
-        /// <returns>The Trailblazer with the specified Id, or null if not found.</returns>
+        /// <returns>The Trailblazer object with the specified Id, or null if not found.</returns>
         Task<Trailblazer?> GetTrailblazerById(int id);
 
         /// <summary>
-        /// Gets a Trailblazer from the database by its name.
+        /// Updates a Trailblazer in the database.
         /// </summary>
-        /// <param name="name">The name of the Trailblazer to retrieve.</param>
-        /// <returns>The Trailblazer with the specified name, or null if not found.</returns>
+        /// <param name="trailblazer">The updated Trailblazer object.</param>
+        /// <returns>A boolean value indicating whether the operation was successful.</returns>
         Task<bool> UpdateTrailblazer(Trailblazer trailblazer);
     }
 }
