@@ -86,9 +86,8 @@ namespace trailblazers_api.Repositories.Users
                 {
                     await con.ExecuteAsync("[spTeam_DeleteTeam]", new { TeamId = teamId }, commandType: CommandType.StoredProcedure);
                 }
-                return await con.ExecuteAsync(spName,
-                    new { UserId = id },
-                    commandType: CommandType.StoredProcedure) > 0;
+                await con.ExecuteAsync(spName, new { UserId = id }, commandType: CommandType.StoredProcedure);
+                return true;
             }
         }
     }
