@@ -65,15 +65,26 @@ namespace trailblazers_api.Controllers
         {
             try
             {
-                var ornaments = string.IsNullOrEmpty(name) ? await _ornamentService.GetAllOrnaments() :
-                    new List<OrnamentDto> {  await _ornamentService.GetOrnamentByName(name) };
-
-                if (ornaments.IsNullOrEmpty())
+                if (string.IsNullOrEmpty(name))
                 {
-                    return NoContent();
+                    var ornaments = await _ornamentService.GetAllOrnaments();
+
+                    if (!ornaments.IsNullOrEmpty())
+                    {
+                        return Ok(ornaments);
+                    }
                 }
-                
-                return Ok(ornaments);
+                else
+                {
+                    var ornament = await _ornamentService.GetOrnamentByName(name);
+
+                    if (ornament != null)
+                    {
+                        return Ok(ornament);
+                    }
+                }
+
+                return NoContent();
             }
             catch (Exception e)
             {

@@ -59,21 +59,33 @@ namespace trailblazers_api.Controllers
         [HttpGet(Name = "GetAllRelics")]
         [Produces("application/json")]
         [ProducesResponseType(typeof(IEnumerable<RelicDto>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(RelicDto), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetAllRelics([FromQuery] string? name)
         {
             try
             {
-                var relics = string.IsNullOrEmpty(name) ? await _relicService.GetAllRelics() :
-                    new List<RelicDto> { await _relicService.GetRelicByName(name) };
-
-                if (relics.IsNullOrEmpty())
+                if (string.IsNullOrEmpty(name))
                 {
-                    return NoContent();
-                }
+                    var relics = await _relicService.GetAllRelics();
 
-                return Ok(relics);
+                    if (!relics.IsNullOrEmpty())
+                    {
+                        return Ok(relics);
+                    }
+                }
+                else
+                {
+                    var relic = await _relicService.GetRelicByName(name);
+
+                    if (relic != null)
+                    {
+                        return Ok(relic);
+                    }
+                }
+               
+                return NoContent();
             }
             catch (Exception e)
             {
