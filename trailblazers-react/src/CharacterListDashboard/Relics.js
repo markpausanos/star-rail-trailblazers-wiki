@@ -46,11 +46,13 @@ function Relics() {
 
   return (
     <div>
-        <ul className='headerbar'>
-          <li className='searchbar'> <Search text={'Search relics'} onSearchTermChange={searchOnChangeHandler}/> </li>
-        </ul>
-
+        <div className='headerbar'>
+            <Search text={'Search relics'} onSearchTermChange={searchOnChangeHandler}/>   
+        </div>
+      <div className='contentAdjust'>
       <RelicList list={searchedRelic} />
+      </div>
+      
     </div>
   );
 }

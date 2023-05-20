@@ -2,6 +2,7 @@ import React from 'react'
 import { useState } from 'react';
 import Search from './Search';
 import './RelicOrnament.css';
+import OrnamentList from './OrnamentList';
 
 function Ornaments() {
 
@@ -31,27 +32,13 @@ function Ornaments() {
 
   return (
     <div>
-        <ul className='headerbar'>
-          <li className='searchbar'> <Search text={'Search ornaments'} onSearchTermChange={searchOnChangeHandler}/> </li>
-        </ul>
+        <div className='headerbar'>
+          <Search text={'Search ornaments'} onSearchTermChange={searchOnChangeHandler}/> 
+        </div>
 
-        {
-            searchedOrnaments.map(orn => {
-            return (
-                <div className='relic-OrnanemtItem'>
-                    <img src={orn.img} className='picture' alt={orn.name}/>
-                    <div>
-                      <span className='relic-OrnanemtName'> {orn.name}</span>
-                      <div className='relic-OrnanemtDetails'> 
-                          <div className='relic-Ornanemt-Detail'>2</div>
-                          <span className='relic-OrnanemtDesc'> {orn.description} </span>
-                      </div>
-                    </div>
-                    
-                </div>
-            );
-            })
-        }
+        <div className='contentAdjust'>
+          <OrnamentList list={searchedOrnaments} />
+        </div>
     </div>
   );
 }
