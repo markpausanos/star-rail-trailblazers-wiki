@@ -1,4 +1,5 @@
-﻿using trailblazers_api.Dtos.Eidolons;
+﻿using AutoMapper;
+using trailblazers_api.Dtos.Eidolons;
 using trailblazers_api.Models;
 using trailblazers_api.Repositories.Eidolons;
 
@@ -6,57 +7,55 @@ namespace trailblazers_api.Services.Eidolons
 {
     public class EidolonService : IEidolonService
     {
-        private readonly IEidolonRepository _repository;
+        private readonly IEidolonRepository _eidolonRepository;
+        private readonly IMapper _mapper;
 
-        public EidolonService(IEidolonRepository repository)
+        public EidolonService(IEidolonRepository repository, IMapper mapper)
         {
-            _repository = repository;
+            _eidolonRepository = repository;
+            _mapper = mapper;
         }
 
-        public async Task<int> CreateEidolon(EidolonCreationDto eidolon)
+        public async Task<EidolonDto?> CreateEidolon(EidolonCreationDto newEidolon)
         {
-            var eidolonModel = new Eidolon
-            {
-                Name = eidolon.Name,
-                Description = eidolon.Description,
-                Image = eidolon.Image,
-                Order = eidolon.Order
-            };
-            
-            return await _repository.CreateEidolon(eidolonModel);
+            var eidolonToCreate = _mapper.Map<Eidolon>(newEidolon);
+
+            var newlyCreatedEidolon = await _eidolonRepository.GetEidolonById(await _eidolonRepository.CreateEidolon(eidolonToCreate));
+            return _mapper.Map<EidolonDto>(newlyCreatedEidolon);
         }
 
-        public async Task<IEnumerable<EidolonDto>> GetAllEidolonsByTrailblazerId(int trailblazerId)
+        public async Task<IEnumerable<EidolonDto>> GetAllEidolons()
         {
-            var eidolons = await _repository.GetAllEidolonsByTrailblazerId(trailblazerId);
-            if (eidolons == null) return null;
+            var eidolons = await _eidolonRepository.GetAllEidolons();
 
-            return eidolons.Select(eidolon => new EidolonDto
-            {
-                Id = eidolon.Id,
-                Name = eidolon.Name,
-                Description = eidolon.Description,
-                Image = eidolon.Image,
-                Order = eidolon.Order
-            });
+            return eidolons.Select(eidolon => _mapper.Map<EidolonDto>(eidolon));
         }
 
-        public async Task<bool> UpdateEidolon(EidolonUpdateDto eidolon)
+        public async Task<IEnumerable<EidolonDto>> GetEidolonsByTrailblazerId(int trailblazerId)
         {
-            var eidolonModel = new Eidolon
-            {
-                Name = eidolon.Name,
-                Description = eidolon.Description,
-                Image = eidolon.Image,
-                Order = eidolon.Order
-            };
+            var eidolons = await _eidolonRepository.GetEidolonsByTrailblazerId(trailblazerId);
 
-            return await _repository.UpdateEidolon(eidolonModel);
+            return eidolons.Select(eidolon => _mapper.Map<EidolonDto>(eidolon));
+        }
+
+        public async Task<EidolonDto?> GetEidolonById(int id)
+        {
+            var eidolon = await _eidolonRepository.GetEidolonById(id);
+
+            return eidolon == null ? null : _mapper.Map<EidolonDto>(eidolon);
+        }
+
+        public async Task<bool> UpdateEidolon(int id, EidolonUpdateDto updatedeidolon)
+        {
+            var eidolonToUpdate = _mapper.Map<Eidolon>(updatedeidolon);
+            eidolonToUpdate.Id = id;
+
+            return await _eidolonRepository.UpdateEidolon(eidolonToUpdate);
         }
 
         public async Task<bool> DeleteEidolon(int id)
         {
-            return await _repository.DeleteEidolon(id);
+            return await _eidolonRepository.DeleteEidolon(id);
         }
     }
 }
