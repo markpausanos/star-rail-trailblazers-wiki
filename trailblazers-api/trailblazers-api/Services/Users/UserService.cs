@@ -64,7 +64,7 @@ namespace trailblazers_api.Services.Users
                 var userClaims = identity.Claims;
                 var userName = userClaims.FirstOrDefault(u => u.Type == ClaimTypes.Name)?.Value;
 
-                return await GetUserByName(userName);
+                return await GetUserByName(userName!);
             }
 
             return null;
