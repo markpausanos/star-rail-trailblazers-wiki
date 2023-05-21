@@ -34,6 +34,26 @@ namespace trailblazers_api.Repositories.Elements
             }
         }
 
+        public async Task<Element?> GetElementById(int id)
+        {
+            var sql = "SELECT * FROM Element WHERE Id = @Id AND IsDeleted = 0;";
+
+            using (var con = _context.CreateConnection())
+            {
+                return await con.QuerySingleOrDefaultAsync<Element>(sql, new { id });
+            }
+        }
+
+        public async Task<Element?> GetElementByName(string name)
+        {
+            var sql = "SELECT * FROM Element WHERE Name = @Name AND IsDeleted = 0;";
+
+            using (var con = _context.CreateConnection())
+            {
+                return await con.QuerySingleOrDefaultAsync<Element>(sql, new { name });
+            }
+        }
+
         public async Task<bool> UpdateElement(Element element)
         {
             var sql = "UPDATE Element SET Name = @Name, Image = @Image WHERE Id = @Id AND IsDeleted = 0;";
