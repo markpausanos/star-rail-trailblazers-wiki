@@ -9,7 +9,7 @@ namespace trailblazers_api.Services.Elements
         /// </summary>
         /// <param name="element">Element to be created</param>
         /// <returns>Newly created Element</returns>
-        Task<ElementDto> CreateElement(ElementCreationDto element);
+        Task<ElementDto?> CreateElement(ElementCreationDto element);
 
         /// <summary>
         /// Gets All the Element in the Database.
@@ -22,14 +22,16 @@ namespace trailblazers_api.Services.Elements
         /// </summary>
         /// <param name="id">Id of Element to be retrieved</param>
         /// <returns>Element with given id</returns>
-        Task<ElementDto> GetElementById(int id);
+        Task<ElementDto?> GetElementById(int id);
+
+        Task<ElementDto?> GetElementByName(string name);
 
         /// <summary>
         /// Updates an existing element in the database.
         /// </summary>
         /// <param name="element">The updated element.</param>
         /// <returns>True if the update was successful, false otherwise.</returns>
-        Task<bool> UpdateElement(ElementUpdateDto element);
+        Task<bool> UpdateElement(int id, ElementUpdateDto element);
 
         /// <summary>
         /// Deletes an element from the database.
