@@ -20,16 +20,14 @@ function Dashboard() {
   };
 
   return (
-    <div>
+    <div className='dashboard'>
         <CategoryTab OnClickHandle={handleClick} activeItem={activeItem}/>
-        <div className='content'>
+        <div className='contentDashboard'>
           {activeItem === 'characters' && <CharacterPageList />}
           {activeItem === 'light cones' && <LightConePage />}
           {activeItem === 'relics' && <Relics />}
           {activeItem === 'ornaments' && <Ornaments />}
-          <div className='spacer' />
         </div>
-        <button className="link-button" onClick={() => navigate('/admindashboard')}>Button to Admin Pages, delet this</button>
     </div>
   );
 }

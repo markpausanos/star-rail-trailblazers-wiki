@@ -4,6 +4,7 @@ import Login from './Login-Signup/Login';
 import Dashboard from './CharacterListDashboard/Dashboard';
 import SignUp from './Login-Signup/SignUp';
 import AdminDashboard from './AdminScreen/AdminDashboard';
+import TeamShowcase from './TeamShowcaseFeature/TeamShowcase';
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
       <Route path="sign-up" element={<SignUp />}></Route>
       <Route path="dashboard" element={<Dashboard />}></Route>
       <Route path="admindashboard" element={<AdminDashboard />}></Route>
+      <Route path ="teamshowcase" element={<TeamShowcase/>}/>
     </Routes>
   );
 }

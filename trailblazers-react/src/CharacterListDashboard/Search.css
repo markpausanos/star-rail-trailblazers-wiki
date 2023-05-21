@@ -11,6 +11,7 @@
     color: #333;
     border: none;
     outline: none;
+    width: 150px;
 }
 
 .inpbox:focus {

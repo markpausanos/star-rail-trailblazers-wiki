@@ -16,8 +16,7 @@ namespace trailblazers_api.Repositories.Paths
 
         public async Task<int> CreatePathSR(PathSR path)
         {
-            var sql = "INSERT INTO PathSR (Name, Image) VALUES (@Name, @Image);" +
-                      "SELECT SCOPE_IDENTITY();";
+            var sql = "INSERT INTO PathSR (Name, Image) VALUES (@Name, @Image); SELECT SCOPE_IDENTITY();";
 
             using (var con = _context.CreateConnection())
             {
@@ -71,11 +70,8 @@ namespace trailblazers_api.Repositories.Paths
 
             using (var connection = _context.CreateConnection())
             {
-                return await connection.ExecuteAsync(spName,
-                    new { PathSRId = id },
-                    commandType: CommandType.StoredProcedure) > 0;
+                return await connection.ExecuteAsync(spName, new { PathSRId = id }, commandType: CommandType.StoredProcedure) > 0;
             }
         }
-
     }
 }

@@ -39,10 +39,10 @@ namespace trailblazers_api.Repositories.Users
         Task<bool> UpdateUser(User user);
 
         /// <summary>
-        /// Deletes a user from the database by ID.
+        /// Deletes a user from the database by name.
         /// </summary>
-        /// <param name="id">The ID of the user to delete.</param>
+        /// <param name="name">The name of the user to delete.</param>
         /// <returns>True if the deletion was successful, false otherwise.</returns>
-        Task<bool> DeleteUser(int id);
+        Task<bool> DeleteUser(string name);
     }
 }

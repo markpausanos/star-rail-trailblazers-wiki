@@ -15,7 +15,7 @@ namespace trailblazers_api.Repositories.Elements
         }
         public async Task<int> CreateElement(Element element)
         {
-            var sql = "INSERT INTO Elements (Name, Image) VALUES (@Name, @Image);" +
+            var sql = "INSERT INTO Element (Name, Image) VALUES (@Name, @Image);" +
                       "SELECT SCOPE_IDENTITY();";
 
             using (var con = _context.CreateConnection())
@@ -26,7 +26,7 @@ namespace trailblazers_api.Repositories.Elements
 
         public async Task<IEnumerable<Element>> GetAllElements()
         {
-            var sql = "SELECT * FROM Elements WHERE IsDeleted = 0;";
+            var sql = "SELECT * FROM Element WHERE IsDeleted = 0;";
 
             using (var con = _context.CreateConnection())
             {
@@ -34,29 +34,9 @@ namespace trailblazers_api.Repositories.Elements
             }
         }
 
-        public async Task<Element?> GetElementById(int id)
-        {
-            var sql = "SELECT * FROM Elements WHERE Id = @Id AND IsDeleted = 0;";
-
-            using (var con = _context.CreateConnection())
-            {
-                return await con.QuerySingleOrDefaultAsync<Element>(sql, new { id });
-            }
-        }
-
-        public async Task<Element?> GetElementByName(string name)
-        {
-            var sql = "SELECT * FROM Elements WHERE Name = @Name AND IsDeleted = 0;";
-
-            using (var con = _context.CreateConnection())
-            {
-                return await con.QuerySingleOrDefaultAsync<Element>(sql, new { name });
-            }
-        }
-
         public async Task<bool> UpdateElement(Element element)
         {
-            var sql = "UPDATE Elements SET Name = @Name, Image = @Image WHERE Id = @Id AND IsDeleted = 0;";
+            var sql = "UPDATE Element SET Name = @Name, Image = @Image WHERE Id = @Id AND IsDeleted = 0;";
 
             using (var con = _context.CreateConnection())
             {

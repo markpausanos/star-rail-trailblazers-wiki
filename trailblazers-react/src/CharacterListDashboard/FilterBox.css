@@ -1,30 +1,20 @@
 .filterbox{
-    position: absolute;
-    top: 8%;
-    left: 100%;
+    position: relative;
+    display: flex;
+    flex-wrap: wrap; 
+    top: 10px;
     margin-left: 20px;
     height: 46px;
-    width: 920px;
+    width: inherit;
+    height: fit-content;
     border-radius: 5px;
     background-color: rgba(35,34,34, 0.85);
-
+    justify-content: center;
 }
+
 .vertical{
     border-left: 1px solid white;
     height: 40px;
     margin-left: 10px;
-    margin-right: 5px;
+    margin-right: 0px;
 }
-
-.table{
-    align-items: center;
-    justify-content: center;
-    padding-top: 2px;
-    padding-left: 0px;
-}
-
-ul [data-id = 'filter']{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
