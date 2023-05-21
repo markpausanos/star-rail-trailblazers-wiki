@@ -40,24 +40,24 @@ export const LightConeUpdatePage = (props) => {
     };
     
     useEffect(() => {
-        // Logic to load character data from the database or any other data source
-        const ligthconeData = fetchLightconeData(); // Replace with your own function to fetch character data
+        // Logic to load lightcone data from the database or any other data source
+        const ligthconeData = fetchLightconeData(); // Replace with your own function to fetch lightcone data
     
-        // Update the state with the fetched character data
+        // Update the state with the fetched lightcone data
         setLightconeList(ligthconeData);
 
-        // Set the text displayed in the input boxes to the data for the selected character
+        // Set the text displayed in the input boxes to the data for the selected lightcone
         if (lightconeID >= 0 && lightconeID < ligthconeData.length) {
-            const selectedCharacter = ligthconeData[lightconeID];
-            setID(selectedCharacter.id);
-            setImage(selectedCharacter.image);
-            setName(selectedCharacter.name);
-            setRarity(selectedCharacter.rarityId);
-            setPath(selectedCharacter.pathId);
-            setBaseHP(selectedCharacter.baseHP);
-            setBaseAtk(selectedCharacter.baseAtk);
-            setBaseDef(selectedCharacter.baseDef);
-            setEffect(selectedCharacter.effects);
+            const selectedLightcone = ligthconeData[lightconeID];
+            setID(selectedLightcone.id);
+            setImage(selectedLightcone.image);
+            setName(selectedLightcone.name);
+            setRarity(selectedLightcone.rarityId);
+            setPath(selectedLightcone.pathId);
+            setBaseHP(selectedLightcone.baseHP);
+            setBaseAtk(selectedLightcone.baseAtk);
+            setBaseDef(selectedLightcone.baseDef);
+            setEffect(selectedLightcone.effects);
         }
     }, [lightconeID]);
 

@@ -31,26 +31,26 @@ export const RelicUpdatePage = (props) => {
     };
     
     useEffect(() => {
-        // Logic to load character data from the database or any other data source
-        const ligthconeData = fetchRelicData(); // Replace with your own function to fetch character data
+        // Logic to load relic data from the database or any other data source
+        const relicData = fetchRelicData(); // Replace with your own function to fetch relic data
     
-        // Update the state with the fetched character data
-        setRelicList(ligthconeData);
+        // Update the state with the fetched relic data
+        setRelicList(relicData);
 
-        // Set the text displayed in the input boxes to the data for the selected character
-        if (relicID >= 0 && relicID < ligthconeData.length) {
-            const selectedCharacter = ligthconeData[relicID];
-            setID(selectedCharacter.id);
-            setImage(selectedCharacter.image);
-            setName(selectedCharacter.name);
-            setEffect(selectedCharacter.effects);
+        // Set the text displayed in the input boxes to the data for the selected relic
+        if (relicID >= 0 && relicID < relicData.length) {
+            const selectedRelic = relicData[relicID];
+            setID(selectedRelic.id);
+            setImage(selectedRelic.image);
+            setName(selectedRelic.name);
+            setEffect(selectedRelic.effects);
         }
     }, [relicID]);
 
     return (
         <div>
             <div>
-            <label htmlFor="relicSelect">Select Light Cone</label>
+            <label htmlFor="relicSelect">Select Relic</label>
             <select
                 id="relicSelect"
                 value={relicID}
@@ -58,7 +58,7 @@ export const RelicUpdatePage = (props) => {
                 setID(e.target.value);
                 }}
             >
-                <option value={-1}>Select a light cone</option>
+                <option value={-1}>Select a relic</option>
                 {relicList.map((relic) => (
                 <option key={relic.id} value={relic.id}>
                     {relic.name}

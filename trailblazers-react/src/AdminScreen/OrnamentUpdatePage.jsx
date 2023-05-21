@@ -30,13 +30,13 @@ export const OrnamentCreatePage = (props) => {
     };
     
     useEffect(() => {
-        // Logic to load character data from the database or any other data source
-        const ornamentData = fetchOrnamentData(); // Replace with your own function to fetch character data
+        // Logic to load ornament data from the database or any other data source
+        const ornamentData = fetchOrnamentData(); // Replace with your own function to fetch ornament data
     
-        // Update the state with the fetched character data
+        // Update the state with the fetched ornament data
         setOrnamentList(ornamentData);
 
-        // Set the text displayed in the input boxes to the data for the selected character
+        // Set the text displayed in the input boxes to the data for the selected ornament
         if (ornamentID >= 0 && ornamentID < ornamentData.length) {
             const selectedOrnament = ornamentData[ornamentID];
             setID(selectedOrnament.id);
