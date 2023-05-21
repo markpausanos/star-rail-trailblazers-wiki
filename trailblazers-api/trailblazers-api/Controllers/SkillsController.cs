@@ -180,7 +180,7 @@ namespace trailblazers_api.Controllers
             catch (Exception e)
             {
                 _logger.LogError(e.Message);
-                return StatusCode(500, "An error occurred while updating the skill.");
+                return StatusCode(500, "An error occurred while deleting the skill.");
             }
         }
     }
