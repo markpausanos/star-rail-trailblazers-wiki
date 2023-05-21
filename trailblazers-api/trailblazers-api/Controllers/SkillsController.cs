@@ -111,6 +111,7 @@ namespace trailblazers_api.Controllers
                 return StatusCode(500, "An error occurred while retrieving the skill.");
             }
         }
+
         /// <summary>
         /// Update a skill.
         /// </summary>
