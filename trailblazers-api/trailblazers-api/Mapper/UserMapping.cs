@@ -13,6 +13,7 @@ namespace trailblazers_api.Mapper
             CreateMap<UserAccessDto, User>();
             CreateMap<User, UserAccessDto>();
             CreateMap<UserUpdateDto, User>();
+            CreateMap<User, UserIdNameDto>();
         }
     }
 }

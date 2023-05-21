@@ -8,7 +8,9 @@ namespace trailblazers_api.Mapper
     {
         public ElementMapping()
         {
+            CreateMap<ElementCreationDto, Element>();
             CreateMap<Element, ElementDto>();
+            CreateMap<ElementUpdateDto, Element>();
         }
     }
 }
