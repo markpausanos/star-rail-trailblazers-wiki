@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using trailblazers_api.Dtos.Builds;
-using trailblazers_api.Dtos.Relics;
 using trailblazers_api.Services.Builds;
 using trailblazers_api.Services.Users;
 
@@ -101,7 +100,7 @@ namespace trailblazers_api.Controllers
         [Consumes("application/json")]
         [Produces("application/json")]
         [Authorize(Roles = "A, U")]
-        [ProducesResponseType(typeof(RelicDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(BuildDto), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> AddLike(int buildId)
@@ -135,7 +134,7 @@ namespace trailblazers_api.Controllers
         [Consumes("application/json")]
         [Produces("application/json")]
         [Authorize(Roles = "A, U")]
-        [ProducesResponseType(typeof(RelicDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(BuildDto), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> RemoveLike(int buildId)
