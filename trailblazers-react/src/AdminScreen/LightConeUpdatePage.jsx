@@ -23,15 +23,15 @@ export const LightConeUpdatePage = (props) => {
         const lightconeData = [
         {
             id: 0,
-            image: "lightcone-image-url",
-            name: "Lightcone Name",
+            image: "https://rerollcdn.com/STARRAIL/LightCones/cruising_in_the_stellar_sea_sm.png",
+            name: "Cruising in the Stellar Sea",
             rarityId: 5,
             pathId: 2,
-            baseHP: 1000,
-            baseAtk: 500,
-            baseDef: 300,
+            baseHP: 952,
+            baseAtk: 529,
+            baseDef: 463,
             effects: [
-            { name: "Effect 1", description: "Effect 1" },
+            { name: "Chase", description: "Increases the wearer's CRIT Rate by  8/10/12/14/16%, and increases their CRIT Rate against enemies with HP less than or equal to 50% by an extra 8/10/12/14/16%. When the wearer defeats an enemy, increase their ATK by  20/25/30/35/40% for 2 turn(s)." },
             ],
         },
         ];

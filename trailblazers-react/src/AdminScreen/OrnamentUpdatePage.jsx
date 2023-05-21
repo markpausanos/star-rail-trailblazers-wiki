@@ -18,10 +18,10 @@ export const OrnamentCreatePage = (props) => {
         const ornamentData = [
         {
             id: 0,
-            image: "ornament-image-url",
-            name: "ornament Name",
+            image: "https://rerollcdn.com/STARRAIL/Relics/space_sealing_station.png",
+            name: "Space Sealing Station",
             effects: [
-            { name: "Effect 1", description: "Effect 1" },
+            { name: "Effect 1", description: "Increases the wearer's ATK by 12%. When the wearer's SPD reaches 120 or higher, the wearer's ATK increases by an extra 12%." },
             ],
         },
         ];

@@ -18,11 +18,11 @@ export const RelicUpdatePage = (props) => {
         const relicData = [
         {
             id: 0,
-            image: "relic-image-url",
-            name: "relic Name",
+            image: "https://rerollcdn.com/STARRAIL/Relics/genius_of_brilliant_stars.png",
+            name: "Genius of Brilliant Stars",
             effects: [
-            { name: "Effect 1", description: "Effect 1" },
-            { name: "Effect 2", description: "Effect 2" },
+            { name: "Effect 1", description: "Increases Quantum DMG by 10%." },
+            { name: "Effect 2", description: "When the wearer deals DMG to the target enemy, ignores 10% DEF. If the target enemy has Quantum Weakness, the wearer additionally ignores 10% DEF." },
             ],
         },
         ];
