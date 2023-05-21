@@ -32,6 +32,12 @@
         /// <returns>A boolean value indicating whether the like was removed successfully.</returns>
         Task<bool> RemoveLike(int userId, int buildId);
 
+        /// <summary>
+        /// Checks if a build is liked by a specific user.
+        /// </summary>
+        /// <param name="userId">The ID of the user.</param>
+        /// <param name="buildId">The ID of the build.</param>
+        /// <returns>A boolean value indicating whether the build is liked by the user.</returns>
         Task<bool> IsLikedByUser(int userId, int buildId);
     }
 }
