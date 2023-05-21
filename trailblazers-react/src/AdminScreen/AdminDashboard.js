@@ -6,13 +6,10 @@ import CharacterCreatePage from './CharacterCreatePage'
 import LightConeCreatePage from './LightConeCreatePage'
 import RelicCreatePage from './RelicCreatePage'
 import OrnamentCreatePage from './OrnamentCreatePage'
-import CharacterPageList from "../CharacterListDashboard/CharacterPageList";
-import LightConePage from "../CharacterListDashboard/LightConePage";
-import Relics from "../CharacterListDashboard/Relics";
-import Ornaments from "../CharacterListDashboard/Ornaments";
 import CharacterUpdatePage from "./CharacterUpdatePage";
 import LightConeUpdatePage from "./LightConeUpdatePage";
 import RelicUpdatePage from "./RelicUpdatePage";
+import OrnamentUpdatePage from "./OrnamentUpdatePage";
 
 function AdminDashboard() {
     const [activeItem, setActiveItem] = useState('characters');
@@ -38,7 +35,7 @@ function AdminDashboard() {
             {activeItem === 'characters' && isUpdating === true && <CharacterUpdatePage />}
             {activeItem === 'light cones' && isUpdating === true && <LightConeUpdatePage />}
             {activeItem === 'relics' && isUpdating === true && <RelicUpdatePage />}
-            {activeItem === 'ornaments' && isUpdating === true && <CharacterPageList />}   
+            {activeItem === 'ornaments' && isUpdating === true && <OrnamentUpdatePage />}   
             <div className='spacer' />
             </div>
         </div>
