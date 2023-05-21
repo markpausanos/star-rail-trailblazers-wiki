@@ -1,38 +1,22 @@
-﻿namespace trailblazers_api.Dtos.Builds
+﻿using trailblazers_api.Dtos.Lightcones;
+using trailblazers_api.Dtos.Ornaments;
+using trailblazers_api.Dtos.Relics;
+using trailblazers_api.Dtos.Trailblazers;
+using trailblazers_api.Dtos.Users;
+
+namespace trailblazers_api.Dtos.Builds
 {
-    /// <summary>
-    /// Build DTO class
-    /// </summary>
     public class BuildDto
     {
-        /// <summary>
-        /// Id of the Build
-        /// </summary>
         public int Id { get; set; }
 
-        /// <summary>
-        /// UserId of the Build
-        /// </summary>
-        public int UserId { get; set; }
-
-        /// <summary>
-        /// TrailblazerId of the Build
-        /// </summary>
-        public int TrailblazerId { get; set; }
-
-        /// <summary>
-        /// LightconeId of the Build
-        /// </summary>
-        public int LightconeId { get; set; }
-
-        /// <summary>
-        /// List of RelicIds in the Build
-        /// </summary>
-        public List<int> RelicIds { get; set; } = new List<int>();
-
-        /// <summary>
-        /// List of OrnamentIds in the Build
-        /// </summary>
-        public List<int> OrnamentIds { get; set; } = new List<int>();
+        public string? Name { get; set; }
+        public UserIdNameDto? User { get; set; }
+        public TrailblazerDto? Trailblazer { get; set; }
+        public LightconeDto? Lightcone { get; set; }
+        public RelicDto? Relic { get; set; }
+        public OrnamentDto? Ornament { get; set; }
+        public int TotalLikes { get; set; }
+        public bool IsLike { get; set; }
     }
 }
