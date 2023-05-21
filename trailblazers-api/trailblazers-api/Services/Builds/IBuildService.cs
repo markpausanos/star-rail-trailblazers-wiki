@@ -1,21 +1,59 @@
 ﻿using trailblazers_api.Dtos.Builds;
-using trailblazers_api.Models;
 
 namespace trailblazers_api.Services.Builds
 {
     public interface IBuildService
     {
         /// <summary>
-        /// Create a new Build in the Database.
+        /// Creates a new build.
         /// </summary>
-        /// <param name="build">New Build to be created.</param>
-        /// <returns>A int Data type which is the Id of the newly created Build</returns>
-        Task<int> CreateBuild(BuildCreationDto build);
+        /// <param name="newBuild">The build creation data.</param>
+        /// <returns>The created build, or null if creation fails.</returns>
+        Task<BuildDto?> CreateBuild(BuildCreationDto newBuild);
+
         /// <summary>
-        /// Gets Build in the database by the Id.
+        /// Retrieves all builds for a specific user.
         /// </summary>
-        /// <param name="id">Id of the Build to get in the database.</param>
-        /// <returns>A nullable Build</returns>
+        /// <param name="userID">The ID of the user.</param>
+        /// <returns>An enumerable collection of build DTOs.</returns>
+        Task<IEnumerable<BuildDto>> GetAllBuilds(int userID);
+
+        /// <summary>
+        /// Adds a like to a build.
+        /// </summary>
+        /// <param name="userId">The ID of the user.</param>
+        /// <param name="buildId">The ID of the build.</param>
+        /// <returns>True if the like is added successfully, otherwise false.</returns>
+        Task<bool> AddLike(int userId, int buildId);
+
+        /// <summary>
+        /// Removes a like from a build.
+        /// </summary>
+        /// <param name="userId">The ID of the user.</param>
+        /// <param name="buildId">The ID of the build.</param>
+        /// <returns>True if the like is removed successfully, otherwise false.</returns>
+        Task<bool> RemoveLike(int userId, int buildId);
+
+        /// <summary>
+        /// Retrieves a build by its ID.
+        /// </summary>
+        /// <param name="id">The ID of the build.</param>
+        /// <returns>The build DTO if found, otherwise null.</returns>
         Task<BuildDto?> GetBuildById(int id);
+
+        /// <summary>
+        /// Updates a build.
+        /// </summary>
+        /// <param name="id">The ID of the build to update.</param>
+        /// <param name="build">The updated build data.</param>
+        /// <returns>True if the build is updated successfully, otherwise false.</returns>
+        Task<bool> UpdateBuild(int id, BuildUpdateDto build);
+
+        /// <summary>
+        /// Deletes a build.
+        /// </summary>
+        /// <param name="id">The ID of the build to delete.</param>
+        /// <returns>True if the build is deleted successfully, otherwise false.</returns>
+        Task<bool> DeleteBuild(int id);
     }
 }
