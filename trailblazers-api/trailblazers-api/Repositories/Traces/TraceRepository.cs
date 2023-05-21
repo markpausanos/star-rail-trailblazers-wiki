@@ -28,7 +28,7 @@ namespace trailblazers_api.Repositories.Traces
             var sql = @"SELECT tr.*, t.*
                 FROM Trace tr
                 LEFT JOIN Trailblazer t ON tr.TrailblazerId = t.Id
-                WHERE e.IsDeleted = 0;";
+                WHERE tr.IsDeleted = 0;";
 
             using (var con = _context.CreateConnection())
             {
@@ -56,7 +56,7 @@ namespace trailblazers_api.Repositories.Traces
             var sql = "SELECT tr.*, t.* " +
                       "FROM Trace tr " +
                       "LEFT JOIN Trailblazer t ON tr.TrailblazerId = t.Id " +
-                      "WHERE tr.TrailblazerId = @TrailblazerId AND e.IsDeleted = 0;";
+                      "WHERE tr.TrailblazerId = @TrailblazerId AND tr.IsDeleted = 0;";
 
             using (var con = _context.CreateConnection())
             {
@@ -85,7 +85,7 @@ namespace trailblazers_api.Repositories.Traces
             var sql = @"SELECT tr.*, t.*
                 FROM Trace tr
                 LEFT JOIN Trailblazer t ON tr.TrailblazerId = t.Id
-                WHERE e.IsDeleted = 0 AND e.Id = @Id;";
+                WHERE tr.IsDeleted = 0 AND e.Id = @Id;";
 
             using (var con = _context.CreateConnection())
             {
