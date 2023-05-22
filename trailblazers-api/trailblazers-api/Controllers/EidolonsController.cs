@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using trailblazers_api.Dtos.Eidolons;
 using trailblazers_api.Services.Eidolons;
@@ -10,162 +11,175 @@ namespace trailblazers_api.Controllers
     public class EidolonsController : ControllerBase
     {
         private readonly ILogger<EidolonsController> _logger;
-        private readonly IEidolonService _service;
+        private readonly IEidolonService _eidolonService;
 
         public EidolonsController(ILogger<EidolonsController> logger, IEidolonService service)
         {
             _logger = logger;
-            _service = service;
+            _eidolonService = service;
         }
 
         /// <summary>
-        /// Creates a new Eidolon.
+        /// Create a new eidolon.
         /// </summary>
-        /// <param name="eidolon">The Eidolon to be created.</param>
-        /// <returns>The ID of the newly created Eidolon.</returns>
-        /// <remarks>
-        /// Sample request:
-        ///
-        /// POST /api/Eidolons
-        /// {
-        /// "name": "A Tall Figure",
-        /// "description": "Using Skill will not remove Marks of Counter on the enemy"
-        /// "image": "https://example.com/eidolon1.png"
-        /// "order": 1
-        /// }
-        ///
-        /// </remarks>
-        /// <response code="201">The Eidolon was successfully created.</response>
-        /// <response code="204">No content.</response>
-        /// <response code="400">Invalid request.</response>
-        /// <response code="500">An internal server error occurred.</response>
+        /// <param name="eidolon">The eidolon creation DTO.</param>
+        /// <returns>The created eidolon.</returns>
         [HttpPost(Name = "CreateEidolon")]
         [Consumes("application/json")]
         [Produces("application/json")]
+        [Authorize(Roles = "A")]
         [ProducesResponseType(typeof(EidolonDto), StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> CreateEidolon([FromForm] EidolonCreationDto eidolon)
+        public async Task<IActionResult> CreateEidolon(EidolonCreationDto eidolon)
         {
             try
             {
-                var newEidolonId = await _service.CreateEidolon(eidolon);
+                var newEidolon = await _eidolonService.CreateEidolon(eidolon);
 
-                return CreatedAtAction(null, null, null, new { id = newEidolonId });
+                if (newEidolon == null)
+                {
+                    return BadRequest("Trailblazer does not exist or Eidolon Type already exists.");
+                }
+
+                return CreatedAtRoute("GetEidolonById", new { id = newEidolon.Id }, newEidolon);
             }
             catch (Exception e)
             {
                 _logger.LogError(e.Message);
-                return StatusCode(500, "An error occurred while creating the Eidolon.");
+                return StatusCode(500, "An error occurred while creating the eidolon.");
             }
         }
 
         /// <summary>
-        /// Gets all Eidolons in the database with the provided TrailblazerID.
+        /// Get all eidolons or eidolons filtered by trailblazer ID.
         /// </summary>
-        /// <param name="trailblazerId">The ID of the Trailblazer to retrieve the Eidolons</param>
-        /// <returns>IEnumerable with the Eidolons.</returns>
-        /// <response code="200">The Eidolons were successfully retrieved.</response>
-        /// <response code="204">No content.</response>
-        /// <response code="400">Invalid request.</response>
-        /// <response code="500">An internal server error occurred.</response>
-        [HttpGet("id", Name = "GetAllEidolonsByTrailblazerId")]
+        /// <param name="trailblazerId">Optional. The trailblazer ID to filter eidolons by.</param>
+        /// <returns>A list of eidolons.</returns>
+        [HttpGet(Name = "GetAllEidolons")]
         [Produces("application/json")]
         [ProducesResponseType(typeof(IEnumerable<EidolonDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> GetAllEidolonsByTrailblazerId(int trailblazerId)
+        public async Task<IActionResult> GetAllEidolons([FromQuery] int? trailblazerId)
         {
             try
             {
-                var trailblazerEidolons = await _service.GetAllEidolonsByTrailblazerId(trailblazerId);
+                var eidolons = trailblazerId == null ? await _eidolonService.GetAllEidolons() :
+                    await _eidolonService.GetEidolonsByTrailblazerId((int)trailblazerId);
 
-                if (trailblazerEidolons.IsNullOrEmpty())
+                if (eidolons.IsNullOrEmpty())
                 {
                     return NoContent();
                 }
-                return Ok(trailblazerEidolons);
+
+                return Ok(eidolons);
             }
             catch (Exception e)
             {
                 _logger.LogError(e.Message);
-                return StatusCode(500, "An error occurred while retrieving the Eidolons.");
+                return StatusCode(500, "An error occurred while retrieving the eidolons.");
             }
         }
 
         /// <summary>
-        /// Updates Eidolon with given data.
+        /// Get a eidolon by ID.
         /// </summary>
-        /// <param name="updateEidolon">Data to update to the Eidolon.</param>
-        /// <returns>True if the updating was successful, false otherwise.</returns>
-        /// <remarks>
-        /// Sample request:
-        ///
-        /// PUT /api/Eidolons
-        /// {
-        /// "id": 9
-        /// "name": "A Tall Figure",
-        /// "description": "Using Skill will not remove Marks of Counter on the enemy"
-        /// "image": "https://example.com/eidolon1.png"
-        /// "order": 1
-        /// }
-        ///
-        /// </remarks>
-        /// <response code="200">The Eidolon was successfully updated.</response>
-        /// <response code="404">The Eidolon was not found.</response>
-        /// <response code="500">An internal server error occurred.</response>
-        [HttpPut(Name = "UpdateEidolon")]
-        [Consumes("application/json")]
+        /// <param name="id">The eidolon ID.</param>
+        /// <returns>The eidolon.</returns>
+        [HttpGet("{id}", Name = "GetEidolonById")]
         [Produces("application/json")]
-        [ProducesResponseType(typeof(bool), StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(EidolonDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> UpdateEidolon([FromForm] EidolonUpdateDto updateEidolon)
+        public async Task<IActionResult> GetEidolonById(int id)
         {
             try
             {
-                int id = updateEidolon.Id;
-                var updatedEidolon = await _service.UpdateEidolon(updateEidolon);
-                return Ok(updatedEidolon);
+                var eidolon = await _eidolonService.GetEidolonById(id);
+
+                if (eidolon == null)
+                {
+                    return NoContent();
+                }
+
+                return Ok(eidolon);
             }
             catch (Exception e)
             {
                 _logger.LogError(e.Message);
-                return StatusCode(500, "An error occurred while updating the Eidolon.");
+                return StatusCode(500, "An error occurred while retrieving the eidolon.");
+            }
+        }
+        /// <summary>
+        /// Update a eidolon.
+        /// </summary>
+        /// <param name="id">The eidolon ID.</param>
+        /// <param name="newEidolon">The updated eidolon DTO.</param>
+        /// <returns>The updated eidolon.</returns>
+        [HttpPut(Name = "UpdateEidolon")]
+        [Consumes("application/json")]
+        [Produces("application/json")]
+        [ProducesResponseType(typeof(EidolonDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> UpdateEidolon(int id, [FromBody] EidolonUpdateDto newEidolon)
+        {
+            try
+            {
+                var eidolon = await _eidolonService.GetEidolonById(id);
+
+                if (eidolon == null)
+                {
+                    return NotFound($"Eidolon with ID = {id} does not exist.");
+                }
+
+                newEidolon.Name ??= eidolon.Name;
+                newEidolon.Description ??= eidolon.Description;
+                newEidolon.Image ??= eidolon.Image;
+
+                if (await _eidolonService.UpdateEidolon(id, newEidolon))
+                {
+                    var updatedEidolon = await _eidolonService.GetEidolonById(id);
+
+                    return Ok(updatedEidolon);
+                }
+
+                return BadRequest();
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message);
+                return StatusCode(500, "An error occurred while updating the eidolon.");
             }
         }
 
         /// <summary>
-        /// Deletes an Eidolon with the given Id
+        /// Delete a eidolon by ID.
         /// </summary>
-        /// <param name="id">Id of Eidolon to be deleted</param>
-        /// <returns>True if the deletion was successful, false otherwise.</returns>
-        /// <response code="200">The Eidolon was successfully deleted.</response>
-        /// <response code="400">Invalid request.</response>
-        /// <response code="404">The Eidolon was not found.</response>
-        /// <response code="500">An internal server error occurred.</response>
+        /// <param name="id">The eidolon ID.</param>
+        /// <returns>A boolean indicating if the eidolon was successfully deleted.</returns>
         [HttpDelete("{id}", Name = "DeleteEidolon")]
         [Produces("application/json")]
         [ProducesResponseType(typeof(bool), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> DeleteEidolon(int id){
+        public async Task<IActionResult> DeleteEidolon(int id)
+        {
             try
             {
-                var isDeleted = await _service.DeleteEidolon(id);
-                if (isDeleted)
+                if (await _eidolonService.DeleteEidolon(id))
                 {
-                    return Ok("Successfully deleted.");
+                    return Ok($"Successfully deleted eidolon with ID {id}.");
                 }
-                return BadRequest($"Eidolon with ID = {id} could not be deleted.");
+
+                return BadRequest();
             }
             catch (Exception e)
             {
                 _logger.LogError(e.Message);
-                return StatusCode(500, "An error occurred while deleting the Eidolon.");
+                return StatusCode(500, "An error occurred while updating the eidolon.");
             }
         }
     }

@@ -26,6 +26,7 @@ namespace trailblazers_api.Controllers
         [HttpPost("Login", Name = "Login")]
         [Consumes("application/json")]
         [Produces("application/json")]
+        [AllowAnonymous]
         [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]

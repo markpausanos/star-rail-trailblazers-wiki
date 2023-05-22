@@ -22,42 +22,118 @@ namespace trailblazers_api.Repositories.Eidolons
                 return await con.ExecuteScalarAsync<int>(sql, new { eidolon.Name, eidolon.Description, eidolon.Image });
             }
         }
-        public async Task<IEnumerable<Eidolon>> GetAllEidolonsByTrailblazerId(int trailblazerId)
+
+        public async Task<IEnumerable<Eidolon>> GetAllEidolons()
+        {
+            var sql = @"SELECT e.*, t.*
+                FROM Eidolon e
+                LEFT JOIN Trailblazer t ON e.TrailblazerId = t.Id
+                WHERE e.IsDeleted = 0;";
+
+            using (var con = _context.CreateConnection())
+            {
+                var eidolonDict = new Dictionary<int, Eidolon>();
+                return await con.QueryAsync<Eidolon, Trailblazer, Eidolon>(sql, (e, t) =>
+                {
+                    if (!eidolonDict.TryGetValue(e.Id, out var eidolon))
+                    {
+                        eidolon = e;
+                        eidolon.Trailblazer = t;
+                        eidolonDict.Add(e.Id, eidolon);
+                    }
+                    else if (eidolon.Trailblazer == null)
+                    {
+                        eidolon.Trailblazer = t;
+                    }
+
+                    return eidolon;
+                }, splitOn: "Id");
+            }
+        }
+
+        public async Task<IEnumerable<Eidolon>> GetEidolonsByTrailblazerId(int trailblazerId)
         {
             var sql = "SELECT e.*, t.* " +
                       "FROM Eidolon e " +
                       "LEFT JOIN Trailblazer t ON e.TrailblazerId = t.Id " +
                       "WHERE e.TrailblazerId = @TrailblazerId AND e.IsDeleted = 0;";
 
-            using (var connection = _context.CreateConnection())
+            using (var con = _context.CreateConnection())
             {
-                var eidolons = await connection.QueryAsync<Eidolon, Trailblazer, Eidolon>(
-                    sql,
-                    (eidolon, trailblazer) =>
+                var eidolonDict = new Dictionary<int, Eidolon>();
+
+                return await con.QueryAsync<Eidolon, Trailblazer, Eidolon>(sql, (e, t) =>
+                {
+                    if (!eidolonDict.TryGetValue(e.Id, out var eidolon))
                     {
-                        eidolon.Trailblazer = trailblazer;
+                        eidolon = e;
+                        eidolon.Trailblazer = t;
+                        eidolonDict.Add(e.Id, eidolon);
+                    }
+                    else if (eidolon.Trailblazer == null)
+                    {
+                        eidolon.Trailblazer = t;
+                    }
+
+                    return eidolon;
+                }, new { TrailblazerId = trailblazerId }, splitOn: "Id");
+            }
+        }
+
+        public async Task<Eidolon?> GetEidolonById(int id)
+        {
+            var sql = @"SELECT e.*, t.*
+                FROM Eidolon e
+                LEFT JOIN Trailblazer t ON e.TrailblazerId = t.Id
+                WHERE e.IsDeleted = 0 AND e.Id = @Id;";
+
+            using (var con = _context.CreateConnection())
+            {
+                var eidolonDict = new Dictionary<int, Eidolon>();
+                var eidolons = await con.QueryAsync<Eidolon, Trailblazer, Eidolon>(
+                    sql,
+                    (e, t) =>
+                    {
+                        if (!eidolonDict.TryGetValue(e.Id, out var eidolon))
+                        {
+                            eidolon = e;
+                            eidolon.Trailblazer = t;
+                            eidolonDict.Add(e.Id, eidolon);
+                        }
+                        else if (eidolon.Trailblazer == null)
+                        {
+                            eidolon.Trailblazer = t;
+                        }
                         return eidolon;
                     },
-                    new { trailblazerId },
-                    splitOn: "Id");
+                new { id },
+                splitOn: "Id");
 
-                return eidolons;
+                return eidolons.FirstOrDefault();
             }
         }
 
         public async Task<bool> UpdateEidolon(Eidolon eidolon)
         {
-            var sql = "UPDATE Eidolons SET Description = @Description WHERE Id = @Id;";
+            var sql = "UPDATE Eidolon SET Name = @Name, " +
+                "Description = @Description, Image = @Image, Order = @Order WHERE Id = @Id;";
 
 
             using (var con = _context.CreateConnection())
             {
-                return await con.ExecuteAsync(sql, new { eidolon.Description, eidolon.Id }) > 0;
+                return await con.ExecuteAsync(sql, new 
+                { 
+                    eidolon.Name,
+                    eidolon.Description, 
+                    eidolon.Image, 
+                    eidolon.Order,
+                    eidolon.Id
+                }) > 0;
             }
         }
         public async Task<bool> DeleteEidolon(int id)
         {
-            var sql = "UPDATE Eidolons SET IsDeleted = 1 WHERE Id = @Id;";
+            var sql = "UPDATE Eidolon SET IsDeleted = 1 WHERE Id = @Id;";
 
             using (var con = _context.CreateConnection())
             {

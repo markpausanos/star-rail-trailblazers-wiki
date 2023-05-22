@@ -12,34 +12,47 @@ namespace trailblazers_api.Repositories.Builds
         {
             _context = context;
         }
+
         public async Task<int> CreateBuild(Build build)
         {
-            var sql = "INSERT INTO Builds (UserId, TrailblazerId) VALUES (@UserId, @TrailblazerId); " +
-                      "SELECT SCOPE_IDENTITY();";
+            var sql = @"
+                INSERT INTO Build (Name, UserId, TrailblazerId, LightconeId, RelicId, OrnamentId) 
+                VALUES (@Name, @UserId, @TrailblazerId, @LightconeId, @RelicId, @OrnamentId);
+                SELECT SCOPE_IDENTITY();";
 
             using (var con = _context.CreateConnection())
             {
-                return await con.ExecuteScalarAsync<int>(sql, new { UserId = build.User!.Id, TrailblazerId = build.Trailblazer!.Id });
+                var parameters = new
+                {
+                    Name = build.Name,
+                    UserId = build.User?.Id,
+                    TrailblazerId = build.Trailblazer?.Id,
+                    LightconeId = build.Lightcone?.Id,
+                    RelicId = build.Relic?.Id,
+                    OrnamentId = build.Ornament?.Id
+                };
+
+                return await con.ExecuteScalarAsync<int>(sql, parameters);
             }
         }
-        public async Task<Build?> GetBuildById(int id)
-        {
-            var sql = "SELECT b.*, u.*, t.*, l.*, r.*, o.* " +
-                      "FROM Builds b " +
-                      "LEFT JOIN User u ON b.UserId = u.Id " +
-                      "LEFT JOIN Trailblazer t ON b.TrailblazerId = t.Id " +
-                      "LEFT JOIN Lightcone l ON b.LightconeId = l.Id " +
-                      "LEFT JOIN BuildRelics br ON b.Id = br.BuildId " +
-                      "LEFT JOIN Relics r ON br.RelicId = r.Id " +
-                      "LEFT JOIN BuildOrnaments bo ON b.Id = bo.BuildId " +
-                      "LEFT JOIN Ornaments o ON bo.OrnamentId = o.Id " +
-                      "WHERE b.Id = @Id AND b.IsDeleted = 0;";
 
+        public async Task<IEnumerable<Build>> GetAllBuilds()
+        {
+            var sql = @"
+                SELECT b.*, u.*, t.*, l.*, r.*, o.* 
+                FROM Build b
+                LEFT JOIN [User] u ON b.UserId = u.Id
+                LEFT JOIN Trailblazer t ON b.TrailblazerId = t.Id
+                LEFT JOIN Lightcone l ON b.LightconeId = l.Id
+                LEFT JOIN Relic r ON b.RelicId = r.Id
+                LEFT JOIN Ornament o ON b.OrnamentId = o.Id
+                WHERE b.IsDeleted = 0;";
 
             using (var con = _context.CreateConnection())
             {
                 var buildDict = new Dictionary<int, Build>();
-                var build = await con.QueryAsync<Build, User, Trailblazer, Lightcone, Relic, Ornament, Build>(
+
+                var builds = await con.QueryAsync<Build, User, Trailblazer, Lightcone, Relic, Ornament, Build>(
                     sql,
                     (build, user, trailblazer, lightcone, relic, ornament) =>
                     {
@@ -49,27 +62,91 @@ namespace trailblazers_api.Repositories.Builds
                             currentBuild.User = user;
                             currentBuild.Trailblazer = trailblazer;
                             currentBuild.Lightcone = lightcone;
-                            currentBuild.Relics = new List<Relic>();
-                            currentBuild.Ornaments = new List<Ornament>();
+                            currentBuild.Relic = relic;
+                            currentBuild.Ornament = ornament;
                             buildDict.Add(currentBuild.Id, currentBuild);
                         }
 
-                        if (relic != null && !currentBuild.Relics.Contains(relic))
-                        {
-                            currentBuild.Relics.Add(relic);
-                        }
+                        return currentBuild;
+                    });
 
-                        if (ornament != null && !currentBuild.Ornaments.Contains(ornament))
+                return builds;
+            }
+        }
+
+        public async Task<Build?> GetBuildById(int id)
+        {
+            var sql = @"
+                SELECT b.*, u.*, t.*, l.*, r.*, o.*
+                FROM Build b
+                LEFT JOIN [User] u ON b.UserId = u.Id
+                LEFT JOIN Trailblazer t ON b.TrailblazerId = t.Id
+                LEFT JOIN Lightcone l ON b.LightconeId = l.Id
+                LEFT JOIN Relic r ON b.RelicId = r.Id
+                LEFT JOIN Ornament o ON b.OrnamentId = o.Id
+                WHERE b.Id = @Id AND b.IsDeleted = 0;";
+
+            using (var con = _context.CreateConnection())
+            {
+                var buildDict = new Dictionary<int, Build>();
+
+                var builds = await con.QueryAsync<Build, User, Trailblazer, Lightcone, Relic, Ornament, Build>(
+                    sql,
+                    (build, user, trailblazer, lightcone, relic, ornament) =>
+                    {
+                        if (!buildDict.TryGetValue(build.Id, out var currentBuild))
                         {
-                            currentBuild.Ornaments.Add(ornament);
+                            currentBuild = build;
+                            currentBuild.User = user;
+                            currentBuild.Trailblazer = trailblazer;
+                            currentBuild.Lightcone = lightcone;
+                            currentBuild.Relic = relic;
+                            currentBuild.Ornament = ornament;
+                            buildDict.Add(currentBuild.Id, currentBuild);
                         }
 
                         return currentBuild;
                     },
-                    new { id });
+                    new { Id = id });
 
-                return build.FirstOrDefault();
+                return builds.FirstOrDefault();
             }
         }
+
+        public async Task<bool> UpdateBuild(Build build)
+        {
+            var sql = @"
+                UPDATE Build
+                SET LightconeId = @LightconeId, RelicId = @RelicId, OrnamentId = @OrnamentId
+                WHERE Id = @Id;";
+
+            using (var con = _context.CreateConnection())
+            {
+                var parameters = new
+                {
+                    Id = build.Id,
+                    LightconeId = build.Lightcone?.Id,
+                    RelicId = build.Relic?.Id,
+                    OrnamentId = build.Ornament?.Id
+                };
+
+                var affectedRows = await con.ExecuteAsync(sql, parameters);
+
+                return affectedRows > 0;
+            }
+        }
+
+        public async Task<bool> DeleteBuild(int id)
+        {
+            var sql = "UPDATE Build SET IsDeleted = 1 WHERE Id = @Id;";
+
+            using (var con = _context.CreateConnection())
+            {
+                var affectedRows = await con.ExecuteAsync(sql, new { Id = id });
+
+                return affectedRows > 0;
+            }
+        }
+
     }
 }

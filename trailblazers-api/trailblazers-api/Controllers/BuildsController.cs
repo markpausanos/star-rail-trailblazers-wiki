@@ -1,6 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 using trailblazers_api.Dtos.Builds;
 using trailblazers_api.Services.Builds;
+using trailblazers_api.Services.Users;
 
 namespace trailblazers_api.Controllers
 {
@@ -9,36 +12,25 @@ namespace trailblazers_api.Controllers
     public class BuildsController : ControllerBase
     {
         private readonly ILogger<BuildsController> _logger;
-        private readonly IBuildService _service;
+        private readonly IBuildService _buildService;
+        private readonly IUserService _userService;
 
-        public BuildsController(ILogger<BuildsController> logger, IBuildService service)
+        public BuildsController(ILogger<BuildsController> logger, IBuildService buildService, IUserService userService)
         {
             _logger = logger;
-            _service = service;
+            _buildService = buildService;
+            _userService = userService;
         }
 
         /// <summary>
-        /// Create a new Build in the Database.
+        /// Creates a new build.
         /// </summary>
-        /// <param name="build">New Build to be created.</param>
-        /// <returns>A int Data type which is the Id of the newly created Build</returns>
-        /// <remarks>
-        /// Sample request:
-        ///
-        /// POST /api/Builds
-        /// {
-        /// "userid": 3,
-        /// "trailblazerid": 6
-        /// }
-        ///
-        /// </remarks>
-        /// <response code="201">The Build was successfully created.</response>
-        /// <response code="204">No content.</response>
-        /// <response code="400">Invalid request.</response>
-        /// <response code="500">An internal server error occurred.</response>
+        /// <param name="build">The build creation data.</param>
+        /// <returns>The created build.</returns>
         [HttpPost(Name = "CreateBuild")]
         [Consumes("application/json")]
         [Produces("application/json")]
+        [Authorize(Roles = "A, U")]
         [ProducesResponseType(typeof(BuildDto), StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -47,49 +39,196 @@ namespace trailblazers_api.Controllers
         {
             try
             {
-                var newBuildId = await _service.CreateBuild(build);
-                var newBuild = await _service.GetBuildById(newBuildId);
+                var newBuild = await _buildService.CreateBuild(build);
 
-                return CreatedAtRoute("GetBuildById", new { id = newBuild.Id }, newBuild);
+                if (newBuild == null)
+                {
+                    return BadRequest("Build cannot be created.");
+                }
+
+                return Created(new Uri($"api/Builds/{newBuild.Id}", UriKind.Relative), newBuild);
             }
             catch (Exception e)
             {
                 _logger.LogError(e.Message);
-                return StatusCode(500, "An error occurred while creating the Build.");
+                return StatusCode(500, "An error occurred while creating the build.");
             }
         }
 
         /// <summary>
-        /// Gets Build in the database by the Id.
+        /// Retrieves all builds for the current user.
         /// </summary>
-        /// <param name="id">Id of the Build to get in the database.</param>
-        /// <returns>A nullable Build</returns>
-        /// <response code="200">The Build was successfully retrieved.</response>
-        /// <response code="204">No content.</response>
-        /// <response code="400">The Build details are invalid.</response>
-        /// <response code="500">An internal server error occurred.</response>
-        [HttpGet("{id}", Name = "GetBuildById")]
+        /// <returns>The list of builds.</returns>
+        [HttpGet(Name = "GetAllBuilds")]
         [Produces("application/json")]
-        [ProducesResponseType(typeof(BuildDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(IEnumerable<BuildDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> GetBuildById(int id)
+        public async Task<IActionResult> GetAllBuilds()
         {
             try
             {
-                var build = await _service.GetBuildById(id);
+                var user = await _userService.GetCurrentUser(HttpContext);
 
-                if (build == null)
+                if (user == null)
                 {
                     return NoContent();
                 }
-                return Ok(build);
+
+                var builds = await _buildService.GetAllBuilds(user.Id);
+
+                if (builds.IsNullOrEmpty())
+                {
+                    return NoContent();
+                }
+
+                return Ok(builds);
             }
             catch (Exception e)
             {
                 _logger.LogError(e.Message);
-                return StatusCode(500, "An error occurred while retrieving the Build.");
+                return StatusCode(500, "An error occurred while retrieving the builds.");
+            }
+        }
+
+        /// <summary>
+        /// Adds a like to a build.
+        /// </summary>
+        /// <param name="buildId">The ID of the build to like.</param>
+        /// <returns>The updated build.</returns>
+        [HttpPost("{buildId}/like", Name = "LikeBuild")]
+        [Consumes("application/json")]
+        [Produces("application/json")]
+        [Authorize(Roles = "A, U")]
+        [ProducesResponseType(typeof(BuildDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> AddLike(int buildId)
+        {
+            try
+            {
+                var user = await _userService.GetCurrentUser(HttpContext);
+
+                if (user == null)
+                {
+                    return Unauthorized();
+                }
+
+                var like = await _buildService.AddLike(user.Id, buildId);
+
+                return Ok(like);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message);
+                return StatusCode(500, "An error occurred while liking the build.");
+            }
+        }
+
+        /// <summary>
+        /// Removes a like from a build.
+        /// </summary>
+        /// <param name="buildId">The ID of the build to unlike.</param>
+        /// <returns>The updated build.</returns>
+        [HttpPost("{buildId}/unlike", Name = "UnlikeBuild")]
+        [Consumes("application/json")]
+        [Produces("application/json")]
+        [Authorize(Roles = "A, U")]
+        [ProducesResponseType(typeof(BuildDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> RemoveLike(int buildId)
+        {
+            try
+            {
+                var user = await _userService.GetCurrentUser(HttpContext);
+
+                if (user == null)
+                {
+                    return Unauthorized();
+                }
+
+                var like = await _buildService.RemoveLike(user.Id, buildId);
+
+                return Ok(like);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message);
+                return StatusCode(500, "An error occurred while disliking the build.");
+            }
+        }
+
+        /// <summary>
+        /// Update a build.
+        /// </summary>
+        /// <param name="id">The build ID.</param>
+        /// <param name="newBuild">The updated build DTO.</param>
+        /// <returns>The updated build.</returns>
+        [HttpPut(Name = "UpdateBuild")]
+        [Consumes("application/json")]
+        [Produces("application/json")]
+        [ProducesResponseType(typeof(BuildDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> UpdateBuild(int id, [FromBody] BuildUpdateDto newBuild)
+        {
+            try
+            {
+                var build = await _buildService.GetBuildById(id);
+
+                if (build == null)
+                {
+                    return NotFound($"Build with ID = {id} does not exist.");
+                }
+
+                newBuild.Name ??= build.Name;
+                newBuild.LightconeId ??= build.Lightcone!.Id;
+                newBuild.RelicId ??= build.Relic!.Id;
+                newBuild.OrnamentId ??= build.Ornament!.Id;
+
+                if (await _buildService.UpdateBuild(id, newBuild))
+                {
+                    var updatedBuild = await _buildService.GetBuildById(id);
+
+                    return Ok(updatedBuild);
+                }
+
+                return BadRequest();
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message);
+                return StatusCode(500, "An error occurred while updating the build.");
+            }
+        }
+
+        /// <summary>
+        /// Delete a build by ID.
+        /// </summary>
+        /// <param name="id">The build ID.</param>
+        /// <returns>A boolean indicating if the build was successfully deleted.</returns>
+        [HttpDelete("{id}", Name = "DeleteBuild")]
+        [Produces("application/json")]
+        [ProducesResponseType(typeof(bool), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> DeleteBuild(int id)
+        {
+            try
+            {
+                if (await _buildService.DeleteBuild(id))
+                {
+                    return Ok($"Successfully deleted build with ID {id}.");
+                }
+
+                return BadRequest();
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message);
+                return StatusCode(500, "An error occurred while updating the build.");
             }
         }
     }
