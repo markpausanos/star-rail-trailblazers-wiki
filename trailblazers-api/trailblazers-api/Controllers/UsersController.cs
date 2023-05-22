@@ -56,7 +56,7 @@ namespace trailblazers_api.Controllers
         /// </summary>
         /// <param name="user">The user information.</param>
         /// <returns>The created user access token.</returns>
-        [HttpPost(Name = "CreateUser")]
+        [HttpPost("SignUp", Name = "CreateUser")]
         [Consumes("application/json")]
         [Produces("application/json")]
         [AllowAnonymous]
