@@ -3,7 +3,7 @@ import { Routes, Route } from 'react-router';
 import Login from './Login-Signup/Login';
 import Dashboard from './CharacterListDashboard/Dashboard';
 import SignUp from './Login-Signup/SignUp';
-import TeamShowcase from './TeamShowcaseFeature/TeamShowcase';
+import CharacterShowcasePage from './CharacterShowcaseFeature/CharacterShowcasePage';
 
 function App() {
   return (
@@ -11,7 +11,7 @@ function App() {
       <Route path='/' element={<Login />}></Route>
       <Route path="sign-up" element={<SignUp />}></Route>
       <Route path="dashboard" element={<Dashboard />}></Route>
-      <Route path ="teamshowcase" element={<TeamShowcase/>}/>
+      <Route path ="character-showcase" element={<CharacterShowcasePage/>}/>
     </Routes>
   );
 }
