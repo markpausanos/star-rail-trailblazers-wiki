@@ -2,12 +2,12 @@ import { isLocal } from "../utils/destinations";
 
 let apiUrl = null;
 
-if ( isLocal ) {
-    apiUrl = 'https://127.0.0.1:8000/api'
+if (isLocal) {
+  apiUrl = "https://localhost:8000";
 }
 
 const config = {
-    API_URL: apiUrl
-}
+  API_URL: apiUrl,
+};
 
 export default config;
