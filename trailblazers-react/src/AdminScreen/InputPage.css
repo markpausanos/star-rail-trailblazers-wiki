@@ -5,9 +5,25 @@
     vertical-align: middle;
     height: 70px;
     width: 1350px;
+    margin-top: 70px;
 }
 
-.button{
+.the-top{
+    display: flex;
+    align-items: top;
+    justify-content: left;
+    vertical-align: middle;
+    gap: 10px;
+}
+
+.pairs{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-bottom: 1px;
+}
+
+.buttons{
     display: flex;
     align-items: center;
     justify-content: center;
@@ -16,7 +32,7 @@
     border-style: solid;
     background-color: white;
     height: 55px;
-    width: 150px;
+    width: 250px;
     border-radius: 5px;
     font-size: 24px;
     margin-left: 5%;
@@ -24,20 +40,20 @@
     cursor: pointer;
 }
 
-.bigBox {
+.picBox {
     display: flex;
     align-items: center;
     justify-content: center;
     vertical-align: middle;
     margin-top: 20px;
-    width: 240px;
-    height: 240px;
+    width: 120px;
+    height: 120px;
     background: #14161A;
     border: 7px dashed #808792;
     font-family: 'Inter';
     font-style: normal;
     font-weight: 400;
-    font-size: 237px;
+    font-size: 120px;
     color: #808790;
     cursor: pointer;
 }

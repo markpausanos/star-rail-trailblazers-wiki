@@ -14,27 +14,34 @@ export const LightConeCreatePage = (props) => {
 
     return (
         <div>
-            <div>
+            <div className="pairs">
                 <label for="image">Light Cone Image</label>
                 <input type="text" placeholder="Light Cone Image Link" value={image} onChange={(e) => setImage(e.target.value)} />
-                {!image ? <div className="bigBox">+</div> : <img className="bigBox" src={image} />}
             </div>
-            <input type="text" placeholder="Light Cone Name" value={name} onChange={(e) => setName(e.target.value)} />
-            <select value={rarity} onChange={(e) => setRarity(e.target.value)}>
-                <option value="3">3 Star</option>
-                <option value="4">4 Star</option>
-                <option value="5">5 Star</option>
-            </select>
-            <select value={path} onChange={(e) => setPath(e.target.value)}>
-                <option value="0">Destruction</option>
-                <option value="1">Preservation</option>
-                <option value="2">Hunt</option>
-                <option value="3">Abundance</option>
-                <option value="4">Erudition</option>
-                <option value="5">Nihility</option>
-                <option value="6">Harmony</option>
-            </select>
-            <div>
+            <div className="the-top">
+                <img className="picBox" src={image} alt="+"/>
+                <div className="pairs">
+                    <input type="text" placeholder="Light Cone Name" value={name} onChange={(e) => setName(e.target.value)} />
+                </div>
+                <div className="pairs">
+                    
+                    <select value={rarity} onChange={(e) => setRarity(e.target.value)}>
+                        <option value="3">3 Star</option>
+                        <option value="4">4 Star</option>
+                        <option value="5">5 Star</option>
+                    </select>
+                </div>
+                <select value={path} onChange={(e) => setPath(e.target.value)}>
+                    <option value="0">Destruction</option>
+                    <option value="1">Preservation</option>
+                    <option value="2">Hunt</option>
+                    <option value="3">Abundance</option>
+                    <option value="4">Erudition</option>
+                    <option value="5">Nihility</option>
+                    <option value="6">Harmony</option>
+                </select>
+            </div>
+            <div className="pairs">
                 <label for="Base HP">Base HP</label>
                 <input type="number" placeholder="Base HP" value={baseHP} onChange={(e) => setBaseHP(e.target.value)} />
                 <label for="Base ATK">Base ATK</label>

@@ -18,88 +18,101 @@ export const CharacterCreatePage = (props) => {
 
     return (
         <div>
-            <div>
+            <div className="pairs">
                 <label for="characterImage">Character Image</label>
                 <input type="text" placeholder="Character Image Link" value={charImage} onChange={(e) => setCharImage(e.target.value)} />
-                {!charImage ? <div className="bigBox">+</div> : <img className="bigBox" src={charImage} />}
             </div>
-            <input type="text" placeholder="Character Name" value={charName} onChange={(e) => setCharName(e.target.value)} />
-            <label for="rarity">Rarity</label>
-            <select value={rarity} onChange={(e) => setRarity(e.target.value)}>
-                <option value="4">4 Star</option>
-                <option value="5">5 Star</option>
-            </select>
-            <label for="element">Element</label>
-            <select value={element} onChange={(e) => setElement(e.target.value)}>
-                <option value="0">Physical</option>
-                <option value="1">Ice</option>
-                <option value="2">Wind</option>
-                <option value="3">Fire</option>
-                <option value="4">Lightning</option>
-                <option value="5">Quantum</option>
-                <option value="6">Imaginary</option>
-            </select>
-            <label for="path">Path</label>
-            <select value={path} onChange={(e) => setPath(e.target.value)}>
-                <option value="0">Destruction</option>
-                <option value="1">Preservation</option>
-                <option value="2">Hunt</option>
-                <option value="3">Abundance</option>
-                <option value="4">Erudition</option>
-                <option value="5">Nihility</option>
-                <option value="6">Harmony</option>
-            </select>
-            <div>
-                <label for="Base HP">Base HP</label>
-                <input type="number" placeholder="Base HP" value={baseHP} onChange={(e) => setBaseHP(e.target.value)} />
-                <label for="Base ATK">Base ATK</label>
-                <input type="number" placeholder="Base ATK" value={baseAtk} onChange={(e) => setBaseAtk(e.target.value)} />
-                <label for="Base DEF">Base DEF</label>
-                <input type="number" placeholder="Base DEF" value={baseDef} onChange={(e) => setBaseDef(e.target.value)} />
-                <label for="Base SPD">Base SPD</label>
-                <input type="number" placeholder="Base SPD" value={baseSpd} onChange={(e) => setBaseSpd(e.target.value)} />
+            <div className="the-top">
+                <img className="picBox" src={charImage} alt="+"/>
+                <div className="pairs">
+                    <label for="charName">Name</label>
+                    <input type="text" placeholder="Character Name" value={charName} onChange={(e) => setCharName(e.target.value)} />
+                </div>
+                <div className="pairs">
+                    <label for="rarity">Rarity</label>
+                    <select value={rarity} onChange={(e) => setRarity(e.target.value)}>
+                        <option value="4">4 Star</option>
+                        <option value="5">5 Star</option>
+                    </select>
+                </div>
+                <div className="pairs">
+                    <label for="element">Element</label>
+                    <select value={element} onChange={(e) => setElement(e.target.value)}>
+                        <option value="0">Physical</option>
+                        <option value="1">Ice</option>
+                        <option value="2">Wind</option>
+                        <option value="3">Fire</option>
+                        <option value="4">Lightning</option>
+                        <option value="5">Quantum</option>
+                        <option value="6">Imaginary</option>
+                    </select>
+                </div>
+                <div className="pairs">
+                    <label for="path">Path</label>
+                    <select value={path} onChange={(e) => setPath(e.target.value)}>
+                        <option value="0">Destruction</option>
+                        <option value="1">Preservation</option>
+                        <option value="2">Hunt</option>
+                        <option value="3">Abundance</option>
+                        <option value="4">Erudition</option>
+                        <option value="5">Nihility</option>
+                        <option value="6">Harmony</option>
+                    </select>
+                </div>
             </div>
-            <div>
-                <label for="skills">Skills</label>
-                <ul>
-                    {skills.map((skill, index) => (
-                        <li key={index}>
-                            <input type="text" placeholder="Name" value={skill.name} onChange={(e) => setSkills(skills.map((s) => ({...s, name: e.target.value})))} />
-                            <input type="text" placeholder="Description" value={skill.description} onChange={(e) => setSkills(skills.map((s) => ({...s, description: e.target.value})))} />
-                        </li>
-                    ))}
-                </ul>
-            </div>
+            <div className="the-top">
+                <div className="pairs">
+                    <label for="Base HP">Base HP</label>
+                    <input type="number" placeholder="Base HP" value={baseHP} onChange={(e) => setBaseHP(e.target.value)} />
+                    <label for="Base ATK">Base ATK</label>
+                    <input type="number" placeholder="Base ATK" value={baseAtk} onChange={(e) => setBaseAtk(e.target.value)} />
+                    <label for="Base DEF">Base DEF</label>
+                    <input type="number" placeholder="Base DEF" value={baseDef} onChange={(e) => setBaseDef(e.target.value)} />
+                    <label for="Base SPD">Base SPD</label>
+                    <input type="number" placeholder="Base SPD" value={baseSpd} onChange={(e) => setBaseSpd(e.target.value)} />
+                </div>
+                <div>
+                    <label for="skills">Skills</label>
+                    <ul>
+                        {skills.map((skill, index) => (
+                            <li key={index}>
+                                <input type="text" placeholder="Name" value={skill.name} onChange={(e) => setSkills(skills.map((s) => ({...s, name: e.target.value})))} />
+                                <input type="text" placeholder="Description" value={skill.description} onChange={(e) => setSkills(skills.map((s) => ({...s, description: e.target.value})))} />
+                            </li>
+                        ))}
+                    </ul>
+                </div>
 
-            <div>
-                <label for="eidolons">Eidolons</label>
-                <ul>
-                    {eidolons.map((eidolon, index) => (
-                        <li key={index}>
-                            <input type="text" placeholder="Name" value={eidolon.name} onChange={(e) => setEidolons(eidolons.map((s) => ({...s, name: e.target.value})))} />
-                            <input type="text" placeholder="Description" value={eidolon.description} onChange={(e) => setEidolons(eidolons.map((s) => ({...s, description: e.target.value})))} />
-                        </li>
-                    ))}
-                </ul>
-            </div>
+                <div>
+                    <label for="eidolons">Eidolons</label>
+                    <ul>
+                        {eidolons.map((eidolon, index) => (
+                            <li key={index}>
+                                <input type="text" placeholder="Name" value={eidolon.name} onChange={(e) => setEidolons(eidolons.map((s) => ({...s, name: e.target.value})))} />
+                                <input type="text" placeholder="Description" value={eidolon.description} onChange={(e) => setEidolons(eidolons.map((s) => ({...s, description: e.target.value})))} />
+                            </li>
+                        ))}
+                    </ul>
+                </div>
 
-            <div>
-                <label for="traces">Traces</label>
-                <ul>
-                    {traces.map((trace, index) => (
-                        <li key={index}>
-                            <input type="text" placeholder="Name" value={trace.name} onChange={(e) => setTraces(traces.map((s) => ({...s, name: e.target.value})))} />
-                            <input type="text" placeholder="Description" value={trace.description} onChange={(e) => setTraces(traces.map((s) => ({...s, description: e.target.value})))} />
-                        </li>
-                    ))}
-                </ul>
+                <div>
+                    <label for="traces">Traces</label>
+                    <ul>
+                        {traces.map((trace, index) => (
+                            <li key={index}>
+                                <input type="text" placeholder="Name" value={trace.name} onChange={(e) => setTraces(traces.map((s) => ({...s, name: e.target.value})))} />
+                                <input type="text" placeholder="Description" value={trace.description} onChange={(e) => setTraces(traces.map((s) => ({...s, description: e.target.value})))} />
+                            </li>
+                        ))}
+                    </ul>
+                </div>
             </div>
             <div className="options">
-                <button className="button" onClick={() => {
+                <button className="buttons" onClick={() => {
                     console.log(charImage, charName, rarity, element, path, baseHP, baseAtk, baseDef, baseSpd, skills, eidolons, traces); // upload to database code here
                 }}>Create Character</button>
 
-                <button className="button" onClick={() => {
+                <button className="buttons" onClick={() => {
                     setCharImage("")
                     setCharName("")
                     setRarity(0)

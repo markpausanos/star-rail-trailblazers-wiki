@@ -12,7 +12,7 @@ export const RelicCreatePage = (props) => {
             <div>
                 <label for="image">Relic Image</label>
                 <input type="text" placeholder="Relic Set Image Link" value={image} onChange={(e) => setImage(e.target.value)} />
-                {!image ? <div className="bigBox">+</div> : <img className="bigBox" src={image} />}
+                <img className="picBox" src={image} alt="+"/>
             </div>
             <input type="text" placeholder="Relic Name" value={name} onChange={(e) => setName(e.target.value)} />
             <div>
