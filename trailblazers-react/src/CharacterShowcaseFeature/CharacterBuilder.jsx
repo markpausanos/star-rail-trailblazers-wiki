@@ -1,11 +1,11 @@
 import React from 'react';
-import './TeamBuilder.css';
+import './CharacterBuilder.css';
 import ChooseCharacter from './ChooseCharacter';
 
-function TeamBuilder() {
+function CharacterBuilder() {
     return (
       <div className='teambuilderbase'>
-        <div className='team'><ChooseCharacter /><ChooseCharacter /><ChooseCharacter /><ChooseCharacter /></div>
+        <div className='team'><ChooseCharacter /></div>
         <div className='options'>
           <div className='button'>Clear</div>
           <div className='button'>Save</div>
@@ -14,4 +14,4 @@ function TeamBuilder() {
     );
   }
 
-export default TeamBuilder;
+export default CharacterBuilder;

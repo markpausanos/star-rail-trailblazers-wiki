@@ -1,11 +1,11 @@
 import React from 'react';
-import './TeamBuildShowcases.css';
+import './CharacterBuildShowcases.css';
 import UserBuildPost from './UserBuildPost';
 
-function TeamBuildShowcases() {
+function CharacterBuildShowcases() {
     return (
         <div className='teams'><UserBuildPost/></div>
     );
   }
 
-export default TeamBuildShowcases;
+export default CharacterBuildShowcases;
