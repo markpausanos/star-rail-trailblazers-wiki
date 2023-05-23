@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router";
+import "./InputPage.css";
 
 export const RelicCreatePage = (props) => {
     const [image, setImage] = useState("");
@@ -8,13 +8,18 @@ export const RelicCreatePage = (props) => {
 
     return (
         <div>
-            <div>
+            <div className="pairs">
                 <label for="image">Relic Image</label>
                 <input type="text" placeholder="Relic Set Image Link" value={image} onChange={(e) => setImage(e.target.value)} />
-                <img src={image} />
             </div>
-            <input type="text" placeholder="Relic Name" value={name} onChange={(e) => setName(e.target.value)} />
-            <div>
+            <div className="the-top">
+                <img className="picBox" src={image} alt="+"/>
+                <div className="pairs">
+                    <label for="image">Relic Name</label>
+                    <input type="text" placeholder="Relic Name" value={name} onChange={(e) => setName(e.target.value)} />
+                </div>
+            </div>
+            <div className="the-top">
                 <label for="effects">Effects</label>
                 <ul>
                     {effects.map((effect, index) => (
@@ -26,17 +31,19 @@ export const RelicCreatePage = (props) => {
                     ))}
                 </ul>
             </div>
+            
+            <div className="options">
+                <button className="buttons" onClick={() => {
+                    console.log(image, name, effects); // upload to database code here
+                }}>Create Relic</button>
 
-            <button onClick={() => {
-                console.log(image, name, effects); // upload to database code here
-            }}>Create Relic</button>
-
-            <button onClick={() => {
-                setImage("")
-                setName("")
-                effects.forEach(effect => effect.name = "")
-                effects.forEach(effect => effect.description = "")
-            }}>Clear</button>
+                <button className="buttons" onClick={() => {
+                    setImage("")
+                    setName("")
+                    effects.forEach(effect => effect.name = "")
+                    effects.forEach(effect => effect.description = "")
+                }}>Clear</button>
+            </div>
         </div>
     )
 }
