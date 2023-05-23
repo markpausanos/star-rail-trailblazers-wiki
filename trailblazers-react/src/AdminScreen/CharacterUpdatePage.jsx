@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router";
 import "./InputPage.css";
 
 export const CharacterUpdatePage = (props) => {
@@ -13,11 +12,8 @@ export const CharacterUpdatePage = (props) => {
     const [baseAtk, setBaseAtk] = useState(0);
     const [baseDef, setBaseDef] = useState(0);
     const [baseSpd, setBaseSpd] = useState(0);
-    const [skillIDs, setSkillIDs] = useState([]);
     const [skills, setSkills] = useState([{name: "",description: "",},{name: "",description: "",},{name: "",description: "",},{name: "",description: "",},{name: "",description: "",},]);
-    const [eidolonIDs, setEidolonIDs] = useState([]);
     const [eidolons, setEidolons] = useState([{name: "",description: "",},{name: "",description: "",},{name: "",description: "",},{name: "",description: "",},{name: "",description: "",},{name: "",description: "",},]);
-    const [traceIDs, setTraceIDs] = useState([]);
     const [traces, setTraces] = useState([{name: "",description: "",},{name: "",description: "",},{name: "",description: "",},]);
     const [charList, setCharList] = useState([]);
 

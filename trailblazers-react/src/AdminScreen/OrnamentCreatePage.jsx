@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router";
 import "./InputPage.css";
 
 export const OrnamentCreatePage = (props) => {
