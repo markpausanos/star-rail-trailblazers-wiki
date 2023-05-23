@@ -132,7 +132,7 @@ function CharacterPageList() {
         </div>
 
       <div className='contents'>
-        <CharacterList list={searchedChar} />
+        <CharacterList list={searchedChar} onCharacterClick={handleCharacterClick}/>
           
       </div>
 
