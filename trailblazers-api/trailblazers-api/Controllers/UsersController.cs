@@ -118,12 +118,12 @@ namespace trailblazers_api.Controllers
         /// </summary>
         /// <param name="name">The user name.</param>
         /// <returns>The retrieved user.</returns>
-        [HttpGet("{name}", Name = "GetUserByName")]
+        [HttpGet(Name = "GetUserByName")]
         [Produces("application/json")]
         [ProducesResponseType(typeof(UserAccessDto), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> GetUserByName(string name)
+        public async Task<IActionResult> GetUserByName([FromQuery] string name)
         {
             try
             {
