@@ -54,10 +54,18 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+app.UseCors();
 app.Run();
 
 void ConfigureServices(IServiceCollection services, IConfiguration configuration)
 {
+    services.AddCors(options =>
+    {
+        options.AddDefaultPolicy(builder =>
+        {
+            builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+        });
+    });
     services.Configure<JwtSettings>(configuration.GetSection("JwtSettings"));
     services.AddSingleton(cfg => cfg.GetRequiredService<IOptions<JwtSettings>>().Value);
     var jwtSettings = configuration.GetSection("JwtSettings").Get<JwtSettings>();
