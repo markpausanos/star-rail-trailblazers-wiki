@@ -16,7 +16,6 @@ function Dashboard() {
   const navigate = useNavigate();
   const [activeItem, setActiveItem] = useState('characters');
   const[isOpen,setIsOpen]=useState(false);
-    const navigate = useNavigate();
   const toggle=()=>{
     setIsOpen(!isOpen);
   }
