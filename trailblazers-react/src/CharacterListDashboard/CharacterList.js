@@ -39,6 +39,10 @@ function CharacterList(props) {
         filterId: 8
     }
 ];
+    
+  const handleCharacterClick = (character) => {
+    props.onCharacterClick(character);
+  };
 
   return (
     <>
@@ -46,7 +50,7 @@ function CharacterList(props) {
         props.list.map(char => {
           const matchingElement = element.find(el => el.alt === char.elem);
             return (
-              <div key= {char.charId} className='character-portrait'>
+              <div key= {char.charId} className='character-portrait' onClick={() => handleCharacterClick(char)}>
                  {matchingElement && (
                     <img className='character-element' src={matchingElement.img} alt={matchingElement.alt} />
                   )}

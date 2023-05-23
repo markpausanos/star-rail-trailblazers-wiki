@@ -12,36 +12,37 @@ namespace trailblazers_api.Repositories.Traces
         Task<int> CreateTrace(Trace trace);
 
         /// <summary>
-        /// Gets all Traces in the database.
+        /// Retrieves all Traces in the database.
         /// </summary>
-        /// <returns>An IEnumerable of Trace objects.</returns>
-        Task<IEnumerable<Trace>> GetAllTrace();
+        /// <returns>An enumerable collection of Trace objects.</returns>
+        Task<IEnumerable<Trace>> GetAllTraces();
 
         /// <summary>
-        /// Gets all traces from the database for a given Trailblazer ID.
+        /// Gets all Traces in the database associated with a specific trailblazer ID.
         /// </summary>
-        /// <param name="trailblazerId">The ID of the Trailblazer to retrieve traces for.</param>
-        /// <returns>An enumerable collection of Trace objects for the specified Trailblazer ID.</returns>
-        Task<IEnumerable<Trace>> GetTraceByTrailblazerId(int trailblazerId);
+        /// <param name="trailblazerId">The ID of the trailblazer to filter Traces by.</param>
+        /// <returns>An enumerable collection of Trace objects.</returns>
+        Task<IEnumerable<Trace>> GetTracesByTrailblazerId(int trailblazerId);
 
         /// <summary>
-        /// Updates a Trace in the database.
+        /// Retrieves an Trace by its ID.
+        /// </summary>
+        /// <param name="id">The ID of the Trace to retrieve.</param>
+        /// <returns>The retrieved Trace, or null if not found.</returns>
+        Task<Trace?> GetTraceById(int id);
+
+        /// <summary>
+        /// Updates an Trace in the database.
         /// </summary>
         /// <param name="trace">The updated Trace object.</param>
-        /// <returns>
-        ///     true: if the update was successful.
-        ///     false: if the update was unsuccessful.
-        /// </returns>
+        /// <returns>True if the update was successful, false otherwise.</returns>
         Task<bool> UpdateTrace(Trace trace);
 
         /// <summary>
-        /// Deletes a Trace from the database.
+        /// Deletes an Trace from the database.
         /// </summary>
         /// <param name="id">The ID of the Trace to delete.</param>
-        /// <returns>
-        ///     true: if the delete was successful.
-        ///     false: if the delete was unsuccessful.
-        /// </returns>
+        /// <returns>True if the delete was successful, false otherwise.</returns>
         Task<bool> DeleteTrace(int id);
     }
 }

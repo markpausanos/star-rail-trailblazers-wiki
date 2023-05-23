@@ -83,7 +83,7 @@ function LightConePage() {
           <div className='headerbar'>
               <Search text={'Search light cone'} onSearchTermChange={searchOnChangeHandler}/>
               <div className='filterBox'>
-            <FilterBox category={'Light cone'} onRareFilterChange={handleRarityChange}  onPathFilterChange={handlePathChange}/>
+            <FilterBox category={'Light Cones'} onRareFilterChange={handleRarityChange}  onPathFilterChange={handlePathChange}/>
 
             </div>
           </div>

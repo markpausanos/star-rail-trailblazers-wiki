@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using trailblazers_api.DTOs.Paths;
+using trailblazers_api.Dtos.Paths;
 using trailblazers_api.Services.Paths;
 using Microsoft.IdentityModel.Tokens;
 
@@ -59,21 +59,33 @@ namespace trailblazers_api.Controllers
         [HttpGet(Name = "GetAllPaths")]
         [Produces("application/json")]
         [ProducesResponseType(typeof(IEnumerable<PathSRDto>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(PathSRDto), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetAllPathSRs([FromQuery] string? name)
         {
             try
             {
-                var paths = string.IsNullOrEmpty(name) ? await _pathService.GetAllPathSRs() :
-                    new List<PathSRDto> { await _pathService.GetPathSRByName(name) };
-
-                if (paths.IsNullOrEmpty())
+                if (string.IsNullOrEmpty(name))
                 {
-                    return NoContent();
+                    var paths = await _pathService.GetAllPathSRs();
+
+                    if (!paths.IsNullOrEmpty())
+                    {
+                        return Ok(paths);
+                    }
+                }
+                else
+                {
+                    var path = await _pathService.GetPathSRByName(name);
+
+                    if (path != null)
+                    {
+                        return Ok(path);
+                    }
                 }
 
-                return Ok(paths);
+                return NoContent();
             }
             catch (Exception e)
             {

@@ -3,7 +3,6 @@ using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using trailblazers_api.Context;
-using trailblazers_api.Models;
 using trailblazers_api.Repositories.Builds;
 using trailblazers_api.Repositories.Eidolons;
 using trailblazers_api.Repositories.Elements;
@@ -25,6 +24,7 @@ using trailblazers_api.Services.Ornaments;
 using trailblazers_api.Services.Paths;
 using trailblazers_api.Services.Relics;
 using trailblazers_api.Services.Skills;
+using trailblazers_api.Services.Traces;
 using trailblazers_api.Services.Trailblazers;
 using trailblazers_api.Services.Users;
 using trailblazers_api.Utils;
@@ -54,10 +54,18 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+app.UseCors();
 app.Run();
 
 void ConfigureServices(IServiceCollection services, IConfiguration configuration)
 {
+    services.AddCors(options =>
+    {
+        options.AddDefaultPolicy(builder =>
+        {
+            builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+        });
+    });
     services.Configure<JwtSettings>(configuration.GetSection("JwtSettings"));
     services.AddSingleton(cfg => cfg.GetRequiredService<IOptions<JwtSettings>>().Value);
     var jwtSettings = configuration.GetSection("JwtSettings").Get<JwtSettings>();
@@ -86,20 +94,20 @@ void ConfigureServices(IServiceCollection services, IConfiguration configuration
     services.AddScoped<IPathSRService, PathSRService>();
     services.AddScoped<IRelicService, RelicService>();
     services.AddScoped<ISkillService, SkillService>();
+    services.AddScoped<ITraceService, TraceService>();
     services.AddScoped<ITrailblazerService, TrailblazerService>();
     services.AddScoped<IUserService, UserService>();
 
+    services.AddScoped<IElementRepository, ElementRepository>();
     services.AddScoped<IBuildRepository, BuildRepository>();
     services.AddScoped<IEidolonRepository, EidolonRepository>();
-    services.AddScoped<IElementRepository, ElementRepository>();
     services.AddScoped<ILightconeRepository, LightconeRepository>();
     services.AddScoped<IOrnamentRepository, OrnamentRepository>();
     services.AddScoped<IPathSRRepository, PathSRRepository>();
-    services.AddScoped<IPostRepository, PostRepository>();
     services.AddScoped<IRelicRepository, RelicRepository>();
     services.AddScoped<ISkillRepository, SkillRepository>();
-    services.AddScoped<ITeamRepository, TeamRepository>();
     services.AddScoped<ITraceRepository, TraceRepository>();
     services.AddScoped<ITrailblazersRepository, TrailblazerRepository>();
     services.AddScoped<IUserRepository, UserRepository>();
+    services.AddScoped<IBuildLikeRepository, BuildLikeRepository>();
 }

@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
-using trailblazers_api.DTOs.Skills;
+using trailblazers_api.Dtos.Skills;
 using trailblazers_api.Services.Skills;
 
 namespace trailblazers_api.Controllers
@@ -111,6 +111,7 @@ namespace trailblazers_api.Controllers
                 return StatusCode(500, "An error occurred while retrieving the skill.");
             }
         }
+
         /// <summary>
         /// Update a skill.
         /// </summary>
@@ -179,7 +180,7 @@ namespace trailblazers_api.Controllers
             catch (Exception e)
             {
                 _logger.LogError(e.Message);
-                return StatusCode(500, "An error occurred while updating the skill.");
+                return StatusCode(500, "An error occurred while deleting the skill.");
             }
         }
     }

@@ -22,22 +22,22 @@ namespace trailblazers_api.Services.Users
             _jwtSettings = jwtSettings;
         }
 
-        public async Task<UserCreationLoginDto?> Authenticate(UserCreationLoginDto userDto)
+        public async Task<bool> Authenticate(UserCreationLoginDto userDto)
         {
             var user = await _userRepository.GetUserByName(userDto.Name!);
             if (user == null || user.Password != userDto.Password)
             {
-                return null;
+                return false;
             }
 
-            return _mapper.Map<UserCreationLoginDto>(user);
+            return true;
         }
 
         public async Task<string?> GenerateToken(UserCreationLoginDto userDto)
         {
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.Key!));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
-            var userType = (await _userRepository.GetUserByName(userDto.Name))!.UserType;
+            var userType = (await _userRepository.GetUserByName(userDto.Name!))!.UserType;
             var claims = new[]
             {
                 new Claim(ClaimTypes.Name, userDto.Name!.ToString()),
@@ -54,45 +54,57 @@ namespace trailblazers_api.Services.Users
 
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
-        public async Task<string?> CreateUser(UserCreationLoginDto userDto)
+
+        public async Task<UserAccessDto?> GetCurrentUser(HttpContext context)
         {
-            if (userDto == null)
+            var identity = context.User.Identity as ClaimsIdentity;
+
+            if (identity != null)
             {
-                throw new ArgumentNullException(nameof(userDto));
+                var userClaims = identity.Claims;
+                var userName = userClaims.FirstOrDefault(u => u.Type == ClaimTypes.Name)?.Value;
+
+                return await GetUserByName(userName!);
             }
 
-            if (await _userRepository.GetUserByName(userDto.Name!) != null)
+            return null;
+        }
+        public async Task<string?> CreateUser(UserCreationLoginDto newUser)
+        {
+            var userToCreate = _mapper.Map<User>(newUser);
+
+            if (await GetUserByName(userToCreate.Name!) != null)
             {
-                throw new InvalidOperationException($"User '{userDto.Name}' already exists.");
+                return null;
             }
 
-            var newUser = _mapper.Map<User>(userDto);
-            await _userRepository.CreateUser(newUser);
-
-            return await GenerateToken(userDto);
+            var newlyCreatedUser = await _userRepository.GetUserById(await _userRepository.CreateUser(userToCreate));
+            return await GenerateToken(_mapper.Map<UserCreationLoginDto>(newlyCreatedUser));
         }
-        public async Task<User?> GetUserById(int id)
-        {
-            return await _userRepository.GetUserById(id);
-        }
-
-        public async Task<bool> UpdateUserById(int id, UserUpdateDto userUpdateDto)
+        public async Task<UserAccessDto?> GetUserById(int id)
         {
             var user = await _userRepository.GetUserById(id);
 
-            if (user == null)
-            {
-                throw new ArgumentNullException(id.ToString());
-            }
-
-            user.Password = userUpdateDto.Password;
-
-            return await _userRepository.UpdateUser(user);
+            return user == null ? null : _mapper.Map<UserAccessDto>(user);
         }
 
-        public async Task<bool> DeleteUserById(int id)
+        public async Task<UserAccessDto?> GetUserByName(string name)
         {
-            return await _userRepository.DeleteUser(id);
+            var user = await _userRepository.GetUserByName(name);
+
+            return user == null ? null : _mapper.Map<UserAccessDto>(user);
+        }
+
+        public async Task<bool> UpdateUserByName(UserUpdateDto updatedUser)
+        {
+            var userToUpdate = _mapper.Map<User>(updatedUser);
+
+            return await _userRepository.UpdateUser(userToUpdate);
+        }
+
+        public async Task<bool> DeleteUser(string name)
+        {
+            return await _userRepository.DeleteUser(name);
         }
     }
 }

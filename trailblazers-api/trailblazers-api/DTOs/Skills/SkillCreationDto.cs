@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace trailblazers_api.DTOs.Skills
+namespace trailblazers_api.Dtos.Skills
 {
     public class SkillCreationDto
     {
@@ -12,8 +12,6 @@ namespace trailblazers_api.DTOs.Skills
 
         [Required(ErrorMessage = "Description is a required field")]
         public string? Description { get; set; }
-
-        [Required(ErrorMessage = "Image is a required field")]
         public string? Image { get; set; }
 
         [Required(ErrorMessage = "Type is a required field")]

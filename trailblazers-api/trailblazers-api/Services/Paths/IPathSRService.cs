@@ -1,4 +1,4 @@
-﻿using trailblazers_api.DTOs.Paths;
+﻿using trailblazers_api.Dtos.Paths;
 
 namespace trailblazers_api.Services.Paths
 {

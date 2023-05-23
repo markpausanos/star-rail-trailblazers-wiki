@@ -98,7 +98,7 @@ function CharacterPageList() {
       name: "Gepard",
       img: "https://rerollcdn.com/STARRAIL/Characters/Thumb/1104.png",
       elem: "Ice",
-      path: "The Reservation",
+      path: "The Preservation",
       rare: 5,
       charId: 6
     }
@@ -132,7 +132,7 @@ function CharacterPageList() {
         </div>
 
       <div className='contents'>
-        <CharacterList list={searchedChar} />
+        <CharacterList list={searchedChar} onCharacterClick={handleCharacterClick}/>
           
       </div>
 

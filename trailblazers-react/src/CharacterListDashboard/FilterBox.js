@@ -132,7 +132,7 @@ function FilterBox(props) {
 
         return(
             <>
-                {props.category === 'Light Cone' ?
+                {props.category === 'Light Cones' ?
                     (
                         <Filters filter={rarity} onFilterChange={handleRareFilterChange} selectedFilter={selectedRareFilter}/>
                     ) : (

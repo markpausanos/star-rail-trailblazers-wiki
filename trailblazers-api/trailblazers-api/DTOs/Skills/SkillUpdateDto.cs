@@ -1,4 +1,4 @@
-﻿namespace trailblazers_api.DTOs.Skills
+﻿namespace trailblazers_api.Dtos.Skills
 {
     public class SkillUpdateDto
     {

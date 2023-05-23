@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace trailblazers_api.DTOs.Relics
+namespace trailblazers_api.Dtos.Relics
 {
     public class RelicUpdateDto
     {

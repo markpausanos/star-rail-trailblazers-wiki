@@ -1,4 +1,4 @@
-﻿using trailblazers_api.DTOs.Ornaments;
+﻿using trailblazers_api.Dtos.Ornaments;
 
 namespace trailblazers_api.Services.Ornaments
 {

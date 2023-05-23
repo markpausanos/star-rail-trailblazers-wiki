@@ -1,4 +1,4 @@
-﻿using trailblazers_api.DTOs.Skills;
+﻿using trailblazers_api.Dtos.Skills;
 
 namespace trailblazers_api.Services.Skills
 {

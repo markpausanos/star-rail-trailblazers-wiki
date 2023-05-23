@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using trailblazers_api.DTOs.Elements;
+using trailblazers_api.Dtos.Elements;
 using trailblazers_api.Models;
 
 namespace trailblazers_api.Mapper
@@ -8,7 +8,9 @@ namespace trailblazers_api.Mapper
     {
         public ElementMapping()
         {
+            CreateMap<ElementCreationDto, Element>();
             CreateMap<Element, ElementDto>();
+            CreateMap<ElementUpdateDto, Element>();
         }
     }
 }

@@ -5,6 +5,9 @@ import Dashboard from './CharacterListDashboard/Dashboard';
 import SignUp from './Login-Signup/SignUp';
 import CharacterShowcasePage from './CharacterShowcaseFeature/CharacterShowcasePage';
 
+import AdminDashboard from './AdminScreen/AdminDashboard';
+
+
 function App() {
   return (
     <Routes>
@@ -12,6 +15,7 @@ function App() {
       <Route path="sign-up" element={<SignUp />}></Route>
       <Route path="dashboard" element={<Dashboard />}></Route>
       <Route path ="character-showcase" element={<CharacterShowcasePage/>}/>
+      <Route path="admindashboard" element={<AdminDashboard />}></Route>
     </Routes>
   );
 }

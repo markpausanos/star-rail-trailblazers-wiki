@@ -9,6 +9,9 @@ namespace trailblazers_api.Mapper
         public EidolonMapping()
         {
             CreateMap<Eidolon, EidolonTrailblazerDto>();
+            CreateMap<EidolonCreationDto, Eidolon>();
+            CreateMap<Eidolon, EidolonDto>();
+            CreateMap<EidolonUpdateDto, Eidolon>();
         }
     }
 }

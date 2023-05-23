@@ -1,5 +1,5 @@
-﻿INSERT INTO [dbo].[User] ([Name], [Password])
-VALUES ('admin', '$2a$10$VPhU71dQoyheJc5aJYDjxu5quDU5lQPxK1VVum1hVjNLO63z8vkm6');
+﻿INSERT INTO [dbo].[User] ([Name], [Password], [UserType])
+VALUES ('admin', '123456', 'A');
 GO
 
 DECLARE @i INT = 2;
@@ -9,7 +9,7 @@ DECLARE @password NVARCHAR(MAX);
 WHILE @i <= 20
 BEGIN
     SET @name = CONCAT('User', CAST(NEWID() AS VARCHAR(36)));
-    SET @password = '$2a$10$SbzX/UxlqQG1Jj5/hXsOAOwZIB1DKt9/LvQekI8iUyuxxr6Kd/JfS'; -- Hashed "123456789"
+    SET @password = '123456';
     
     INSERT INTO [dbo].[User] ([Name], [Password])
     VALUES (@name, @password);
