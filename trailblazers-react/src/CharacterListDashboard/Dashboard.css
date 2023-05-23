@@ -14,11 +14,16 @@
     background-image: url(../../public/CharacterListDashboardImg/background.png);
     background-repeat: no-repeat;
     background-size: cover; /* makes the image cover the entire background */
-}
+    background-attachment: fixed;
+    background-position: center;
+    background-size: cover;
+    overflow-y: scroll; /* Add scrollable content */
+    height: 100vh; /* Set the height to ensure the content is scrollable */
+  }
 
 .menu{
-      padding-left: 50px;
-  padding-top: 50px;
+    padding-left: 50px;
+    padding-top: 50px;
     color: white;
     cursor: pointer;
 }
@@ -45,6 +50,6 @@
     background-attachment: fixed;
     background-position: center;
     background-size: cover;
-    overflow-y: scroll; /* Add scrollable content */
-    height: 100vh; /* Set the height to ensure the content is scrollable */
+    /* overflow-y: scroll; Add scrollable content */
+   /*  height: 100vh; /* Set the height to ensure the content is scrollable */
   }
