@@ -5,7 +5,8 @@
   width: 100vw;
 }
 .menu{
-    margin: 30px;
+  padding-left: 50px;
+  padding-top: 50px;
     color: white;
     cursor: pointer;
 }

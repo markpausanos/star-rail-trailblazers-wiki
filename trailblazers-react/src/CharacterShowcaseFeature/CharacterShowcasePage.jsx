@@ -18,13 +18,13 @@ function CharacterShowcasePage() {
 
     return (
     <div className='content'>
-        
-        <div className='menu'onClick={toggle}>Menu</div>
         <div style={{width: isOpen ? "15%" : "0%"}} className="navbar">
               {isOpen && <div className='option' onClick={() => navigate('/dashboard')}>Dashboard</div>}
               {isOpen && <div className='option' onClick={() => navigate('/character-showcase')}>Character Showcase</div>}
               {isOpen && <div className='option' onClick={() => navigate('/')}>SignOut</div>}
           </div>
+        <div className='menu'onClick={toggle}>Menu</div>
+        
         <div className='bar'>
             <div className='tsChoice' onClick={() => handleComponentChange('CharacterBuilder')}> Character Builder </div>
             <div className='tsChoice' onClick={() => handleComponentChange('BuiltCharacters')}> Built Characters </div>
