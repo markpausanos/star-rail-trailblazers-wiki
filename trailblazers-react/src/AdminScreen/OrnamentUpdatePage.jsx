@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
+import "./InputPage.css";
 
 export const OrnamentCreatePage = (props) => {
     const [ornamentID, setID] = useState(-1);
@@ -68,7 +69,7 @@ export const OrnamentCreatePage = (props) => {
             <div>
                 <label for="image">Ornament Image</label>
                 <input type="text" placeholder="Ornament Set Image Link" value={image} onChange={(e) => setImage(e.target.value)} />
-                <img src={image} />
+                {!image ? <div className="bigBox">+</div> : <img className="bigBox" src={image} />}
             </div>
             <input type="text" placeholder="Ornament Name" value={name} onChange={(e) => setName(e.target.value)} />
             <div>

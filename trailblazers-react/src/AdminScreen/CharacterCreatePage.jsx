@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router";
+import "./InputPage.css";
 
 export const CharacterCreatePage = (props) => {
     const [charImage, setCharImage] = useState("");
@@ -20,7 +21,7 @@ export const CharacterCreatePage = (props) => {
             <div>
                 <label for="characterImage">Character Image</label>
                 <input type="text" placeholder="Character Image Link" value={charImage} onChange={(e) => setCharImage(e.target.value)} />
-                <img src={charImage} />
+                {!charImage ? <div className="bigBox">+</div> : <img className="bigBox" src={charImage} />}
             </div>
             <input type="text" placeholder="Character Name" value={charName} onChange={(e) => setCharName(e.target.value)} />
             <label for="rarity">Rarity</label>
@@ -93,28 +94,29 @@ export const CharacterCreatePage = (props) => {
                     ))}
                 </ul>
             </div>
+            <div className="options">
+                <button className="button" onClick={() => {
+                    console.log(charImage, charName, rarity, element, path, baseHP, baseAtk, baseDef, baseSpd, skills, eidolons, traces); // upload to database code here
+                }}>Create Character</button>
 
-            <button onClick={() => {
-                console.log(charImage, charName, rarity, element, path, baseHP, baseAtk, baseDef, baseSpd, skills, eidolons, traces); // upload to database code here
-            }}>Create Character</button>
-
-            <button onClick={() => {
-                setCharImage("")
-                setCharName("")
-                setRarity(0)
-                setElement(0)
-                setPath(0)
-                setBaseHP(0)
-                setBaseAtk(0)
-                setBaseDef(0)
-                setBaseSpd(0)
-                skills.forEach(skill => skill.name = "")
-                skills.forEach(skill => skill.description = "")
-                eidolons.forEach(eidolon => eidolon.name = "")
-                eidolons.forEach(eidolon => eidolon.description = "")
-                traces.forEach(trace => trace.name = "")
-                traces.forEach(trace => trace.description = "")
-            }}>Clear</button>
+                <button className="button" onClick={() => {
+                    setCharImage("")
+                    setCharName("")
+                    setRarity(0)
+                    setElement(0)
+                    setPath(0)
+                    setBaseHP(0)
+                    setBaseAtk(0)
+                    setBaseDef(0)
+                    setBaseSpd(0)
+                    skills.forEach(skill => skill.name = "")
+                    skills.forEach(skill => skill.description = "")
+                    eidolons.forEach(eidolon => eidolon.name = "")
+                    eidolons.forEach(eidolon => eidolon.description = "")
+                    traces.forEach(trace => trace.name = "")
+                    traces.forEach(trace => trace.description = "")
+                }}>Clear</button>
+            </div>
         </div>
     )
 }

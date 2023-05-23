@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
+import "./InputPage.css";
 
 export const RelicUpdatePage = (props) => {
     const [relicID, setID] = useState(-1);
@@ -69,7 +70,7 @@ export const RelicUpdatePage = (props) => {
             <div>
                 <label for="image">Relic Image</label>
                 <input type="text" placeholder="Relic Set Image Link" value={image} onChange={(e) => setImage(e.target.value)} />
-                <img src={image} />
+                {!image ? <div className="bigBox">+</div> : <img className="bigBox" src={image} />}
             </div>
             <input type="text" placeholder="Relic Name" value={name} onChange={(e) => setName(e.target.value)} />
             <div>

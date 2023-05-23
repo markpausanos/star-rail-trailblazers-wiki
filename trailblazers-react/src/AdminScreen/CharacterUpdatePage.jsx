@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
+import "./InputPage.css";
 
 export const CharacterUpdatePage = (props) => {
     const [charID, setID] = useState(-1);
@@ -114,7 +115,7 @@ export const CharacterUpdatePage = (props) => {
             <div>
                 <label for="characterImage">Character Image</label>
                 <input type="text" placeholder="Character Image Link" value={charImage} onChange={(e) => setCharImage(e.target.value)} />
-                <img src={charImage} />
+                {!charImage ? <div className="bigBox">+</div> : <img className="bigBox" src={charImage} />}
             </div>
             <input type="text" placeholder="Character Name" value={charName} onChange={(e) => setCharName(e.target.value)} />
             <label for="rarity">Rarity</label>
