@@ -21,61 +21,69 @@ export const LightConeCreatePage = (props) => {
             <div className="the-top">
                 <img className="picBox" src={image} alt="+"/>
                 <div className="pairs">
+                    <label for="name">Light Cone Name</label>
                     <input type="text" placeholder="Light Cone Name" value={name} onChange={(e) => setName(e.target.value)} />
                 </div>
                 <div className="pairs">
-                    
+                    <label for="rarity">Rarity</label>
                     <select value={rarity} onChange={(e) => setRarity(e.target.value)}>
                         <option value="3">3 Star</option>
                         <option value="4">4 Star</option>
                         <option value="5">5 Star</option>
                     </select>
                 </div>
-                <select value={path} onChange={(e) => setPath(e.target.value)}>
-                    <option value="0">Destruction</option>
-                    <option value="1">Preservation</option>
-                    <option value="2">Hunt</option>
-                    <option value="3">Abundance</option>
-                    <option value="4">Erudition</option>
-                    <option value="5">Nihility</option>
-                    <option value="6">Harmony</option>
-                </select>
+                <div className="pairs">
+                    <label for="path">Path</label>
+                    <select value={path} onChange={(e) => setPath(e.target.value)}>
+                        <option value="0">Destruction</option>
+                        <option value="1">Preservation</option>
+                        <option value="2">Hunt</option>
+                        <option value="3">Abundance</option>
+                        <option value="4">Erudition</option>
+                        <option value="5">Nihility</option>
+                        <option value="6">Harmony</option>
+                    </select>
+                </div>
             </div>
-            <div className="pairs">
-                <label for="Base HP">Base HP</label>
-                <input type="number" placeholder="Base HP" value={baseHP} onChange={(e) => setBaseHP(e.target.value)} />
-                <label for="Base ATK">Base ATK</label>
-                <input type="number" placeholder="Base ATK" value={baseAtk} onChange={(e) => setBaseAtk(e.target.value)} />
-                <label for="Base DEF">Base DEF</label>
-                <input type="number" placeholder="Base DEF" value={baseDef} onChange={(e) => setBaseDef(e.target.value)} />
+            <div className="the-top">
+                <div className="pairs">
+                    <label for="Base HP">Base HP</label>
+                    <input type="number" placeholder="Base HP" value={baseHP} onChange={(e) => setBaseHP(e.target.value)} />
+                    <label for="Base ATK">Base ATK</label>
+                    <input type="number" placeholder="Base ATK" value={baseAtk} onChange={(e) => setBaseAtk(e.target.value)} />
+                    <label for="Base DEF">Base DEF</label>
+                    <input type="number" placeholder="Base DEF" value={baseDef} onChange={(e) => setBaseDef(e.target.value)} />
+                </div>
+                <div>
+                    <label for="effects">Effect</label>
+                    <ul>
+                        {effects.map((effect, index) => (
+                            <li key={index}>
+                                <input type="text" placeholder="Name" value={effect.name} onChange={(e) => setEffect(effects.map((s) => ({...s, name: e.target.value})))} />
+                                <input type="text" placeholder="Description" value={effect.description} onChange={(e) => setEffect(effects.map((s) => ({...s, description: e.target.value})))} />
+                            </li>
+                        ))}
+                    </ul>
+                </div>
             </div>
-            <div>
-                <label for="effects">Effect</label>
-                <ul>
-                    {effects.map((effect, index) => (
-                        <li key={index}>
-                            <input type="text" placeholder="Name" value={effect.name} onChange={(e) => setEffect(effects.map((s) => ({...s, name: e.target.value})))} />
-                            <input type="text" placeholder="Description" value={effect.description} onChange={(e) => setEffect(effects.map((s) => ({...s, description: e.target.value})))} />
-                        </li>
-                    ))}
-                </ul>
-            </div>
+            
+            <div className="options">
+                <button className="buttons" onClick={() => {
+                    console.log(image, name, rarity, path, baseHP, baseAtk, baseDef, effects); // upload to database code here
+                }}>Create Light Cone</button>
 
-            <button onClick={() => {
-                console.log(image, name, rarity, path, baseHP, baseAtk, baseDef, effects); // upload to database code here
-            }}>Create Light Cone</button>
-
-            <button onClick={() => {
-                setImage("")
-                setName("")
-                setRarity(0)
-                setPath(0)
-                setBaseHP(0)
-                setBaseAtk(0)
-                setBaseDef(0)
-                effects.forEach(effect => effect.name = "")
-                effects.forEach(effect => effect.description = "")
-            }}>Clear</button>
+                <button className="buttons" onClick={() => {
+                    setImage("")
+                    setName("")
+                    setRarity(0)
+                    setPath(0)
+                    setBaseHP(0)
+                    setBaseAtk(0)
+                    setBaseDef(0)
+                    effects.forEach(effect => effect.name = "")
+                    effects.forEach(effect => effect.description = "")
+                }}>Clear</button>
+            </div>
         </div>
     )
 }
