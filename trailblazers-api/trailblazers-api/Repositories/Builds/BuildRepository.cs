@@ -175,7 +175,7 @@ namespace trailblazers_api.Repositories.Builds
         {
             var sql = @"
                 UPDATE Build
-                SET LightconeId = @LightconeId, RelicId = @RelicId, OrnamentId = @OrnamentId
+                SET Name = @Name, LightconeId = @LightconeId, RelicId = @RelicId, OrnamentId = @OrnamentId
                 WHERE Id = @Id;";
 
             using (var con = _context.CreateConnection())
@@ -183,6 +183,7 @@ namespace trailblazers_api.Repositories.Builds
                 var parameters = new
                 {
                     Id = build.Id,
+                    Name = build.Name,
                     LightconeId = build.Lightcone?.Id,
                     RelicId = build.Relic?.Id,
                     OrnamentId = build.Ornament?.Id
