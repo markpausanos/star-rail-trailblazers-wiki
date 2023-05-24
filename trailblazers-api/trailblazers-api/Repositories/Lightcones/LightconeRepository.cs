@@ -15,14 +15,27 @@ namespace trailblazers_api.Repositories.Lightcones
         }
         public async Task<int> CreateLightcone(Lightcone lightcone)
         {
-            var sql = "INSERT INTO Lightcone (Name, Description, Image) VALUES (@Name, @Description, @Image); " +
+            var sql = "INSERT INTO Lightcone (Title, Name, Description, Image, Rarity, BaseHp, BaseAtk, BaseDef, PathSRId) " +
+                      "VALUES (@Title, @Name, @Description, @Image, @Rarity, @BaseHp, @BaseAtk, @BaseDef, @PathSRId);" +
                       "SELECT SCOPE_IDENTITY();";
 
             using (var con = _context.CreateConnection())
             {
-                return await con.ExecuteScalarAsync<int>(sql, new { lightcone.Name, lightcone.Description, lightcone.Image });
+                return await con.ExecuteScalarAsync<int>(sql, new
+                {
+                    lightcone.Title,
+                    lightcone.Name,
+                    lightcone.Description,
+                    lightcone.Image,
+                    lightcone.Rarity,
+                    lightcone.BaseHp,
+                    lightcone.BaseAtk,
+                    lightcone.BaseDef,
+                    PathSRId = lightcone.PathSR?.Id
+                });
             }
         }
+
         public async Task<IEnumerable<Lightcone>> GetAllLightcones()
         {
             var sql = "SELECT lc.*, ps.* FROM Lightcone lc LEFT JOIN PathSR ps ON lc.PathSRId = ps.Id " +

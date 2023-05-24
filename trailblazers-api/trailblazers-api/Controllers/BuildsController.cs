@@ -39,6 +39,8 @@ namespace trailblazers_api.Controllers
         {
             try
             {
+                var user = await _userService.GetCurrentUser(HttpContext);
+                build.UserId = user.Id;
                 var newBuild = await _buildService.CreateBuild(build);
 
                 if (newBuild == null)

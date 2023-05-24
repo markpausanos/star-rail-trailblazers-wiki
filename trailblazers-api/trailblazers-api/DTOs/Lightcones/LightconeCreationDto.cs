@@ -26,5 +26,8 @@ namespace trailblazers_api.Dtos.Lightcones
 
         [Required(ErrorMessage = "BaseDef is a required field")]
         public int BaseDef { get; set; }
+
+        [Required(ErrorMessage = "Path ID is a required field")]
+        public int PathId { get; set; }
     }
 }

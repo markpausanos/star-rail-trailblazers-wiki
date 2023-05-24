@@ -1,7 +1,7 @@
 import axios from "axios";
 import config from "./config";
 
-const BASE_URL = `${config.API_URL}/Builds`;
+const BASE_URL = `${config.API_URL}/api/Builds`;
 
 const BuildsService = {
   create: (build) => axios.post(BASE_URL, build),

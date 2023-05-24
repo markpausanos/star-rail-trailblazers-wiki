@@ -1,7 +1,7 @@
 import axios from "axios";
 import config from "./config";
 
-const BASE_URL = `${config.API_URL}/Relics`;
+const BASE_URL = `${config.API_URL}/api/Relics`;
 
 const RelicsService = {
   create: (relic) => axios.post(BASE_URL, relic),

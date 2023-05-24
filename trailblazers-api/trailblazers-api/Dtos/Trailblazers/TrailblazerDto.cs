@@ -18,7 +18,7 @@ namespace trailblazers_api.Dtos.Trailblazers
         public int BaseDef { get; set; }
         public int BaseSpeed { get; set; }
         public ElementDto? Element { get; set; }
-        public PathSRDto? Path { get; set; }
+        public PathSRDto? PathSR { get; set; }
         public List<EidolonTrailblazerDto> Eidolons { get; set; } = new List<EidolonTrailblazerDto>();
         public List<TraceTrailblazerDto> Traces { get; set; } = new List<TraceTrailblazerDto>();
         public List<SkillsTrailblazerDto> Skills { get; set; } = new List<SkillsTrailblazerDto>();

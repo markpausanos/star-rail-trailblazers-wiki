@@ -1,4 +1,6 @@
-﻿namespace trailblazers_api.Dtos.Lightcones
+﻿using trailblazers_api.Dtos.Paths;
+
+namespace trailblazers_api.Dtos.Lightcones
 {
     public class LightconeDto
     {
@@ -11,6 +13,6 @@
         public int BaseHp { get; set; }
         public int BaseAtk { get; set; }
         public int BaseDef { get; set; }
-        public int PathSRId { get; set; }
+        public PathSRDto? PathSR { get; set; }
     }
 }

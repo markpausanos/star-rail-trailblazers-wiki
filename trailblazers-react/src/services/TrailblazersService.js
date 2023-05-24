@@ -4,8 +4,7 @@ import config from "./config";
 const BASE_URL = `${config.API_URL}/api/Trailblazers`;
 
 const TrailblazersService = {
-  create: (trailblazer) =>
-    axios.post("https://localhost:8000/api/Trailblazers"),
+  create: (trailblazer) => axios.post(BASE_URL, trailblazer),
   list: () => axios.get(BASE_URL),
   retrieveById: (id) => axios.get(`${BASE_URL}/${id}`),
   update: (id, updatedTrailblazer) =>

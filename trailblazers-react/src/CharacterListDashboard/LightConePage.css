@@ -1,9 +1,0 @@
-
-li[data-id = 'header']{
-    display: inline-block;
-}
-
-.contentAdjust{
-    margin-top: -5%;
-    padding: 0px;
-}
