@@ -32,7 +32,7 @@ namespace trailblazers_api.Repositories.Trailblazers
                         trailblazer.BaseDef,
                         trailblazer.BaseSpeed,
                         ElementId = trailblazer.Element?.Id,
-                        PathSRId = trailblazer.Path?.Id
+                        PathSRId = trailblazer.PathSR?.Id
                     });
             }
         }
@@ -63,7 +63,7 @@ namespace trailblazers_api.Repositories.Trailblazers
                         }
 
                         currentTrailblazer.Element = element;
-                        currentTrailblazer.Path = pathSR;
+                        currentTrailblazer.PathSR = pathSR;
 
                         if (eidolon != null)
                         {
@@ -117,7 +117,7 @@ namespace trailblazers_api.Repositories.Trailblazers
                         }
 
                         currentTrailblazer.Element = element;
-                        currentTrailblazer.Path = pathSR;
+                        currentTrailblazer.PathSR = pathSR;
 
                         if (eidolon != null)
                         {

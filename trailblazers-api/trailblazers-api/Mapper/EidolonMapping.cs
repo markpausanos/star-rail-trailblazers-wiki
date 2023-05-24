@@ -9,7 +9,8 @@ namespace trailblazers_api.Mapper
         public EidolonMapping()
         {
             CreateMap<Eidolon, EidolonTrailblazerDto>();
-            CreateMap<EidolonCreationDto, Eidolon>();
+            CreateMap<EidolonCreationDto, Eidolon>()
+                .ForPath(dto => dto.Trailblazer!.Id, src => src.MapFrom(src => src.TrailblazerId));
             CreateMap<Eidolon, EidolonDto>();
             CreateMap<EidolonUpdateDto, Eidolon>();
         }
