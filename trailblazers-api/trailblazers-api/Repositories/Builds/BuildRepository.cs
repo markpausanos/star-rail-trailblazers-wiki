@@ -39,40 +39,44 @@ namespace trailblazers_api.Repositories.Builds
         public async Task<IEnumerable<Build>> GetAllBuilds()
         {
             var sql = @"
-                SELECT b.*, u.*, t.*, l.*, r.*, o.* 
-                FROM Build b
-                LEFT JOIN [User] u ON b.UserId = u.Id
-                LEFT JOIN Trailblazer t ON b.TrailblazerId = t.Id
-                LEFT JOIN Lightcone l ON b.LightconeId = l.Id
-                LEFT JOIN Relic r ON b.RelicId = r.Id
-                LEFT JOIN Ornament o ON b.OrnamentId = o.Id
-                WHERE b.IsDeleted = 0;";
+        SELECT b.*, u.*, t.*, p.*, l.*, r.*, o.* 
+        FROM Build b
+        LEFT JOIN [User] u ON b.UserId = u.Id
+        LEFT JOIN Trailblazer t ON b.TrailblazerId = t.Id
+        LEFT JOIN PathSR p ON t.PathSRId = p.Id
+        LEFT JOIN Lightcone l ON b.LightconeId = l.Id
+        LEFT JOIN Relic r ON b.RelicId = r.Id
+        LEFT JOIN Ornament o ON b.OrnamentId = o.Id
+        WHERE b.IsDeleted = 0;";
 
             using (var con = _context.CreateConnection())
             {
                 var buildDict = new Dictionary<int, Build>();
 
-                var builds = await con.QueryAsync<Build, User, Trailblazer, Lightcone, Relic, Ornament, Build>(
+                var builds = await con.QueryAsync<Build, User, Trailblazer, PathSR, Lightcone, Relic, Ornament, Build>(
                     sql,
-                    (build, user, trailblazer, lightcone, relic, ornament) =>
+                    (build, user, trailblazer, pathSR, lightcone, relic, ornament) =>
                     {
                         if (!buildDict.TryGetValue(build.Id, out var currentBuild))
                         {
                             currentBuild = build;
                             currentBuild.User = user;
                             currentBuild.Trailblazer = trailblazer;
+                            currentBuild.Trailblazer.PathSR = pathSR;
                             currentBuild.Lightcone = lightcone;
+                            currentBuild.Lightcone.PathSR = pathSR;
                             currentBuild.Relic = relic;
                             currentBuild.Ornament = ornament;
                             buildDict.Add(currentBuild.Id, currentBuild);
                         }
 
                         return currentBuild;
-                    });
+                    }, splitOn: "Id,Id,Id,Id,Id,Id,Id");
 
                 return builds;
             }
         }
+
 
         public async Task<Build?> GetBuildById(int id)
         {
