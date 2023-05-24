@@ -7,9 +7,9 @@ import {
   Ornaments,
   Relics,
   SignUp,
+  Dashboard,
 } from "./screens";
 import "./styles/App.scss";
-import Dashboard from "./screens/user/Dashboard";
 
 function App() {
   return (
