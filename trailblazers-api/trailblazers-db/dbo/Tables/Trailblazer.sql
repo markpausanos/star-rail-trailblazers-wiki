@@ -11,6 +11,6 @@
     [ElementId] INT NOT NULL,
     [PathSRId] INT NOT NULL,
     [IsDeleted] BIT NOT NULL DEFAULT 0,
-    CONSTRAINT [FK_Trailblazer_Element] FOREIGN KEY ([ElementId]) REFERENCES [dbo].[Element]([Id]) ON DELETE SET NULL,
-    CONSTRAINT [FK_Trailblazer_PathSR] FOREIGN KEY ([PathSRId]) REFERENCES [dbo].[PathSR]([Id]) ON DELETE SET NULL
+    CONSTRAINT [FK_Trailblazer_Element] FOREIGN KEY ([ElementId]) REFERENCES [dbo].[Element]([Id]) ON DELETE CASCADE,
+    CONSTRAINT [FK_Trailblazer_PathSR] FOREIGN KEY ([PathSRId]) REFERENCES [dbo].[PathSR]([Id]) ON DELETE CASCADE
 )
