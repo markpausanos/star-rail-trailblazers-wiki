@@ -4,9 +4,8 @@ namespace trailblazers_api.Dtos.Builds
 {
     public class BuildCreationDto
     {
+        [Required(ErrorMessage = "Name is a required field")]
         public string? Name { get; set; }
-
-        [Required(ErrorMessage = "UserId is a required field")]
         public int UserId { get; set; }
 
         [Required(ErrorMessage = "TrailblazerId is a required field")]

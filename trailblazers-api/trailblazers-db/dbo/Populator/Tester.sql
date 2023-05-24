@@ -23,3 +23,7 @@ SELECT COUNT(*) FROM [Like] WHERE BuildId =3
                 LEFT JOIN Trace tr ON tr.TrailblazerId = t.Id
                 LEFT JOIN Skill s ON s.TrailblazerId = t.Id
                 WHERE t.IsDeleted = 0
+
+SELECT lc.*, ps.* FROM Lightcone lc LEFT JOIN PathSR ps ON lc.PathSRId = ps.Id 
+WHERE lc.IsDeleted = 0 AND ps.IsDeleted = 0;
+
