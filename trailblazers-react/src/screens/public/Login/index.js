@@ -33,6 +33,8 @@ const Login = () => {
         path: "/",
       });
       const { data: user } = await UsersService.retrieveByName(body.name);
+      cookies.set("role", user.role);
+      cookies.set("name", user.name);
       userContext.loginUpdate(user);
       navigate("/dashboard");
     } catch (e) {

@@ -8,22 +8,20 @@ import * as Services from "../../../../services";
 
 const Modal = ({
   setOpenModal,
-  trailblazers,
+  id,
+  buildNameDefault,
+  lightconesDefault,
+  relicDefault,
+  ornamentsDefault,
   lightcones,
   relics,
   ornaments,
-  reloadBuilds,
 }) => {
-  const [buildName, setBuildName] = useState(null);
-  const [selectedTrailblazer, setSelectedTrailblazer] = useState(null);
-  const [selectedLightcone, setSelectedLightcone] = useState(null);
-  const [selectedRelic, setSelectedRelic] = useState(null);
-  const [selectedOrnament, setSelectedOrnament] = useState(null);
+  const [buildName, setBuildName] = useState(buildNameDefault);
+  const [selectedLightcone, setSelectedLightcone] = useState(lightconesDefault);
+  const [selectedRelic, setSelectedRelic] = useState(relicDefault);
+  const [selectedOrnament, setSelectedOrnament] = useState(ornamentsDefault);
   const [errorMessage, setErrorMessage] = useState("");
-
-  const handleTrailblazerChange = (selectedOption) => {
-    setSelectedTrailblazer(selectedOption);
-  };
 
   const handleLightconeChange = (selectedOption) => {
     setSelectedLightcone(selectedOption);
@@ -37,31 +35,23 @@ const Modal = ({
     setSelectedOrnament(selectedOption);
   };
 
-  const handleCreate = async () => {
+  const handleUpdate = async () => {
     // Handle create button click with the selected values
-    if (
-      selectedTrailblazer &&
-      selectedLightcone &&
-      selectedRelic &&
-      selectedOrnament
-    ) {
+    if (selectedLightcone && selectedRelic && selectedOrnament) {
       setErrorMessage("");
 
-      const buildToCreate = {
-        name: buildName,
-        trailblazerId: selectedTrailblazer.value,
-        lightconeId: selectedLightcone.value,
-        relicId: selectedRelic.value,
-        ornamentId: selectedOrnament.value,
-      };
       try {
-        await Services.BuildsService.create(buildToCreate);
+        await Services.BuildsService.update(id, {
+          name: buildName,
+          lightconeId: selectedLightcone.value,
+          relicId: selectedRelic.value,
+          ornamentId: selectedOrnament.value,
+        });
 
-        setErrorMessage("Created");
+        setErrorMessage("Updated");
         setTimeout(() => {
           setOpenModal(false);
         }, 1000);
-        reloadBuilds();
       } catch (error) {
         setErrorMessage("Error occurred during creation.");
       }
@@ -88,16 +78,6 @@ const Modal = ({
           value={buildName}
           onChange={(e) => setBuildName(e.target.value)}
           name="username"
-        />
-        <Text className="build-text">Choose a Trailblazer</Text>
-        <Select
-          className="build-select"
-          value={selectedTrailblazer}
-          onChange={handleTrailblazerChange}
-          options={trailblazers.map((trailblazer) => ({
-            label: trailblazer.name,
-            value: trailblazer.id,
-          }))}
         />
         <Text className="build-text">Choose a Lightcone</Text>
         <Select
@@ -133,8 +113,8 @@ const Modal = ({
         />
 
         <div className="build-modal-footer">
-          <button className="build-create-button" onClick={handleCreate}>
-            Create
+          <button className="build-create-button" onClick={handleUpdate}>
+            Update
           </button>
         </div>
       </div>
@@ -168,7 +148,6 @@ Modal.propTypes = {
       id: PropTypes.number.isRequired,
     })
   ).isRequired,
-  currentBuilds: PropTypes.any,
 };
 
 export default Modal;

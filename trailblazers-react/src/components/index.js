@@ -13,3 +13,4 @@ export { default as RelicModal } from "./Modal/RelicModal";
 export { default as OrnamentModal } from "./Modal/OrnamentModal";
 export { default as BuildModal } from "./Modal/BuildModal/BuildModal";
 export { default as BuildModalCreate } from "./Modal/BuildModal/BuildCreateModal";
+export { default as BuildUpdateModal } from "./Modal/BuildModal/BuildUpdateModal";

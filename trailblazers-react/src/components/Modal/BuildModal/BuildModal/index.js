@@ -7,6 +7,7 @@ import GLOBALS from "../../../../app-globals";
 import { textTypes } from "../../../constants";
 import CharacterInfo from "../../../CharacterInfo";
 import { BuildsService } from "../../../../services";
+import { BuildUpdateModal } from "../../..";
 
 function Modal({
   setOpenModal,
@@ -23,21 +24,40 @@ function Modal({
   rarity,
   elementImage,
   pathImage,
-  setLikes,
+  isOwner,
+  lightcones,
+  relics,
+  ornaments,
+  reloadBuilds,
 }) {
   const [liked, setLiked] = useState(isLiked);
+  const [modalOpenUpdate, setModalOpenUpdate] = useState(false);
+  const [message, setMessage] = useState("");
+  const [totalLikes, setTotalLikes] = useState(likes);
+
   const handleLike = async () => {
     try {
       if (liked) {
         await BuildsService.unlike(id);
-        setLikes(likes - 1);
+        setTotalLikes(totalLikes - 1);
       } else {
         await BuildsService.like(id);
-        setLikes(likes + 1);
+        setTotalLikes(totalLikes + 1);
       }
       setLiked(!liked);
+      reloadBuilds();
     } catch (error) {
-      console.log("Error:", error);
+      setMessage("Error: " + error.message);
+    }
+  };
+
+  const handleDelete = async () => {
+    try {
+      await BuildsService.delete(id);
+      setOpenModal(false);
+      reloadBuilds();
+    } catch (error) {
+      setMessage("Error: " + error.message);
     }
   };
 
@@ -61,7 +81,7 @@ function Modal({
           <img src={pathImage} alt="Path" />
 
           <Text>Made by {userName} </Text>
-          <Text>Total likes : {likes ? likes : 0} </Text>
+          <Text>Total likes : {totalLikes ? totalLikes : 0} </Text>
           <hr />
         </div>
         <div className="title">
@@ -116,13 +136,42 @@ function Modal({
           </div>
         </div>
         <div className="footer">
-          <button
-            className={liked ? "liked-button" : "like-button"}
-            onClick={handleLike}
-          >
-            {liked ? "Liked" : "Like"}
-          </button>
+          {!isOwner && (
+            <>
+              <button
+                className={liked ? "liked-button" : "like-button"}
+                onClick={handleLike}
+              >
+                {liked ? "Liked" : "Like"}
+              </button>
+            </>
+          )}
+
+          {isOwner && (
+            <>
+              <button onClick={() => setModalOpenUpdate(true)}>Update</button>
+              <button className="delete-button" onClick={handleDelete}>
+                Delete
+              </button>
+            </>
+          )}
         </div>
+        <div>
+          <Text>{message}</Text>
+        </div>
+        {modalOpenUpdate && (
+          <BuildUpdateModal
+            setOpenModal={setModalOpenUpdate}
+            id={id}
+            buildNameDefault={name}
+            lightconesDefault={lightcone}
+            relicDefault={relic}
+            ornamentsDefault={ornament}
+            lightcones={lightcones}
+            relics={relics}
+            ornaments={ornaments}
+          />
+        )}
       </div>
     </div>
   );
@@ -136,6 +185,7 @@ Modal.propTypes = {
   userName: PropTypes.string.isRequired,
   likes: PropTypes.number.isRequired,
   isLiked: PropTypes.bool,
+  isOwner: PropTypes.bool,
   trailblazer: PropTypes.shape({
     image: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
@@ -158,6 +208,25 @@ Modal.propTypes = {
   elementImage: PropTypes.string.isRequired,
   pathImage: PropTypes.string.isRequired,
   setLikes: PropTypes.func.isRequired,
+  lightcones: PropTypes.arrayOf(
+    PropTypes.shape({
+      image: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
+    })
+  ).isRequired,
+  relics: PropTypes.arrayOf(
+    PropTypes.shape({
+      image: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
+    })
+  ).isRequired,
+  ornaments: PropTypes.arrayOf(
+    PropTypes.shape({
+      image: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
+    })
+  ).isRequired,
+  reloadBuilds: PropTypes.any,
 };
 
 export default Modal;

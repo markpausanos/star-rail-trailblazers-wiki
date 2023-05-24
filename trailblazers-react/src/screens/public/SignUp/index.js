@@ -12,7 +12,6 @@ import { UsersService } from "../../../services";
 import { buttonTypes } from "../../../components/Button/constants";
 
 const SignUp = () => {
-  const userContext = useContext(UserContext);
   const cookies = new Cookies();
   const navigate = useNavigate();
 
@@ -36,7 +35,7 @@ const SignUp = () => {
         path: "/",
       });
       const { data: user } = await UsersService.retrieveByName(body.name);
-      userContext.loginUpdate(user);
+      cookies.set("name", user.name);
       navigate("/dashboard");
     } catch (e) {
       setError("Invalid signup");
