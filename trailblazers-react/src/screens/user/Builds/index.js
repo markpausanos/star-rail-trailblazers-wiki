@@ -35,6 +35,7 @@ const Builds = () => {
   const [path, setPath] = useState(null);
   const [chosenBuild, setChosenBuild] = useState(null);
   const [currentBuilds, setCurrentBuilds] = useState(null);
+  const [shouldReloadBuilds, setShouldReloadBuilds] = useState(false);
 
   useEffect(() => {
     let res_builds = builds
@@ -63,7 +64,12 @@ const Builds = () => {
         : res_builds;
 
     setCurrentBuilds(res_builds);
-  }, [builds, searchTerm, rarity, element, path, modalOpenCreate]);
+
+    if (shouldReloadBuilds) {
+      fetchBuilds();
+      setShouldReloadBuilds(false); // Reset the reload flag
+    }
+  }, [builds, searchTerm, rarity, element, path, shouldReloadBuilds]);
 
   const searchOnChangeHandler = (event) => {
     setSearchTerm(event.target.value);
@@ -91,11 +97,6 @@ const Builds = () => {
     } else {
       setPath(selectedPath);
     }
-  };
-
-  const handleCloseCreateModal = () => {
-    setModalOpenCreate(false);
-    fetchBuilds(); // Fetch the latest builds after closing the modal
   };
 
   return (
@@ -209,7 +210,8 @@ const Builds = () => {
           id={chosenBuild.id}
           name={chosenBuild.name}
           userName={chosenBuild.user.name}
-          isLiked={chosenBuild.isLiked}
+          likes={chosenBuild.totalLikes}
+          isLiked={chosenBuild.isLike}
           trailblazer={chosenBuild.trailblazer}
           lightcone={chosenBuild.lightcone}
           relic={chosenBuild.relic}
@@ -217,6 +219,11 @@ const Builds = () => {
           rarity={chosenBuild.trailblazer.rarity}
           elementImage={chosenBuild.trailblazer.element.image}
           pathImage={chosenBuild.trailblazer.pathSR.image}
+          isOwner={cookies.get("name") === chosenBuild.user.name}
+          lightcones={lightcones}
+          relics={relics}
+          ornaments={ornaments}
+          reloadBuilds={() => setShouldReloadBuilds(true)}
         />
       )}
 
@@ -227,8 +234,7 @@ const Builds = () => {
           lightcones={lightcones}
           relics={relics}
           ornaments={ornaments}
-          currentBuilds={setCurrentBuilds}
-          handleCloseModal={handleCloseCreateModal}
+          reloadBuilds={() => setShouldReloadBuilds(true)}
         />
       )}
     </>
