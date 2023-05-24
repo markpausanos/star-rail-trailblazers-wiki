@@ -1,7 +1,7 @@
 import axios from "axios";
 import config from "./config";
 
-const BASE_URL = `${config.API_URL}/Ornaments`;
+const BASE_URL = `${config.API_URL}/api/Ornaments`;
 
 const OrnamentsService = {
   create: (ornament) => axios.post(BASE_URL, ornament),

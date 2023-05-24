@@ -1,10 +1,10 @@
 import axios from "axios";
 import config from "./config";
 
-const BASE_URL = `${config.API_URL}/api/Relics`;
+const BASE_URL = `${config.API_URL}/api/Elements`;
 
-const RelicsService = {
-  create: (relic) => axios.post(BASE_URL, relic),
+const ElementsService = {
+  create: (element) => axios.post(BASE_URL, element),
   list: () => axios.get(BASE_URL),
   retrieveById: (id) => axios.get(`${BASE_URL}/${id}`),
   retrieveByName: (name) =>
@@ -13,8 +13,9 @@ const RelicsService = {
         name,
       },
     }),
-  update: (id, updatedRelic) => axios.put(`${BASE_URL}/${id}`, updatedRelic),
+  update: (id, updatedElement) =>
+    axios.put(`${BASE_URL}/${id}`, updatedElement),
   delete: (id) => axios.delete(`${BASE_URL}/${id}`),
 };
 
-export default RelicsService;
+export default ElementsService;
