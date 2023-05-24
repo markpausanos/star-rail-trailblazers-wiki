@@ -15,44 +15,80 @@ namespace trailblazers_api.Repositories.Lightcones
         }
         public async Task<int> CreateLightcone(Lightcone lightcone)
         {
-            var sql = "INSERT INTO Lightcones (Name, Description, Image) VALUES (@Name, @Description, @Image); " +
+            var sql = "INSERT INTO Lightcone (Title, Name, Description, Image, Rarity, BaseHp, BaseAtk, BaseDef, PathSRId) " +
+                      "VALUES (@Title, @Name, @Description, @Image, @Rarity, @BaseHp, @BaseAtk, @BaseDef, @PathSRId);" +
                       "SELECT SCOPE_IDENTITY();";
 
             using (var con = _context.CreateConnection())
             {
-                return await con.ExecuteScalarAsync<int>(sql, new { lightcone.Name, lightcone.Description, lightcone.Image });
+                return await con.ExecuteScalarAsync<int>(sql, new
+                {
+                    lightcone.Title,
+                    lightcone.Name,
+                    lightcone.Description,
+                    lightcone.Image,
+                    lightcone.Rarity,
+                    lightcone.BaseHp,
+                    lightcone.BaseAtk,
+                    lightcone.BaseDef,
+                    PathSRId = lightcone.PathSR?.Id
+                });
             }
         }
+
         public async Task<IEnumerable<Lightcone>> GetAllLightcones()
         {
-            var sql = "SELECT * FROM Lightcones;";
+            var sql = "SELECT lc.*, ps.* FROM Lightcone lc LEFT JOIN PathSR ps ON lc.PathSRId = ps.Id " +
+                "WHERE lc.IsDeleted = 0 AND ps.IsDeleted = 0;";
 
-            using (var con = _context.CreateConnection())
+            using (var connection = _context.CreateConnection())
             {
-                return await con.QueryAsync<Lightcone>(sql);
+                var lightcones = await connection.QueryAsync<Lightcone, PathSR, Lightcone>(sql, (lightcone, pathSR) =>
+                {
+                    lightcone.PathSR = pathSR;
+                    return lightcone;
+                });
+
+                return lightcones;
             }
         }
+
         public async Task<Lightcone?> GetLightconeById(int id)
         {
-            var sql = "SELECT * FROM Lightcones WHERE Id = @Id;";
+            var sql = "SELECT lc.*, ps.* FROM Lightcone lc LEFT JOIN PathSR ps ON lc.PathSRId = ps.Id " +
+                "WHERE lc.IsDeleted = 0 AND ps.IsDeleted = 0 AND lc.Id = @Id;";
 
             using (var con = _context.CreateConnection())
             {
-                return await con.QuerySingleOrDefaultAsync<Lightcone>(sql, new { id });
+                var result = await con.QueryAsync<Lightcone, PathSR, Lightcone>(sql, (lightcone, pathSR) =>
+                {
+                    lightcone.PathSR = pathSR;
+                    return lightcone;
+                }, new { id });
+
+                return result.SingleOrDefault();
             }
         }
+
         public async Task<Lightcone?> GetLightconeByName(string name)
         {
-            var sql = "SELECT * FROM Lightcones WHERE Name = @Name;";
+            var sql = "SELECT lc.*, ps.* FROM Lightcone lc LEFT JOIN PathSR ps ON lc.PathSRId = ps.Id " +
+               "WHERE lc.IsDeleted = 0 AND ps.IsDeleted = 0 AND lc.Name = @Name;";
 
             using (var con = _context.CreateConnection())
             {
-                return await con.QuerySingleOrDefaultAsync<Lightcone>(sql, new { name });
+                var result = await con.QueryAsync<Lightcone, PathSR, Lightcone>(sql, (lightcone, pathSR) =>
+                {
+                    lightcone.PathSR = pathSR;
+                    return lightcone;
+                }, new { name });
+
+                return result.SingleOrDefault();
             }
         }
         public async Task<bool> UpdateLightcone(Lightcone lightcone)
         {
-            var sql = "UPDATE Lightcones SET Description = @Description WHERE Id = @Id;";
+            var sql = "UPDATE Lightcone SET Description = @Description WHERE Id = @Id;";
 
 
             using (var con = _context.CreateConnection())

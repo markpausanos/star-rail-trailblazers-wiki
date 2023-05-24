@@ -1,0 +1,33 @@
+@use "../../../styles/" as *;
+
+.Login {
+  @include flex-center;
+  flex-direction: column;
+  align-items: center;
+
+  background-color: $neutral-0;
+  border-radius: 10px; /* Adjust the value to change the level of roundness */
+  padding: 15px;
+  max-width: 400px;
+  margin: 0 auto;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+
+  &_container {
+    margin: 15px 0px;
+  }
+
+  &_link {
+    background: none;
+    border: none;
+    color: $blue-400;
+    cursor: pointer;
+  }
+
+  &_no_hyper {
+    text-decoration: none;
+  }
+}

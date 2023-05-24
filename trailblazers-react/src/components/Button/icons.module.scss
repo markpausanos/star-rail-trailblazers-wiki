@@ -1,0 +1,69 @@
+@use "../../styles" as *;
+
+@mixin solid($size) {
+  @include ease(0.3s);
+  cursor: pointer;
+  background: $neutral-400;
+  border-radius: 100px;
+  border: none;
+  box-shadow: $shadow-raised;
+  text-transform: capitalize;
+  outline: none;
+  padding: 24px;
+  height: max-content;
+  text-decoration: none;
+  @include flex-center;
+
+  &:hover {
+    background: $neutral-400;
+
+    > i {
+      color: $neutral-100;
+    }
+  }
+
+  .IconButton_icon {
+    color: $neutral-0;
+
+    @if $size == xs {
+      font-size: 1rem;
+    } @else if $size == sm {
+      font-size: 1.25rem;
+    } @else if $size == md {
+      font-size: 1.5rem;
+    } @else if $size == lg {
+      font-size: 2rem;
+    } @else if $size == xl {
+      font-size: 2.25rem;
+    }
+  }
+}
+
+.IconButton {
+  &___solid {
+    &___xs {
+      @include solid(xs);
+    }
+
+    &___sm {
+      @include solid(sm);
+    }
+
+    &___md {
+      @include solid(md);
+    }
+
+    &___lg {
+      @include solid(lg);
+    }
+
+    &___xl {
+      @include solid(xl);
+    }
+  }
+
+  &___disabled {
+    opacity: 0.5;
+    pointer-events: none;
+  }
+}

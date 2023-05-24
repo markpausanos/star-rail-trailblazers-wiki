@@ -13,62 +13,65 @@ namespace trailblazers_api.Repositories.Ornaments
         {
             _context = context;
         }
+
         public async Task<int> CreateOrnament(Ornament ornament)
         {
-            var sql = "INSERT INTO Ornaments (Name, Description, Image) VALUES (@Name, @Description, @Image); " +
+            var sql = "INSERT INTO Ornament (Name, Description, Image) VALUES (@Name, @Description, @Image); " +
                       "SELECT SCOPE_IDENTITY();";
 
             using (var con = _context.CreateConnection())
             {
-                return await con.ExecuteScalarAsync<int>(sql, new { ornament.Name, ornament.Description, ornament.Image });
+                return await con.ExecuteScalarAsync<int>(sql, ornament);
             }
         }
+
         public async Task<IEnumerable<Ornament>> GetAllOrnaments()
         {
-            var sql = "SELECT * FROM Ornaments;";
+            var sql = "SELECT * FROM Ornament;";
 
             using (var con = _context.CreateConnection())
             {
                 return await con.QueryAsync<Ornament>(sql);
             }
         }
+
         public async Task<Ornament?> GetOrnamentById(int id)
         {
-            var sql = "SELECT * FROM Ornaments WHERE Id = @Id;";
+            var sql = "SELECT * FROM Ornament WHERE Id = @Id;";
 
             using (var con = _context.CreateConnection())
             {
-                return await con.QuerySingleOrDefaultAsync<Ornament>(sql, new { id });
+                return await con.QuerySingleOrDefaultAsync<Ornament>(sql, new { Id = id });
             }
         }
+
         public async Task<Ornament?> GetOrnamentByName(string name)
         {
-            var sql = "SELECT * FROM Ornaments WHERE Name = @Name;";
+            var sql = "SELECT * FROM Ornament WHERE Name = @Name;";
 
             using (var con = _context.CreateConnection())
             {
-                return await con.QuerySingleOrDefaultAsync<Ornament>(sql, new { name });
+                return await con.QuerySingleOrDefaultAsync<Ornament>(sql, new { Name = name });
             }
         }
+
         public async Task<bool> UpdateOrnament(Ornament ornament)
         {
-            var sql = "UPDATE Ornaments SET Description = @Description WHERE Id = @Id;";
-
+            var sql = "UPDATE Ornament SET Description = @Description WHERE Id = @Id;";
 
             using (var con = _context.CreateConnection())
             {
-                return await con.ExecuteAsync(sql, new { ornament.Description, ornament.Id }) > 0;
+                return await con.ExecuteAsync(sql, ornament) > 0;
             }
         }
+
         public async Task<bool> DeleteOrnament(int id)
         {
             var spName = "[spOrnament_DeleteOrnament]";
 
-            using (var connection = _context.CreateConnection())
+            using (var con = _context.CreateConnection())
             {
-                return await connection.ExecuteAsync(spName,
-                    new { OrnamentId = id },
-                    commandType: CommandType.StoredProcedure) > 0;
+                return await con.ExecuteAsync(spName, new { OrnamentId = id }, commandType: CommandType.StoredProcedure) > 0;
             }
         }
     }

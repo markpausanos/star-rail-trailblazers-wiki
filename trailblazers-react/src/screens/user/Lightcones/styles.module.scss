@@ -1,0 +1,119 @@
+@use "../../../styles/" as *;
+
+.Dashboard {
+  display: grid;
+  flex-direction: column;
+  background-color: $gray-200;
+  border-radius: 10px;
+  padding: 15px;
+  margin: -5px 10%;
+  height: fit-content;
+
+  &_container {
+    margin: 15px 0;
+    max-width: 100%;
+  }
+
+  &_container_flex {
+    display: flex;
+  }
+
+  &_link {
+    background: none;
+    border: none;
+    color: $blue-400;
+    cursor: pointer;
+  }
+
+  &_no_hyper {
+    text-decoration: none;
+  }
+
+  &_button {
+    background-color: transparent;
+    margin-right: 10px;
+    width: 15%;
+    border: none;
+    align-items: center;
+
+    &:hover {
+      cursor: pointer;
+      border-width: 1px;
+      border-style: inset;
+      border-color: $neutral-0;
+    }
+
+    &_active {
+      background-color: $gold-0 !important;
+      border-radius: 5px;
+      border-width: 2px;
+    }
+  }
+
+  &_display_grid {
+    display: grid;
+    grid-auto-flow: column;
+  }
+
+  &_divider {
+    width: 1px;
+    height: 30px;
+    background: $neutral-0;
+    margin: 0 20px;
+  }
+
+  &_characters {
+    padding: 20px 30px;
+    background-color: $gray-400;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-auto-rows: 0.5fr;
+    scrollbar-color: $gray-400;
+    column-gap: 10px;
+    row-gap: 10px;
+    height: auto;
+  }
+
+  &_CharacterPortrait {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding: 10px;
+    background-color: transparent;
+    height: 100%;
+    border-radius: 5px;
+    cursor: pointer;
+
+    &_rarity5 {
+      background-image: url(https://rerollcdn.com/STARRAIL/Rarity/5_sm.png) !important;
+      background-position: 50% !important;
+      background-size: contain !important;
+    }
+
+    &_rarity4 {
+      background-image: url(https://rerollcdn.com/STARRAIL/Rarity/4_sm.png) !important;
+      background-position: 50% !important;
+      background-size: contain !important;
+    }
+
+    &_rarity3 {
+      background-image: url(https://rerollcdn.com/STARRAIL/Rarity/3_sm.png) !important;
+      background-position: 50% !important;
+      background-size: contain !important;
+    }
+
+    &_Text {
+      font-size: 15 px;
+      text-align: center;
+      text-overflow: ellipsis;
+      transition: color 0.3s;
+      line-height: 1.5em;
+    }
+
+    img {
+      width: auto;
+      height: 70px;
+    }
+  }
+}

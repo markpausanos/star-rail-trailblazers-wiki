@@ -1,0 +1,11 @@
+@use "../../styles" as *;
+
+.Card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 12.5%;
+  padding: 15px;
+}

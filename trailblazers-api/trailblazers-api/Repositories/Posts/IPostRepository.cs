@@ -1,4 +1,5 @@
-﻿using trailblazers_api.Models;
+﻿using System.Collections.Generic;
+using trailblazers_api.Models;
 
 namespace trailblazers_api.Repositories.Posts
 {
@@ -18,18 +19,11 @@ namespace trailblazers_api.Repositories.Posts
         Task<IEnumerable<Post>> GetAllPosts();
 
         /// <summary>
-        /// Gets a Post in the database by its ID.
+        /// Gets all Posts in the database by userID.
         /// </summary>
-        /// <param name="id">The ID of the Post to retrieve.</param>
-        /// <returns>A nullable Post object.</returns>
-        Task<Post?> GetPostById(int id);
-
-        /// <summary>
-        /// Gets a Post in the database by its name.
-        /// </summary>
-        /// <param name="name">The name of the Post to retrieve.</param>
-        /// <returns>A nullable Post object.</returns>
-        Task<Post?> GetPostByName(string name);
+        /// <param name="userId">The ID of the User whose Posts to retrieve.</param>
+        /// <returns>An IEnumerable of Post objects or an empty collection if no Posts are found.</returns>
+        Task<IEnumerable<Post>> GetPostsByUserId(int userId);
 
         /// <summary>
         /// Updates a Post in the database.

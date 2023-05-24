@@ -12,6 +12,13 @@ namespace trailblazers_api.Repositories.Teams
         Task<int> CreateTeam(Team team);
 
         /// <summary>
+        /// Inserts a list of Build objects into a specified Team's Builds list in the database.
+        /// </summary>
+        /// <param name="team">The Team object to insert the Build objects into.</param>
+        /// <param name="builds">The list of Build objects to insert.</param>
+        /// <returns>The number of Build objects successfully inserted.</returns>
+        Task<int> InsertBuildsToTeam(Team team, List<Build> builds);
+        /// <summary>
         /// Retrieves all Teams in the database.
         /// </summary>
         /// <returns>An IEnumerable of all Teams.</returns>

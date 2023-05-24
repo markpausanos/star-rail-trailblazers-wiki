@@ -2,37 +2,34 @@
 
 namespace trailblazers_api.Repositories.Eidolons
 {
-    /// <summary>
-    /// Provides methods to interact with the Eidolons table in the database.
-    /// </summary>
     public interface IEidolonRepository
     {
         /// <summary>
         /// Creates a new Eidolon in the database.
         /// </summary>
         /// <param name="eidolon">The Eidolon to be created.</param>
-        /// <returns>The Id of the newly created Eidolon.</returns>
+        /// <returns>The ID of the newly created Eidolon.</returns>
         Task<int> CreateEidolon(Eidolon eidolon);
 
         /// <summary>
-        /// Gets all Eidolons in the database.
+        /// Retrieves all Eidolons in the database.
         /// </summary>
-        /// <returns>An IEnumerable of Eidolon objects.</returns>
+        /// <returns>An enumerable collection of Eidolon objects.</returns>
         Task<IEnumerable<Eidolon>> GetAllEidolons();
 
         /// <summary>
-        /// Gets an Eidolon from the database by its Id.
+        /// Gets all Eidolons in the database associated with a specific trailblazer ID.
         /// </summary>
-        /// <param name="id">The Id of the Eidolon to retrieve.</param>
-        /// <returns>A nullable Eidolon object.</returns>
-        Task<Eidolon?> GetEidolonById(int id);
+        /// <param name="trailblazerId">The ID of the trailblazer to filter Eidolons by.</param>
+        /// <returns>An enumerable collection of Eidolon objects.</returns>
+        Task<IEnumerable<Eidolon>> GetEidolonsByTrailblazerId(int trailblazerId);
 
         /// <summary>
-        /// Gets an Eidolon from the database by its name.
+        /// Retrieves an Eidolon by its ID.
         /// </summary>
-        /// <param name="name">The name of the Eidolon to retrieve.</param>
-        /// <returns>A nullable Eidolon object.</returns>
-        Task<Eidolon?> GetEidolonByName(string name);
+        /// <param name="id">The ID of the Eidolon to retrieve.</param>
+        /// <returns>The retrieved Eidolon, or null if not found.</returns>
+        Task<Eidolon?> GetEidolonById(int id);
 
         /// <summary>
         /// Updates an Eidolon in the database.
@@ -44,7 +41,7 @@ namespace trailblazers_api.Repositories.Eidolons
         /// <summary>
         /// Deletes an Eidolon from the database.
         /// </summary>
-        /// <param name="id">The Id of the Eidolon to delete.</param>
+        /// <param name="id">The ID of the Eidolon to delete.</param>
         /// <returns>True if the delete was successful, false otherwise.</returns>
         Task<bool> DeleteEidolon(int id);
     }
