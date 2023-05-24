@@ -8,7 +8,9 @@ namespace trailblazers_api.Mapper
     {
         public LightconeMapping()
         {
-            CreateMap<LightconeCreationDto, Lightcone>();
+            CreateMap<LightconeCreationDto, Lightcone>()
+                .ForPath(dto => dto.PathSR!.Id, src => src.MapFrom(src => src.PathId));
+            CreateMap<Lightcone, LightconeCreationDto>();
             CreateMap<Lightcone, LightconeDto>();
             CreateMap<LightconeUpdateDto, Lightcone>();
         }

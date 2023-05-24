@@ -9,6 +9,10 @@ namespace trailblazers_api.Mapper
         public TraceMapping()
         {
             CreateMap<Trace, TraceTrailblazerDto>();
+            CreateMap<TraceCreationDto, Trace>()
+                .ForPath(dto => dto.Trailblazer!.Id, src => src.MapFrom(src => src.TrailblazerId));
+            CreateMap<Trace, TraceDto>();
+            CreateMap<TraceUpdateDto, Trace>();
         }
     }
 }

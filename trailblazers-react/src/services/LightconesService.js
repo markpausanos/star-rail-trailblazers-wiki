@@ -1,7 +1,7 @@
 import axios from "axios";
 import config from "./config";
 
-const BASE_URL = `${config.API_URL}/Lightcones`;
+const BASE_URL = `${config.API_URL}/api/Lightcones`;
 
 const LightconesService = {
   create: (lightcone) => axios.post(BASE_URL, lightcone),

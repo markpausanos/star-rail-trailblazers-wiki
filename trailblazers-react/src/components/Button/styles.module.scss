@@ -1,0 +1,40 @@
+@use "../../styles" as *;
+
+$red-shadow: 0px 8px 40px -8px rgba(238, 100, 80, 0.6);
+$black-shadow: 0px 8px 40px -8px rgba(51, 53, 52, 0.35);
+
+.Button {
+  &___primary {
+    &___gray {
+      @include primary(
+        $gray-200,
+        $neutral-800,
+        $neutral-100,
+        $neutral-0,
+        $black-shadow
+      );
+    }
+
+    &___neutral {
+      @include primary(
+        $neutral-100,
+        $neutral-600,
+        $neutral-400,
+        $neutral-0,
+        red-shadow
+      );
+    }
+  }
+
+  &___secondary {
+    &___none {
+      background: none;
+      border: none;
+    }
+  }
+
+  &___disabled {
+    pointer-events: none;
+    opacity: 0.5;
+  }
+}
