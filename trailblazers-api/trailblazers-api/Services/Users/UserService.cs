@@ -92,7 +92,14 @@ namespace trailblazers_api.Services.Users
         {
             var user = await _userRepository.GetUserByName(name);
 
-            return user == null ? null : _mapper.Map<UserAccessDto>(user);
+            if (user == null)
+            {
+                return null;
+            }
+
+            var accessUser = _mapper.Map<UserAccessDto>(user);
+            accessUser.Role = user.UserType == 'A' ? "Admin" : "User";
+            return accessUser;
         }
 
         public async Task<bool> UpdateUserByName(UserUpdateDto updatedUser)
