@@ -48,6 +48,12 @@
       border-radius: 5px;
       border-width: 2px;
     }
+
+    &_admin {
+      float: right;
+      background-color: $blue-400;
+      border-radius: 5px;
+    }
   }
 
   &_display_grid {
