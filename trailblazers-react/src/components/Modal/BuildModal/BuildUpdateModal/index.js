@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import "./styles.scss";
@@ -8,7 +7,9 @@ import * as Services from "../../../../services";
 
 const Modal = ({
   setOpenModal,
+  setOpenModalModal,
   id,
+  trailblazer,
   buildNameDefault,
   lightconesDefault,
   relicDefault,
@@ -16,12 +17,18 @@ const Modal = ({
   lightcones,
   relics,
   ornaments,
+  reloadBuilds,
+  reloadBuildsModal,
 }) => {
-  const [buildName, setBuildName] = useState(buildNameDefault);
+  const [buildName, setSelectedBuildName] = useState(buildNameDefault);
   const [selectedLightcone, setSelectedLightcone] = useState(lightconesDefault);
   const [selectedRelic, setSelectedRelic] = useState(relicDefault);
   const [selectedOrnament, setSelectedOrnament] = useState(ornamentsDefault);
   const [errorMessage, setErrorMessage] = useState("");
+
+  lightcones = lightcones.filter(
+    (x) => x.pathSR && x.pathSR.name === trailblazer.pathSR.name
+  );
 
   const handleLightconeChange = (selectedOption) => {
     setSelectedLightcone(selectedOption);
@@ -40,6 +47,10 @@ const Modal = ({
     if (selectedLightcone && selectedRelic && selectedOrnament) {
       setErrorMessage("");
 
+      if (buildName === "") {
+        setErrorMessage("Name cannot be empty.");
+        throw "";
+      }
       try {
         await Services.BuildsService.update(id, {
           name: buildName,
@@ -51,7 +62,10 @@ const Modal = ({
         setErrorMessage("Updated");
         setTimeout(() => {
           setOpenModal(false);
+          setOpenModalModal(false);
         }, 1000);
+        reloadBuilds();
+        reloadBuildsModal();
       } catch (error) {
         setErrorMessage("Error occurred during creation.");
       }
@@ -76,7 +90,7 @@ const Modal = ({
         <input
           className="build-input"
           value={buildName}
-          onChange={(e) => setBuildName(e.target.value)}
+          onChange={(e) => setSelectedBuildName(e.target.value)}
           name="username"
         />
         <Text className="build-text">Choose a Lightcone</Text>
@@ -88,6 +102,8 @@ const Modal = ({
             label: lightcone.name,
             value: lightcone.id,
           }))}
+          defaultInputValue={lightconesDefault.name}
+          defaultValue={lightconesDefault.id}
         />
 
         <Text className="build-text">Choose a Relic</Text>
@@ -99,6 +115,8 @@ const Modal = ({
             label: relic.name,
             value: relic.id,
           }))}
+          defaultInputValue={relicDefault.name}
+          defaultValue={relicDefault.id}
         />
 
         <Text className="build-text">Choose an Ornament</Text>
@@ -110,6 +128,8 @@ const Modal = ({
             label: ornament.name,
             value: ornament.id,
           }))}
+          defaultInputValue={ornamentsDefault.name}
+          defaultValue={ornamentsDefault.id}
         />
 
         <div className="build-modal-footer">
@@ -124,16 +144,23 @@ const Modal = ({
 
 Modal.propTypes = {
   setOpenModal: PropTypes.func.isRequired,
-  trailblazers: PropTypes.arrayOf(
-    PropTypes.shape({
+  id: PropTypes.string.isRequired,
+  trailblazer: PropTypes.shape({
+    pathSR: PropTypes.shape({
       name: PropTypes.string.isRequired,
-      id: PropTypes.number.isRequired,
-    })
-  ).isRequired,
+    }),
+  }),
+  buildNameDefault: PropTypes.string.isRequired,
+  lightconesDefault: PropTypes.object,
+  relicDefault: PropTypes.object,
+  ornamentsDefault: PropTypes.object,
   lightcones: PropTypes.arrayOf(
     PropTypes.shape({
       name: PropTypes.string.isRequired,
       id: PropTypes.number.isRequired,
+      pathSR: PropTypes.shape({
+        name: PropTypes.string.isRequired,
+      }),
     })
   ).isRequired,
   relics: PropTypes.arrayOf(
@@ -148,6 +175,9 @@ Modal.propTypes = {
       id: PropTypes.number.isRequired,
     })
   ).isRequired,
+  reloadBuilds: PropTypes.func.isRequired,
+  reloadBuildsModal: PropTypes.func.isRequired,
+  setOpenModalModal: PropTypes.func.isRequired,
 };
 
 export default Modal;

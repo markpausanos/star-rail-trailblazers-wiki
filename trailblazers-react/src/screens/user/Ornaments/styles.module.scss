@@ -82,7 +82,7 @@
     padding: 10px;
     background-color: transparent;
     height: 100%;
-    border-radius: 5px;
+    border-radius: 10px;
     cursor: pointer;
 
     &_rarity5 {
@@ -108,6 +108,7 @@
     img {
       width: auto;
       height: 70px;
+      border-radius: 50%;
     }
   }
 }
