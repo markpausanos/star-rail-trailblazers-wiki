@@ -15,6 +15,7 @@ const Login = () => {
   const userContext = useContext(UserContext);
   const cookies = new Cookies();
   cookies.remove("accessToken");
+  cookies.remove("role");
   const navigate = useNavigate();
 
   const [username, setUsername] = useState("");

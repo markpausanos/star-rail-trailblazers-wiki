@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 import React, { useState } from "react";
 import PropTypes from "prop-types";
@@ -19,10 +20,35 @@ const Modal = ({
   const [selectedLightcone, setSelectedLightcone] = useState(null);
   const [selectedRelic, setSelectedRelic] = useState(null);
   const [selectedOrnament, setSelectedOrnament] = useState(null);
+  const [availableLightcones, setAvailableLightcones] = useState(lightcones);
+  const [available, setAvailable] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
 
+  console.log(lightcones);
   const handleTrailblazerChange = (selectedOption) => {
+    setSelectedLightcone(null);
     setSelectedTrailblazer(selectedOption);
+    setAvailable(true);
+    if (selectedOption) {
+      const selectedTrailblazer = trailblazers.find(
+        (item) => item.id === selectedOption.value
+      );
+
+      if (selectedTrailblazer && selectedTrailblazer.pathSR) {
+        const filteredLightcones = lightcones.filter(
+          (x) => x.pathSR && x.pathSR.name === selectedTrailblazer.pathSR.name
+        );
+
+        setAvailableLightcones(filteredLightcones);
+        setAvailable(false);
+      } else {
+        setAvailableLightcones(lightcones);
+        setAvailable(true);
+      }
+    } else {
+      setAvailableLightcones(lightcones);
+      setAvailable(true);
+    }
   };
 
   const handleLightconeChange = (selectedOption) => {
@@ -104,10 +130,11 @@ const Modal = ({
           className="build-select"
           value={selectedLightcone}
           onChange={handleLightconeChange}
-          options={lightcones.map((lightcone) => ({
+          options={availableLightcones.map((lightcone) => ({
             label: lightcone.name,
             value: lightcone.id,
           }))}
+          isDisabled={available}
         />
 
         <Text className="build-text">Choose a Relic</Text>

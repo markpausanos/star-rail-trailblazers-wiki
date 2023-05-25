@@ -34,7 +34,11 @@ function Modal({
   const [modalOpenUpdate, setModalOpenUpdate] = useState(false);
   const [message, setMessage] = useState("");
   const [totalLikes, setTotalLikes] = useState(likes);
-
+  const [shouldReloadBuildsModal, setShouldReloadBuildsModal] = useState(false);
+  const [buildCurrent, setBuildName] = useState(name);
+  const [lightconeEquipped, setLightcone] = useState(lightcone);
+  const [relicEquipped, setRelic] = useState(relic);
+  const [ornamentEquipped, setOrnament] = useState(ornament);
   const handleLike = async () => {
     try {
       if (liked) {
@@ -63,7 +67,17 @@ function Modal({
 
   useEffect(() => {
     setLiked(isLiked);
-  }, [isLiked]);
+    if (shouldReloadBuildsModal) {
+      setShouldReloadBuildsModal(false);
+    }
+  }, [
+    isLiked,
+    buildCurrent,
+    lightconeEquipped,
+    relicEquipped,
+    ornamentEquipped,
+    shouldReloadBuildsModal,
+  ]);
 
   return (
     <div className="modalBackground">
@@ -162,7 +176,9 @@ function Modal({
         {modalOpenUpdate && (
           <BuildUpdateModal
             setOpenModal={setModalOpenUpdate}
+            setOpenModalModal={setOpenModal}
             id={id}
+            trailblazer={trailblazer}
             buildNameDefault={name}
             lightconesDefault={lightcone}
             relicDefault={relic}
@@ -170,6 +186,12 @@ function Modal({
             lightcones={lightcones}
             relics={relics}
             ornaments={ornaments}
+            reloadBuilds={reloadBuilds}
+            reloadBuildsModal={() => setShouldReloadBuildsModal(true)}
+            setBuildName={setBuildName}
+            setLightcone={setLightcone}
+            setRelic={setRelic}
+            setOrnament={setOrnament}
           />
         )}
       </div>

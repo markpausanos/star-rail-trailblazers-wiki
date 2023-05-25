@@ -107,16 +107,28 @@
 
 .build-text {
   margin-top: 10px;
+  font-family: "DIN";
 }
+
 .build-select {
-  text-align: center !important;
+  text-align: center;
   width: 100%; /* Set the width to 100% for consistent size */
+  font-family: "DIN";
 }
 
 .build-input {
   font-family: "DIN";
   text-align: center;
   height: 2.5rem;
+  width: 100%;
+  border-radius: 5px;
+  text-align: center;
+}
+
+.build-input-description {
+  font-family: "DIN";
+  text-align: center;
+  height: 5rem;
   width: 100%;
   border-radius: 5px;
   text-align: center;

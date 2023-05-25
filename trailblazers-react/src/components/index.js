@@ -14,3 +14,7 @@ export { default as OrnamentModal } from "./Modal/OrnamentModal";
 export { default as BuildModal } from "./Modal/BuildModal/BuildModal";
 export { default as BuildModalCreate } from "./Modal/BuildModal/BuildCreateModal";
 export { default as BuildUpdateModal } from "./Modal/BuildModal/BuildUpdateModal";
+export { default as CharacterModalCreate } from "./Modal/CharacterModal/CharacterCreateModal";
+export { default as LightconeModalCreate } from "./Modal/LightconeModal/LightconeCreateModal";
+export { default as OrnamentModalCreate } from "./Modal/OrnamentModal/OrnamentCreateModal";
+export { default as RelicModalCreate } from "./Modal/RelicModal/RelicCreateModal";
