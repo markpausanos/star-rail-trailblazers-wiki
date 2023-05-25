@@ -22,6 +22,7 @@ const Dashboard = () => {
   if (cookies.get("accessToken") == null) {
     navigate("/login");
   }
+  const isAdmin = cookies.get("role") === "Admin";
   const { trailblazers, elements, paths } = useDashboard();
   const [modalOpen, setModalOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
@@ -121,6 +122,16 @@ const Dashboard = () => {
         </Container>
         <Container className={styles.Dashboard_container}>
           <Search onChange={searchOnChangeHandler} />
+          {isAdmin && (
+            <Button
+              className={styles.Dashboard_button_admin}
+              // onClick={() => navigate("/ornaments")}
+            >
+              <Text colorClass={GLOBALS.COLOR_CLASSES.NEUTRAL["0"]}>
+                Create a Trailblazer
+              </Text>
+            </Button>
+          )}
         </Container>
         <Container
           className={cn(
