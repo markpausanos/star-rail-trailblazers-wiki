@@ -1,5 +1,4 @@
-/* eslint-disable no-unused-vars */
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import cn from "classnames";
 import {
@@ -9,6 +8,7 @@ import {
   Navbar,
   Search,
   OrnamentModal,
+  OrnamentModalCreate,
 } from "../../../components";
 import styles from "./styles.module.scss";
 import GLOBALS from "../../../app-globals";
@@ -21,11 +21,21 @@ const Ornaments = () => {
   if (cookies.get("accessToken") == null) {
     navigate("/login");
   }
-  const { ornaments } = useDashboard();
+  const { ornaments, getDashboardData } = useDashboard();
   const [modalOpen, setModalOpen] = useState(false);
+  const [modalOpenCreate, setModalOpenCreate] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const isAdmin = cookies.get("role") === "Admin";
   const [chosenOrnament, setChosenOrnament] = useState(null);
+  const [shouldReloadBuilds, setShouldReloadBuilds] = useState(false);
+
+  useEffect(() => {
+    if (shouldReloadBuilds) {
+      getDashboardData();
+      setShouldReloadBuilds(false); // Reset the reload flag
+    }
+  }, [shouldReloadBuilds]);
+
   const searchOnChangeHandler = (event) => {
     setSearchTerm(event.target.value);
   };
@@ -81,10 +91,10 @@ const Ornaments = () => {
           {isAdmin && (
             <Button
               className={styles.Dashboard_button_admin}
-              // onClick={() => navigate("/ornaments")}
+              onClick={() => setModalOpenCreate(true)}
             >
               <Text colorClass={GLOBALS.COLOR_CLASSES.NEUTRAL["0"]}>
-                Create a Trailblazer
+                Create an Ornament
               </Text>
             </Button>
           )}
@@ -128,6 +138,13 @@ const Ornaments = () => {
           name={chosenOrnament.name}
           image={chosenOrnament.image}
           description={chosenOrnament.description}
+        />
+      )}
+
+      {modalOpenCreate && (
+        <OrnamentModalCreate
+          setOpenModal={setModalOpenCreate}
+          reloadBuilds={() => setShouldReloadBuilds(true)}
         />
       )}
     </>

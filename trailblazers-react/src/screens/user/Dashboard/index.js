@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import cn from "classnames";
 import {
@@ -9,6 +9,7 @@ import {
   Search,
   ImageButton,
   CharacterModal,
+  CharacterModalCreate,
 } from "../../../components";
 import styles from "./styles.module.scss";
 import GLOBALS from "../../../app-globals";
@@ -23,13 +24,23 @@ const Dashboard = () => {
     navigate("/login");
   }
   const isAdmin = cookies.get("role") === "Admin";
-  const { trailblazers, elements, paths } = useDashboard();
+  const { trailblazers, elements, paths, getDashboardData } = useDashboard();
   const [modalOpen, setModalOpen] = useState(false);
+  const [modalOpenCreate, setModalOpenCreate] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [rarity, setRarity] = useState(null);
   const [element, setElement] = useState(null);
   const [path, setPath] = useState(null);
   const [chosenTrailblazer, setChosenTrailblazer] = useState(null);
+  const [shouldReloadBuilds, setShouldReloadBuilds] = useState(false);
+
+  useEffect(() => {
+    if (shouldReloadBuilds) {
+      getDashboardData();
+      setShouldReloadBuilds(false); // Reset the reload flag
+    }
+  }, [shouldReloadBuilds]);
+
   const searchOnChangeHandler = (event) => {
     setSearchTerm(event.target.value);
   };
@@ -125,7 +136,7 @@ const Dashboard = () => {
           {isAdmin && (
             <Button
               className={styles.Dashboard_button_admin}
-              // onClick={() => navigate("/ornaments")}
+              onClick={() => setModalOpenCreate(true)}
             >
               <Text colorClass={GLOBALS.COLOR_CLASSES.NEUTRAL["0"]}>
                 Create a Trailblazer
@@ -227,6 +238,14 @@ const Dashboard = () => {
           skills={chosenTrailblazer.skills}
           eidolons={chosenTrailblazer.eidolons}
           traces={chosenTrailblazer.traces}
+        />
+      )}
+      {modalOpenCreate && (
+        <CharacterModalCreate
+          setOpenModal={setModalOpenCreate}
+          paths={paths}
+          elements={elements}
+          reloadBuilds={() => setShouldReloadBuilds(true)}
         />
       )}
     </>

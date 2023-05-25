@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import cn from "classnames";
 import {
@@ -10,6 +10,7 @@ import {
   Search,
   ImageButton,
   LightconeModal,
+  LightconeModalCreate,
 } from "../../../components";
 import styles from "./styles.module.scss";
 import GLOBALS from "../../../app-globals";
@@ -24,12 +25,22 @@ const Lightcones = () => {
     navigate("/login");
   }
   const isAdmin = cookies.get("role") === "Admin";
-  const { lightcones, paths } = useDashboard();
+  const { lightcones, paths, getDashboardData } = useDashboard();
   const [modalOpen, setModalOpen] = useState(false);
+  const [modalOpenCreate, setModalOpenCreate] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [rarity, setRarity] = useState(null);
   const [path, setPath] = useState(null);
   const [chosenLightcone, setChosenLightcone] = useState(null);
+  const [shouldReloadBuilds, setShouldReloadBuilds] = useState(false);
+
+  useEffect(() => {
+    if (shouldReloadBuilds) {
+      getDashboardData();
+      setShouldReloadBuilds(false); // Reset the reload flag
+    }
+  }, [shouldReloadBuilds]);
+
   const searchOnChangeHandler = (event) => {
     setSearchTerm(event.target.value);
   };
@@ -112,7 +123,7 @@ const Lightcones = () => {
           {isAdmin && (
             <Button
               className={styles.Dashboard_button_admin}
-              // onClick={() => navigate("/ornaments")}
+              onClick={() => setModalOpenCreate(true)}
             >
               <Text colorClass={GLOBALS.COLOR_CLASSES.NEUTRAL["0"]}>
                 Create a Lightcone
@@ -199,6 +210,14 @@ const Lightcones = () => {
           image={chosenLightcone.image}
           rarity={chosenLightcone.rarity}
           pathImage={chosenLightcone.pathSR.image}
+        />
+      )}
+
+      {modalOpenCreate && (
+        <LightconeModalCreate
+          setOpenModal={setModalOpenCreate}
+          paths={paths}
+          reloadBuilds={() => setShouldReloadBuilds(true)}
         />
       )}
     </>

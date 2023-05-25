@@ -1,5 +1,4 @@
-/* eslint-disable no-unused-vars */
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import cn from "classnames";
 import {
@@ -9,6 +8,7 @@ import {
   Navbar,
   Search,
   RelicModal,
+  RelicModalCreate,
 } from "../../../components";
 import styles from "./styles.module.scss";
 import GLOBALS from "../../../app-globals";
@@ -22,11 +22,21 @@ const Relics = () => {
     navigate("/login");
   }
   const isAdmin = cookies.get("role") === "Admin";
-  const { relics } = useDashboard();
+  const { relics, getDashboardData } = useDashboard();
   const [modalOpen, setModalOpen] = useState(false);
+  const [modalOpenCreate, setModalOpenCreate] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
-
   const [chosenRelic, setChosenRelic] = useState(null);
+
+  const [shouldReloadBuilds, setShouldReloadBuilds] = useState(false);
+
+  useEffect(() => {
+    if (shouldReloadBuilds) {
+      getDashboardData();
+      setShouldReloadBuilds(false); // Reset the reload flag
+    }
+  }, [shouldReloadBuilds]);
+
   const searchOnChangeHandler = (event) => {
     setSearchTerm(event.target.value);
   };
@@ -84,10 +94,10 @@ const Relics = () => {
           {isAdmin && (
             <Button
               className={styles.Dashboard_button_admin}
-              // onClick={() => navigate("/ornaments")}
+              onClick={() => setModalOpenCreate(true)}
             >
               <Text colorClass={GLOBALS.COLOR_CLASSES.NEUTRAL["0"]}>
-                Create a Trailblazer
+                Create a Relic
               </Text>
             </Button>
           )}
@@ -132,6 +142,13 @@ const Relics = () => {
           image={chosenRelic.image}
           descriptionOne={chosenRelic.descriptionOne}
           descriptionTwo={chosenRelic.descriptionTwo}
+        />
+      )}
+
+      {modalOpenCreate && (
+        <RelicModalCreate
+          setOpenModal={setModalOpenCreate}
+          reloadBuilds={() => setShouldReloadBuilds(true)}
         />
       )}
     </>
