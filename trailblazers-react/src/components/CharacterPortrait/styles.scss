@@ -1,0 +1,30 @@
+.CharacterPortrait {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 12.5%;
+  padding: 15px;
+  background-color: transparent;
+
+  &.rarity5 {
+    background-image: url(https://rerollcdn.com/STARRAIL/Rarity/5_sm.png) !important;
+    background-position: 50% !important;
+  }
+
+  &.rarity4 {
+    background-image: url(https://rerollcdn.com/STARRAIL/Rarity/4_sm.png) !important;
+    background-position: 50% !important;
+  }
+
+  .Text {
+    width: 100%;
+    font-size: 14px;
+    text-align: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    transition: color 0.3s;
+    line-height: 1.5em;
+  }
+}

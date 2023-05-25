@@ -1,0 +1,15 @@
+.image-button {
+  display: flex;
+  justify-content: center;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  align-items: center;
+}
+
+.image-button img {
+  display: block;
+  width: 32px;
+  height: auto;
+}
