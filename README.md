@@ -1,8 +1,9 @@
 [![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-24ddc0f5d75046c5622901739e7c5dd533143b0c8e959d652212380cedb1ea36.svg)](https://classroom.github.com/a/JrvVU50A)
 # Honkai: Star Rail Wiki
-This project is a fan wiki for the turn-based gacha game Honkai: Star Rail. moar shit here
+This project is a fan wiki for the turn-based gacha game Honkai: Star Rail. 
 
 # Trailblazer-API
+The main purpose of this API is to allow users to create and share their character builds with other players and to receive feedback on their builds through a Like system.
 # Endpoints
 ## Builds
 ### POST /api/builds
