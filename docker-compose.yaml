@@ -1,0 +1,40 @@
+version: "3.8"
+services:
+  sqlserver:
+    build: ./trailblazers-api/trailblazers-db
+    image: sql-server
+    container_name: trailblazers-db
+    ports:
+      - 1433:1433
+    networks:
+      - trailblazers-network
+
+  backend:
+    build: ./trailblazers-api/trailblazers-api
+    image: trailblazers-api
+    container_name: trailblazers-api
+    ports:
+      - 8082:5000
+    depends_on:
+      - sqlserver
+    networks:
+      - trailblazers-network
+
+  frontend:
+      build: ./trailblazers-react/
+      container_name: trailblazers-frontend
+      volumes: 
+        - ./trailblazers-react/src:/app/src 
+      ports:
+        - 3000:3000
+      restart: "no"
+      stdin_open: true 
+      tty: true
+      depends_on:
+        - backend
+      networks:
+        - trailblazers-network
+
+networks:
+  trailblazers-network:
+    driver: "bridge"
