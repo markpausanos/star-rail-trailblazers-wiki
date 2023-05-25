@@ -80,7 +80,7 @@ namespace trailblazers_api.Repositories.Trailblazers
                         if (skill != null)
                         {
                             currentTrailblazer.Skills.Add(skill);
-                            currentTrailblazer.Skills.OrderBy(al => al.Id).GroupBy(skill => skill.Id).Select(skill => skill.First()).ToList();
+                            currentTrailblazer.Skills = currentTrailblazer.Skills.OrderBy(al => al.Id).GroupBy(skill => skill.Id).Select(skill => skill.First()).ToList();
                         }
 
                         return currentTrailblazer;
@@ -134,7 +134,7 @@ namespace trailblazers_api.Repositories.Trailblazers
                         if (skill != null)
                         {
                             currentTrailblazer.Skills.Add(skill);
-                            currentTrailblazer.Skills.OrderBy(al => al.Id).GroupBy(skill => skill.Id).Select(skill => skill.First()).ToList();
+                            currentTrailblazer.Skills = currentTrailblazer.Skills.OrderBy(al => al.Id).GroupBy(skill => skill.Id).Select(skill => skill.First()).ToList();
                         }
 
                         return currentTrailblazer;
