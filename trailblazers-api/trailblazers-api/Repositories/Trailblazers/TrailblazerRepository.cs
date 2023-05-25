@@ -68,19 +68,19 @@ namespace trailblazers_api.Repositories.Trailblazers
                         if (eidolon != null)
                         {
                             currentTrailblazer.Eidolons.Add(eidolon);
-                            currentTrailblazer.Eidolons = currentTrailblazer.Eidolons.GroupBy(eidolon => eidolon.Id).Select(eidolon => eidolon.First()).ToList();
+                            currentTrailblazer.Eidolons = currentTrailblazer.Eidolons.OrderBy(al => al.Id).GroupBy(eidolon => eidolon.Id).Select(eidolon => eidolon.First()).ToList();
                         }
 
                         if (trace != null)
                         {
                             currentTrailblazer.Traces.Add(trace);
-                            currentTrailblazer.Traces = currentTrailblazer.Traces.GroupBy(trace => trace.Id).Select(trace => trace.First()).ToList();
+                            currentTrailblazer.Traces = currentTrailblazer.Traces.OrderBy(al => al.Id).GroupBy(trace => trace.Id).Select(trace => trace.First()).ToList();
                         }
 
                         if (skill != null)
                         {
                             currentTrailblazer.Skills.Add(skill);
-                            currentTrailblazer.Eidolons.GroupBy(skill => skill.Id).Select(skill => skill.First()).ToList();
+                            currentTrailblazer.Skills.OrderBy(al => al.Id).GroupBy(skill => skill.Id).Select(skill => skill.First()).ToList();
                         }
 
                         return currentTrailblazer;
@@ -122,19 +122,19 @@ namespace trailblazers_api.Repositories.Trailblazers
                         if (eidolon != null)
                         {
                             currentTrailblazer.Eidolons.Add(eidolon);
-                            currentTrailblazer.Eidolons = currentTrailblazer.Eidolons.GroupBy(eidolon => eidolon.Id).Select(eidolon => eidolon.First()).ToList();
+                            currentTrailblazer.Eidolons = currentTrailblazer.Eidolons.OrderBy(al => al.Id).GroupBy(eidolon => eidolon.Id).Select(eidolon => eidolon.First()).ToList();
                         }
 
                         if (trace != null)
                         {
                             currentTrailblazer.Traces.Add(trace);
-                            currentTrailblazer.Traces = currentTrailblazer.Traces.GroupBy(trace => trace.Id).Select(trace => trace.First()).ToList();
+                            currentTrailblazer.Traces = currentTrailblazer.Traces.OrderBy(al => al.Id).GroupBy(trace => trace.Id).Select(trace => trace.First()).ToList();
                         }
 
                         if (skill != null)
                         {
                             currentTrailblazer.Skills.Add(skill);
-                            currentTrailblazer.Eidolons.GroupBy(skill => skill.Id).Select(skill => skill.First()).ToList();
+                            currentTrailblazer.Skills.OrderBy(al => al.Id).GroupBy(skill => skill.Id).Select(skill => skill.First()).ToList();
                         }
 
                         return currentTrailblazer;
