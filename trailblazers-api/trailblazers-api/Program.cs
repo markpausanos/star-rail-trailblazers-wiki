@@ -9,10 +9,8 @@ using trailblazers_api.Repositories.Elements;
 using trailblazers_api.Repositories.Lightcones;
 using trailblazers_api.Repositories.Ornaments;
 using trailblazers_api.Repositories.Paths;
-using trailblazers_api.Repositories.Posts;
 using trailblazers_api.Repositories.Relics;
 using trailblazers_api.Repositories.Skills;
-using trailblazers_api.Repositories.Teams;
 using trailblazers_api.Repositories.Traces;
 using trailblazers_api.Repositories.Trailblazers;
 using trailblazers_api.Repositories.Users;
@@ -64,6 +62,12 @@ void ConfigureServices(IServiceCollection services, IConfiguration configuration
         options.AddDefaultPolicy(builder =>
         {
             builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+        });
+        options.AddPolicy("AllowOrigin", builder =>
+        {
+            builder.AllowAnyOrigin()
+                   .AllowAnyHeader()
+                   .AllowAnyMethod();
         });
     });
     services.Configure<JwtSettings>(configuration.GetSection("JwtSettings"));
