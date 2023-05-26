@@ -66,6 +66,7 @@
     <None Include="dbo\Populator\DbPopulator.sql" />
     <None Include="dbo\Populator\Tester.sql" />
     <None Include="dbo\Stored Procedures\spBuild_DeleteBuild.sql" />
+    <None Include="trailblazers-db.publish.xml" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="dbo\Stored Procedures\spLightcone_DeleteLightcone.sql" />
