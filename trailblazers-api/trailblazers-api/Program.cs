@@ -65,6 +65,12 @@ void ConfigureServices(IServiceCollection services, IConfiguration configuration
         {
             builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
         });
+        options.AddPolicy("AllowOrigin", builder =>
+        {
+            builder.AllowAnyOrigin()
+                   .AllowAnyHeader()
+                   .AllowAnyMethod();
+        });
     });
     services.Configure<JwtSettings>(configuration.GetSection("JwtSettings"));
     services.AddSingleton(cfg => cfg.GetRequiredService<IOptions<JwtSettings>>().Value);
